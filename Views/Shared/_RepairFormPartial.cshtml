@@ -1,0 +1,152 @@
+﻿@using WebApp_TransportCompany.ViewModels
+@using WebApp_TransportCompany.Models.Enums
+@model RepairFormPartialViewModel
+@if (Model.Repair != null)
+{
+    <form asp-controller="Repair" asp-action="Edit" method="post">
+        <input type="number" asp-for="Repair.Id" value="@Model.Repair.Id" style="display: none" />
+        <div class="form-group row">
+            <label name="truckId" class="col-sm-3 col-form-label">Грузовик:</label>
+            <div class="col-sm-9">
+                @{ await Html.RenderPartialAsync("_SelectTruckPartial",
+                              new SelectTruckPartialViewModel()
+                              { Trucks = Model.Trucks, Multiple = false, Truck = Model.Repair.Truck });}
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Repair.Name" class="col-sm-3 col-form-label">Наименование:</label>
+            <div class="col-sm-9">
+                <input asp-for="Repair.Name" value="@Model.Repair.Name" type="text" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        @*<div class="form-group row">
+            <label asp-for="Repair.RepairType" class="col-sm-3 col-form-label">Вид ремонта:</label>
+            <div class="col-sm-9">
+                <select asp-for="Repair.RepairType" class="form-control" asp-items="@Html.GetEnumSelectList<RepairType>()">
+                    <option value="@Model.Repair.RepairType" selected>@Model.Repair.RepairType</option>
+                </select>
+            </div>
+
+        </div>*@
+        <div class="form-group row">
+            <label asp-for="Repair.Price" class="col-sm-3 col-form-label">Цена:</label>
+            <div class="col-sm-9">
+                <input asp-for="Repair.Price" value="@Model.Repair.Price" type="number" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Repair.RepairDate" class="col-sm-3 col-form-label">Дата ремонта:</label>
+            <div class="col-sm-9">
+                <input asp-for="Repair.RepairDate" value="@Model.Repair.RepairDate" type="datetime" class="form-control" />
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Repair.Guarantee" class="col-sm-3 col-form-label">Гарантия:</label>
+            <div class="col-sm-9">
+                <input type="checkbox" asp-for="Repair.Guarantee" value="@Model.Repair.Guarantee" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Repair.GuaranteeDeadline" class="col-sm-3 col-form-label">Окончание гарантии:</label>
+            <div class="col-sm-9">
+                <input type="datetime" asp-for="Repair.GuaranteeDeadline" value="@Model.Repair.GuaranteeDeadline" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Repair.CompanyName" class="col-sm-3 col-form-label">Название компании:</label>
+            <div class="col-sm-9">
+                <input asp-for="Repair.CompanyName" value="@Model.Repair.CompanyName" type="text" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Repair.Description" class="col-sm-3 col-form-label">Описание:</label>
+            <div class="col-sm-9">
+                <textarea asp-for="Repair.Description" class="form-control">@Model.Repair.Description</textarea>
+            </div>
+        </div>
+        <div class="modal-footer row justify-content-center">
+            <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+        </div>
+    </form>
+}
+else
+{
+    <form asp-controller="Repair" asp-action="Create" method="post">
+        <div class="form-group row">
+            <label name="truckId" class="col-sm-3 col-form-label">Грузовик:</label>
+            <div class="col-sm-9">
+                @{ await Html.RenderPartialAsync("_SelectTruckPartial",
+                               new SelectTruckPartialViewModel()
+                               { Trucks = Model.Trucks, Multiple = false });}
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Repair.Name" class="col-sm-3 col-form-label">Наименование:</label>
+            <div class="col-sm-9">
+                <input asp-for="Repair.Name" type="text" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        @*<div class="form-group row">
+            <label asp-for="Repair.RepairType" class="col-sm-3 col-form-label">Вид ремонта:</label>
+            <div class="col-sm-9">
+                <select asp-for="Repair.RepairType" class="form-control" asp-items="@Html.GetEnumSelectList<RepairType>()"></select>
+            </div>
+
+        </div>*@
+        <div class="form-group row">
+            <label asp-for="Repair.Price" class="col-sm-3 col-form-label">Цена:</label>
+            <div class="col-sm-9">
+                <input asp-for="Repair.Price" type="number" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Repair.RepairDate" class="col-sm-3 col-form-label">Дата ремонта:</label>
+            <div class="col-sm-9">
+                <input asp-for="Repair.RepairDate" type="datetime" class="form-control" />
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Repair.Guarantee" class="col-sm-3 col-form-label">Гарантия:</label>
+            <div class="col-sm-9">
+                <input type="checkbox" asp-for="Repair.Guarantee" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Repair.GuaranteeDeadline" class="col-sm-3 col-form-label">Окончание гарантии:</label>
+            <div class="col-sm-9">
+                <input type="datetime" asp-for="Repair.GuaranteeDeadline" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Repair.CompanyName" class="col-sm-3 col-form-label">Название компании:</label>
+            <div class="col-sm-9">
+                <input asp-for="Repair.CompanyName" type="text" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Repair.Description" class="col-sm-3 col-form-label">Описание:</label>
+            <div class="col-sm-9">
+                <textarea asp-for="Repair.Description" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer row justify-content-center">
+            <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+        </div>
+    </form>
+}

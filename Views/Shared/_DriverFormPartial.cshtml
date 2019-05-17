@@ -1,0 +1,137 @@
+﻿@using WebApp_TransportCompany.ViewModels
+@using WebApp_TransportCompany.Models.Enums
+@model DriverFormPartialViewModel
+
+@if (Model.Driver != null)
+{
+    <form asp-controller="Driver" asp-action="Edit" method="post">
+        <input type="number" asp-for="Driver.Id" value="@Model.Driver.Id" style="display: none" />
+        <div class="form-group row">
+            <label asp-for="Driver.Name" class="col-sm-3 col-form-label">Имя:</label>
+            <div class="col-sm-9">
+                <input type="text" value="@Model.Driver.Name" asp-for="Driver.Name"  class="form-control" if="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Driver.Surname" class="col-sm-3 col-form-label">Фамилия:</label>
+            <div class="col-sm-9">
+                <input asp-for="Driver.Surname"  value="@Model.Driver.Surname" type="text" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Driver.FirstPhone" class="col-sm-3 col-form-label">Первый телефон:</label>
+            <div class="col-sm-9">
+                <input asp-for="Driver.FirstPhone" value="@Model.Driver.FirstPhone" type="text" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Driver.SecondPhone" class="col-sm-3 col-form-label">Второй телефон:</label>
+            <div class="col-sm-9">
+                <input asp-for="Driver.SecondPhone" value="@Model.Driver.SecondPhone" type="text" class="form-control" id="recipient-name">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Driver.Address" class="col-sm-3 col-form-label">Адрес:</label>
+            <div class="col-sm-9">
+                <input asp-for="Driver.Address" value="@Model.Driver.Address" type="text" class="form-control" id="recipient-name">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Driver.DateOfBirth" class="col-sm-3 col-form-label">Дата рождения:</label>
+            <div class="col-sm-9">
+                <input asp-for="Driver.DateOfBirth" value="@Model.Driver.DateOfBirth" type="datetime" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label name="TruckId" class="col-sm-3 col-form-label">Грузовик:</label>
+            <div class="col-sm-9">
+                @{ await Html.RenderPartialAsync("_SelectTruckPartial",
+                                new SelectTruckPartialViewModel()
+                                { Trucks = Model.Trucks, Multiple = false, Truck = Model.Driver.Truck });}
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Driver.DriverStatus" class="col-sm-3 col-form-label">Статус водителя:</label>
+            <div class="col-sm-9">
+                <select asp-for="Driver.DriverStatus" asp-items="@Html.GetEnumSelectList<DriverStatus>()" class="form-control">
+                    <option value="@Model.Driver.DriverStatus" selected>@Model.Driver.DriverStatus</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="modal-footer row justify-content-center">
+            <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+        </div>
+    </form>
+}
+else
+{
+    <form asp-controller="Driver" asp-action="Create" method="post">
+        <div class="form-group row">
+            <label asp-for="Driver.Name" class="col-sm-3 col-form-label">Имя:</label>
+            <div class="col-sm-9">
+                <input type="text" asp-for="Driver.Name" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Driver.Surname" class="col-sm-3 col-form-label">Фамилия:</label>
+            <div class="col-sm-9">
+                <input asp-for="Driver.Surname" type="text" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Driver.FirstPhone" class="col-sm-3 col-form-label">Первый телефон:</label>
+            <div class="col-sm-9">
+                <input asp-for="Driver.FirstPhone" type="text" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Driver.SecondPhone" class="col-sm-3 col-form-label">Второй телефон:</label>
+            <div class="col-sm-9">
+                <input asp-for="Driver.SecondPhone" type="text" class="form-control" id="recipient-name">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Driver.Address" class="col-sm-3 col-form-label">Адрес:</label>
+            <div class="col-sm-9">
+                <input asp-for="Driver.Address" type="text" class="form-control" id="recipient-name">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Driver.DateOfBirth" class="col-sm-3 col-form-label">Дата рождения:</label>
+            <div class="col-sm-9">
+                <input asp-for="Driver.DateOfBirth" type="datetime" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label name="TruckId" class="col-sm-3 col-form-label">Грузовик:</label>
+            <div class="col-sm-9">
+                @{ await Html.RenderPartialAsync("_SelectTruckPartial",
+                              new SelectTruckPartialViewModel()
+                              { Trucks = Model.Trucks, Multiple = false });}
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Driver.DriverStatus" class="col-sm-3 col-form-label">Статус водителя:</label>
+            <div class="col-sm-9">
+                <select asp-for="Driver.DriverStatus" asp-items="@Html.GetEnumSelectList<DriverStatus>()" class="form-control"></select>
+            </div>
+
+        </div>
+        <div class="modal-footer row justify-content-center">
+            <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+        </div>
+    </form>
+}

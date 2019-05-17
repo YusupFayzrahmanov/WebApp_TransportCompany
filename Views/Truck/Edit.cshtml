@@ -1,0 +1,14 @@
+﻿@using WebApp_TransportCompany.ViewModels
+@model TruckFormPartialViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1>Изменение</h1>
+    </div>
+    <div class="card-body">
+        @{ await Html.RenderPartialAsync("_TruckFormPartial", Model); }
+    </div>
+</div>

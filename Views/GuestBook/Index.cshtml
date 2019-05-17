@@ -1,0 +1,164 @@
+﻿@using WebApp_TransportCompany.ViewModels
+@model GuestBookViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="row ">
+    <!-- Collapsable Card Example -->
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                @if (Model.Success.HasValue)
+                {
+                    @if (Model.Success.Value)
+                    {
+                        <div class="alert alert-success" role="alert">
+                            @Model.Message
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Model.Message
+                        </div>
+                    }
+                }
+            </div>
+            <div class="card-body">
+                <form asp-controller="GuestBook" asp-action="AddMessage" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="GuestMessage.Username">Имя</label><br />
+                            <input type="text" asp-for="GuestMessage.Username" required class="form-control" />
+                            <span asp-validation-for="GuestMessage.Username" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="GuestMessage.Email">Email</label><br />
+                            <input type="email" asp-for="GuestMessage.Email" required class="form-control" />
+                            <span asp-validation-for="GuestMessage.Email" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="GuestMessage.MessageText">Сообщение</label><br />
+                        <textarea asp-for="GuestMessage.MessageText" required class="form-control"></textarea>
+                        <span asp-validation-for="GuestMessage.MessageText" class="text-danger"></span>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label name="File">Аватар</label><br />
+                            <input type="file" name="File" class="form-control-file" />
+                        </div>
+                        <div class="col-md-auto">
+                            <label>Тест Тьюринга - вставьте пропущенную букву</label>
+                            <input type="text" asp-for="OutTestText" class="form-control" value="@Model.TestText"/>
+                        </div>
+                    </div>
+                    <input asp-for="IdTest" readonly style="display:none;"/>
+
+                    <div class="modal-footer row justify-content-center">
+                        <button type="submit" class="btn btn-primary col-sm-3">Отправить</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body">
+                <h3 class="row justify-content-center">Сообщения</h3>
+                @{
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="list-group">
+                            @{
+                                if (Model.AllGuestMessages != null)
+                                {
+                                    foreach (var item in Model.AllGuestMessages)
+                                    {
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-sm-auto">
+                                                    <a asp-controller="GuestBook" asp-action="DeleteMessage" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">Удалить</a>
+                                                </div>
+                                                <div class="col-sm-auto">
+                                                    @if (item.Published)
+                                                    {
+                                                        <button class="btn btn-outline-primary btn-sm" disabled>Опубликовать</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-controller="GuestBook" asp-action="PublishMessage" asp-route-id="@item.Id"
+                                                           class="btn btn-outline-primary btn-sm">Опубликовать</a>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="media col-auto">
+                                                    <img src="@Url.Content(item.ImagePath)" style='width:80px; height:80px;' class="mr-3 rounded float-left" alt="...">
+                                                    <div class="media-body">
+                                                        <h2 class="mt-0 font-weight-bold text-dark">@item.Username</h2>
+                                                        <p>@item.MessageText</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </li>
+                                    }
+                                }
+
+                            }
+
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="list-group">
+                            @{
+                                if (Model.PublishedGuestMessages != null)
+                                {
+                                    foreach (var item in Model.PublishedGuestMessages)
+                                    {
+                                        <li class="list-group-item">
+                                            <div class="media">
+                                                <img src="@Url.Content(item.ImagePath)" style='width:80px; height:80px;' class="mr-3 rounded float-left" alt="...">
+                                                <div class="media-body">
+                                                    <h3 class="mt-0 font-weight-bold text-dark">@item.Username</h3>
+                                                    <p>@item.MessageText</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+
+                            }
+
+                        </ul>
+                    }
+
+                }
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<environment include="Development">
+    <script src="~/Identity/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/Identity/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</environment>
+<environment exclude="Development">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"
+            asp-fallback-src="~/Identity/lib/jquery-validation/dist/jquery.validate.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.validator"
+            crossorigin="anonymous"
+            integrity="sha384-rZfj/ogBloos6wzLGpPkkOr/gpkBNLZ6b6yLy4o+ok+t/SAKlL5mvXLr0OXNi1Hp">
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.9/jquery.validate.unobtrusive.min.js"
+            asp-fallback-src="~/Identity/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive"
+            crossorigin="anonymous"
+            integrity="sha384-ifv0TYDWxBHzvAk2Z0n8R434FL1Rlv/Av18DXE43N/1rvHyOG4izKst0f2iSLdds">
+    </script>
+</environment>

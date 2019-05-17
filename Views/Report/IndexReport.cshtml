@@ -1,0 +1,54 @@
+﻿@using WebApp_TransportCompany.ViewModels
+@model ReportViewModel
+@section Styles{
+    <!-- Custom styles for this page -->
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <!-- PNotify -->
+    <link href="~/css/pnotify/pnotify.custom.css" rel="stylesheet">
+}
+<!-- Button trigger modal -->
+<!-- Begin Page Content -->
+<div class="card shadow mb-4">
+
+    <div class="card-header py-3">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+            Добавить отчет
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            @{ await Html.RenderPartialAsync("_ReportTablePartial", Model.Reports);}
+        </div>
+    </div>
+</div>
+
+
+
+<!-- /.container-fluid -->
+<!-- End of Main Content -->
+<!-- Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Добавить новый отчет</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @{ await Html.RenderPartialAsync("_ReportFormPartial",
+                                        new ReportFormPartialViewModel()
+                                        {
+                                            Report = null,
+                                            Trucks = Model.Trucks
+                                        });}
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="~/Views/Shared/_DataTablesScriptsPartial.cshtml" />
+}
+

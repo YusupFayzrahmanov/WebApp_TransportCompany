@@ -1,0 +1,64 @@
+﻿<!-- Page level plugins -->
+<script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<!--PNotify-->
+<script src="~/js/pnotify/pnotify.custom.js"></script>
+<script>
+        $(document).ready(function () {
+            var dataTable = $('#dataTable').DataTable({
+                "language": {
+                    "lengthMenu": "Показать _MENU_ записей на странице",
+                    "zeroRecords": "Ничего не найдено",
+                    "info": "Показать страницу _PAGE_ из _PAGES_",
+                    "infoEmpty": "Нет доступных записией",
+                    "infoFiltered": "(filtered from _MAX_ total records)",
+                    "search": "Поиск: "
+                },
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        var select = $('<select><option value=""></option></select>')
+                            .appendTo($(column.footer()))
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>')
+                        });
+                    });
+                }
+            });
+
+            $('.delete-item-btn').click(function () {
+                var itemId = $(this).attr('btn-delete-item-id');
+                var row = dataTable.row($(this).parents('tr'));
+                if (confirm("Вы действительно хотите удалить запись " + row.data()[1] +"?")) {
+                    $.post('@Url.Action("Delete")' + '?item=' + itemId, function () {
+                    dataTable.row(row).remove().draw();
+                    new PNotify({
+                        title: 'Успешно!',
+                        text: 'Запись успешно удалена.',
+                        type: 'success'
+                    });
+                })
+                    .fail(function () {
+                        new PNotify({
+                            title: 'Ошибка!',
+                            text: 'Запись не удалена.',
+                            type: 'error'
+                        });
+                    });
+                }
+
+            });
+        });
+
+
+</script>

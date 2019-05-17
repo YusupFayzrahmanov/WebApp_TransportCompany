@@ -1,0 +1,15 @@
+﻿@model WebApp_TransportCompany.ViewModels.SelectDriverPartialViewModel
+<select name="driverId" class="form-control">
+    @if (Model.Drivers != null)
+    {
+        if (Model.Driver != null)
+        {
+            <option value="@Model.Driver.Id" selected>@Model.Driver.Name @Model.Driver.Surname: @Model.Driver.FirstPhone</option>
+        }
+        @foreach (var item in Model.Drivers)
+        {
+            <option value="@item.Id">@item.Name @item.Surname: @item.FirstPhone</option>
+        }
+    }
+
+</select>

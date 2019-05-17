@@ -1,0 +1,23 @@
+﻿@using WebApp_TransportCompany.ViewModels
+@model Repair
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row ">
+    <!-- Collapsable Card Example -->
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <a asp-controller="Truck" asp-action="Details" asp-route-truck="@Model.Truck.Id">@Model.Truck.TruckLicState @Model.Truck.Name @Model.Truck.Model</a>
+                @{ await Html.RenderPartialAsync("_RepairFormPartial", new RepairFormPartialViewModel()
+                    {
+                        Repair = Model,
+                        Trucks = null,
+                        Readonly = true
+                    });}
+            </div>
+        </div>
+    </div>
+
+</div>

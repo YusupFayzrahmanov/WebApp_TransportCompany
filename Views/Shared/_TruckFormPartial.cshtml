@@ -1,0 +1,164 @@
+﻿@using WebApp_TransportCompany.ViewModels
+@using WebApp_TransportCompany.Models.Enums
+@model TruckFormPartialViewModel
+@if (Model.Truck != null)
+{
+    <form asp-controller="Truck" asp-action="Edit" method="post">
+        <input type="number" asp-for="Truck.Id" value="@Model.Truck.Id" style="display: none"/>
+        <div class="form-group row">
+            <label asp-for="Truck.TruckLicState" class="col-sm-3 col-form-label">Номер:</label>
+            <div class="col-sm-9">
+                <input type="text" value="@Model.Truck.TruckLicState" asp-for="Truck.TruckLicState" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.Name" class="col-sm-3 col-form-label">Наименование:</label>
+            <div class="col-sm-9">
+                <input asp-for="Truck.Name" value="@Model.Truck.Name" type="text" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.Model" class="col-sm-3 col-form-label">Модель:</label>
+            <div class="col-sm-9">
+                <input asp-for="Truck.Model" value="@Model.Truck.Model" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.YearOfIssue" class="col-sm-3 col-form-label">Год выпуска:</label>
+            <div class="col-sm-9">
+                <input asp-for="Truck.YearOfIssue" value="@Model.Truck.YearOfIssue" type="datetime" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.Type" class="col-sm-3 col-form-label">Тип:</label>
+            <div class="col-sm-9">
+                <select asp-for="Truck.Type" asp-items="@Html.GetEnumSelectList<TruckType>()" class="form-control">
+                    <option value="@Model.Truck.Type" selected>@Model.Truck.Type</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.Mileage" class="col-sm-3 col-form-label">Пробег:</label>
+            <div class="col-sm-9">
+                <input type="number" value="@Model.Truck.Mileage" asp-for="Truck.Mileage" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.WeightLimit" class="col-sm-3 col-form-label">Грузоподъемность:</label>
+            <div class="col-sm-9">
+                <input type="number" value="@Model.Truck.WeightLimit" asp-for="Truck.WeightLimit" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.MaxSize" class="col-sm-3 col-form-label">Объем:</label>
+            <div class="col-sm-9">
+                <input asp-for="Truck.MaxSize" value="@Model.Truck.MaxSize" type="number" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.Condition" class="col-sm-3 col-form-label">Состояние:</label>
+            <div class="col-sm-9">
+                <select asp-for="Truck.Condition" asp-items="@Html.GetEnumSelectList<TruckCondition>()" class="form-control">
+                    <option value="@Model.Truck.Condition" selected>@Model.Truck.Condition.GetDisplayName()</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.Status" class="col-sm-3 col-form-label">Статус:</label>
+            <div class="col-sm-9">
+                <select asp-for="Truck.Status" asp-items="@Html.GetEnumSelectList<TruckStatus>()" class="form-control">
+                    <option value="@Model.Truck.Status" selected>@Model.Truck.Status.GetDisplayName()</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer row justify-content-center">
+            <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+        </div>
+    </form>
+}
+else
+{
+    <form asp-controller="Truck" asp-action="Create" method="post">
+        <div class="form-group row">
+            <label asp-for="Truck.TruckLicState" class="col-sm-3 col-form-label">Номер:</label>
+            <div class="col-sm-9">
+                <input type="text" asp-for="Truck.TruckLicState" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.Name" class="col-sm-3 col-form-label">Наименование:</label>
+            <div class="col-sm-9">
+                <input asp-for="Truck.Name" type="text" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.Model" class="col-sm-3 col-form-label">Модель:</label>
+            <div class="col-sm-9">
+                <input asp-for="Truck.Model" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.YearOfIssue" class="col-sm-3 col-form-label">Год выпуска:</label>
+            <div class="col-sm-9">
+                <input asp-for="Truck.YearOfIssue" type="datetime" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.Type" class="col-sm-3 col-form-label">Тип:</label>
+            <div class="col-sm-9">
+                <select asp-for="Truck.Type" asp-items="@Html.GetEnumSelectList<TruckType>()" class="form-control"></select>
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.Mileage" class="col-sm-3 col-form-label">Пробег:</label>
+            <div class="col-sm-9">
+                <input type="number" asp-for="Truck.Mileage" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.WeightLimit" class="col-sm-3 col-form-label">Грузоподъемность:</label>
+            <div class="col-sm-9">
+                <input type="number" asp-for="Truck.WeightLimit" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.MaxSize" class="col-sm-3 col-form-label">Объем:</label>
+            <div class="col-sm-9">
+                <input asp-for="Truck.MaxSize" type="number" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.Condition" class="col-sm-3 col-form-label">Состояние:</label>
+            <div class="col-sm-9">
+                <select asp-for="Truck.Condition" asp-items="@Html.GetEnumSelectList<TruckCondition>()" class="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Truck.Status" class="col-sm-3 col-form-label">Статус:</label>
+            <div class="col-sm-9">
+                <select asp-for="Truck.Status" asp-items="@Html.GetEnumSelectList<TruckStatus>()" class="form-control"></select>
+            </div>
+        </div>
+        <div class="modal-footer row justify-content-center">
+            <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+        </div>
+    </form>
+}

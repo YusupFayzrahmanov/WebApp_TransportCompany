@@ -1,0 +1,378 @@
+﻿@using WebApp_TransportCompany.Models.Enums
+@model WebApp_TransportCompany.ViewModels.TruckDetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row ">
+    <!-- Collapsable Card Example -->
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+
+            <div class="card-body">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-truck-tab" data-toggle="tab" href="#nav-truck" role="tab" aria-controls="nav-truck" aria-selected="true">Грузовик</a>
+                        <a class="nav-item nav-link" id="nav-drivers-tab" data-toggle="tab" href="#nav-drivers" role="tab" aria-controls="nav-drivers" aria-selected="false">Водители</a>
+                        <a class="nav-item nav-link" id="nav-orders-tab" data-toggle="tab" href="#nav-orders" role="tab" aria-controls="nav-orders" aria-selected="false">Заказы</a>
+                        <a class="nav-item nav-link" id="nav-repairs-tab" data-toggle="tab" href="#nav-repairs" role="tab" aria-controls="nav-repairs" aria-selected="false">Ремонт</a>
+                        <a class="nav-item nav-link" id="nav-fuel-tab" data-toggle="tab" href="#nav-fuel" role="tab" aria-controls="nav-fuel" aria-selected="false">Расход топлива</a>
+                        <a class="nav-item nav-link" id="nav-reports-tab" data-toggle="tab" href="#nav-reports" role="tab" aria-controls="nav-reports" aria-selected="false">Отчеты</a>
+                        <a class="nav-item nav-link" id="nav-wheels-tab" data-toggle="tab" href="#nav-wheels" role="tab" aria-controls="nav-wheels" aria-selected="false">Колеса</a>
+
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active row" id="nav-truck" role="tabpanel" aria-labelledby="nav-truck-tab">
+                        <div class="card-body">
+                            <div class="col-8">
+                                <h2>@Model.Truck.TruckLicState <small>@Model.Truck.Name @Model.Truck.Model</small></h2>
+                            </div>
+                        </div>
+                        <div class="container row">
+                            <div class="card-body col-auto">
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Номмер</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" readonly class="form-control" value="@Model.Truck.TruckLicState">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Год выпуска</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" readonly class="form-control" value="@Model.Truck.YearOfIssue">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Тип</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" readonly class="form-control" value="@Model.Truck.Type">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Пробег</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" readonly class="form-control" value="@Model.Truck.Mileage">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body col-auto">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Состояние</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" readonly class="form-control" value="@Model.Truck.Condition.GetDisplayName()">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Статус</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" readonly class="form-control" value="@Model.Truck.Status.GetDisplayName()">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Грузоподъемность</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" readonly class="form-control" value="@Model.Truck.WeightLimit">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Объем</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" readonly class="form-control" value="@Model.Truck.MaxSize">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="nav-drivers" role="tabpanel" aria-labelledby="nav-driver-tab">
+
+                        @if (Model.Drivers.Count() == 0)
+                        {
+                            <div class="card-body">
+                                <h4>Водители отсутсвуют</h4>
+                            </div>
+
+                        }
+                        else
+                        {
+                            @foreach (Driver _driver in Model.Drivers)
+                            {
+                                <div class="container row">
+                                    <div class="card-body border-bottom-primary">
+                                        <div class="card-body">
+                                            <a asp-controller="Driver" asp-action="Details"
+                                               asp-route-id="@_driver.Id" class="btn btn-info btn-icon-split">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-info-circle"></i>
+                                                </span>
+                                                <span class="text">@_driver.Name @_driver.Surname</span>
+                                            </a>
+                                        </div>
+                                        <div class="card-body row">
+                                            <div class="card-body col-auto">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">Телефон</label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" readonly class="form-control" value="@_driver.FirstPhone">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="card-body col-auto">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">Статус</label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" readonly class="form-control" value="@_driver.DriverStatus">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </div>
+
+                    <div class="tab-pane fade" id="nav-orders" role="tabpanel" aria-labelledby="nav-order-tab">
+                        <div class="container row">
+                            <div class="card-body col-auto">
+                                <h1>Последнии 10 заказов</h1>
+                            </div>
+                            <div class="card-body col-auto">
+                                <a asp-controller="Order" asp-action="GetOrderByTruck" asp-route-id="@Model.Truck.Id" class="btn btn-primary">Просмотреть все</a>
+                            </div>
+                            <div class="card-body col-auto">
+                                <div class="table-responsive">
+                                    @{ await Html.RenderPartialAsync("_OrderTablePartial", Model.Orders);}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="nav-repairs" role="tabpanel" aria-labelledby="nav-repair-tab">
+                        <div class="container row">
+                            <div class="card-body col-auto">
+                                <h1>Последнии 10 ремонтов</h1>
+                            </div>
+                            <div class="card-body col-auto">
+                                <a asp-controller="Repair" asp-action="GetRepairByTruck" asp-route-id="@Model.Truck.Id" class="btn btn-primary">Просмотреть все</a>
+                            </div>
+                            <div class="card-body col-auto">
+                                <div class="table-responsive">
+                                    @{ await Html.RenderPartialAsync("_RepairTablePartial", Model.Repairs);}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="nav-fuel" role="tabpanel" aria-labelledby="nav-fuel-tab">
+                        <div class="container row">
+
+
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-reports" role="tabpanel" aria-labelledby="nav-report-tab">
+                        <div class="container row">
+                            <div class="card-body col-auto">
+                                <h1>Последнии 10 отчетов</h1>
+                            </div>
+                            <div class="card-body col-auto">
+                                <a asp-controller="Report" asp-action="GetReportByTruck" asp-route-id="@Model.Truck.Id" class="btn btn-primary">Просмотреть все</a>
+                            </div>
+                            <div class="card-body col-auto">
+                                <div class="table-responsive">
+                                    @{ await Html.RenderPartialAsync("_ReportTablePartial", Model.Reports);}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-wheels" role="tabpanel" aria-labelledby="nav-wheel-tab">
+                        <div class="container row">
+                            <div class="card-body col-auto">
+                                <ul class="list-group list-group-flush">
+                                    @{
+                                        foreach (WheelPlace item in Enum.GetValues(typeof(WheelPlace)))
+                                        {
+                                            var _wheel = Model.Wheels.Where(x => x.Place == item).FirstOrDefault();
+                                            if (_wheel != null)
+                                            {
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">@item.GetDisplayName()</div>
+                                                        <div class="col-sm-2">
+                                                            <div class="progress">
+                                                                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-2">@_wheel.Name</div>
+                                                        <div class="col-sm-2">
+                                                            @if (_wheel.InstallationDate.HasValue)
+                                                            {
+                                                                @_wheel.InstallationDate.Value.ToShortDateString()
+                                                            }
+
+                                                        </div>
+                                                        <div class="col-sm-1">
+                                                            <a class="btn btn-success">
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-sm-1">
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-group" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="fa fa-ellipsis-v"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                    <a asp-controller="Wheel" asp-action="Details" asp-route-id="@_wheel.Id" class="dropdown-item">
+                                                                        Подробнее
+                                                                    </a>
+                                                                    <a asp-controller="Wheel" asp-action="Edit" class="dropdown-item" asp-route-item="@_wheel.Id">
+                                                                        Изменить
+                                                                    </a>
+                                                                    <a asp-controller="Wheel" asp-action="Delete" class="dropdown-item" asp-route-id="@_wheel.Id">
+                                                                        Удалить
+                                                                    </a>
+                                                                    <a class="dropdown-item wheel-add" href="#" data-toggle="modal" data-target="#createModal" wheel-place="@item" wheel-id="@_wheel.Id">
+                                                                        Заменить
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">@item.GetDisplayName()</div>
+                                                        <div class="col-sm-2">
+                                                            <div class="progress">
+                                                                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">Колесо отсутсвует</div>
+                                                        <div class="col-sm-1">
+                                                            <a class="btn btn-danger">
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-sm-1">
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-group" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="fa fa-ellipsis-v"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                    <a class="wheel-add dropdown-item" href="#" data-toggle="modal" data-target="#createModal" wheel-place="@item">
+                                                                        Добавить колесо
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </li>
+                                            }
+                                        }
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Добавить новое колесо</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Wheel" asp-action="Add" method="post">
+                    <input name="truckId" readonly style="display:none" value="@Model.Truck.Id" />
+                    <input id="wheel-id" name="wheelId" readonly style="display:none" />
+                    <div class="form-group row">
+                        <label asp-for="Wheel.Name" class="col-sm-3 col-form-label">Наименование:</label>
+                        <div class="col-sm-9">
+                            <input type="text" asp-for="Wheel.Name" class="form-control" id="recipient-name">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Wheel.Place" class="col-sm-3 col-form-label">Расположение:</label>
+                        <div class="col-sm-9">
+                            <input type="text" asp-for="Wheel.Place" readonly class="form-control" id="wheel-place">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Wheel.InstallationDate" class="col-sm-3 col-form-label">Дата установки:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="Wheel.InstallationDate" type="datetime" class="form-control" id="recipient-name">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Wheel.Price" class="col-sm-3 col-form-label">Цена:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="Wheel.Price" type="number" class="form-control" id="recipient-name">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Wheel.CurrentMileage" class="col-sm-3 col-form-label">Пробег:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="Wheel.CurrentMileage" type="number" class="form-control" id="recipient-name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Wheel.Condition" class="col-sm-3 col-form-label">Статус:</label>
+                        <div class="col-sm-9">
+                            <select asp-for="Wheel.Condition" asp-items="@Html.GetEnumSelectList<WheelCondition>()" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Wheel.Description" class="col-sm-3 col-form-label">Описание:</label>
+                        <div class="col-sm-9">
+                            <textarea asp-for="Wheel.Description" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer row justify-content-center">
+                        <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+            $('.wheel-add').click(function () {
+                $('#wheel-place').val($(this).attr('wheel-place'));
+                $('#wheel-id').val($(this).attr('wheel-id'));
+            });
+        });
+    </script>
+}

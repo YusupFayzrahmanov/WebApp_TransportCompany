@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Truck>
+
+<table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Номер</th>
+            <th>Наименование</th>
+            <th>Модель</th>
+            <th>Тип</th>
+            <th>Год выпуска</th>
+            <th>Пробег</th>
+            <th>Состояние</th>
+            <th>Статус</th>
+            <th data-orderable="false"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                foreach (Truck _item in Model)
+                {
+                    <tr>
+                        <td>@_item.TruckLicState</td>
+                        <td>@_item.Name</td>
+                        <td>@_item.Model</td>
+                        <td>@_item.Type.GetDisplayName()</td>
+                        <td>
+                            @if (_item.YearOfIssue.HasValue)
+                            {
+                                @_item.YearOfIssue.Value.Date.ToShortDateString()
+                            }
+                            else
+                            {
+                                <label>None</label>
+                            }
+
+                        </td>
+                        <td>@_item.Mileage</td>
+                        <td>@_item.Condition.GetDisplayName()</td>
+                        <td>@_item.Status.GetDisplayName()</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-group" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a asp-controller="Truck" asp-action="Details" class="dropdown-item" asp-route-truck="@_item.Id">
+                                        Подробнее
+                                    </a>
+                                    <a asp-controller="Truck" asp-action="Edit" class="dropdown-item" asp-route-item="@_item.Id">
+                                        Изменить
+                                    </a>
+                                    <button type="button" class="dropdown-item delete-item-btn" btn-delete-item-id="@_item.Id">
+                                        Удалить
+                                    </button>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                }
+            }
+
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>

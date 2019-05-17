@@ -1,0 +1,15 @@
+﻿@model WebApp_TransportCompany.ViewModels.SelectTruckPartialViewModel
+<select name="truckId" class="form-control">
+    @if (Model.Trucks != null)
+    {
+        if (Model.Truck != null)
+        {
+            <option value="@Model.Truck.Id" selected>@Model.Truck.TruckLicState @Model.Truck.Name @Model.Truck.Model</option>
+        }
+        @foreach (var item in Model.Trucks)
+        {
+            <option value="@item.Id">@item.TruckLicState @item.Name @item.Model</option>
+        }
+    }
+
+</select>

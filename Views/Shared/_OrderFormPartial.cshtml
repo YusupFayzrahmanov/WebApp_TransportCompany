@@ -1,0 +1,163 @@
+﻿@using WebApp_TransportCompany.ViewModels
+@using WebApp_TransportCompany.Models.Enums
+@model OrderFormPartialViewModel
+
+@if (Model.Order != null)
+{
+    <form asp-controller="Order" asp-action="Edit" method="post">
+        <input type="number" asp-for="Order.Id" value="@Model.Order.Id" style="display: none" />
+        <div class="form-group row">
+            <label asp-for="Order.Truck" class="col-sm-3 col-form-label">Номер т/c:</label>
+            <div class="col-sm-9">
+                @{ await Html.RenderPartialAsync("_SelectTruckPartial",
+                             new SelectTruckPartialViewModel()
+                             { Multiple = false, Trucks = Model.Trucks, Truck = Model.Order.Truck });}
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.StartDate" class="col-sm-3 col-form-label">Дата начала:</label>
+            <div class="col-sm-9">
+                <input asp-for="Order.StartDate" value="@Model.Order.StartDate" type="datetime" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.TypeOfCargo" class="col-sm-3 col-form-label">Вид груза:</label>
+            <div class="col-sm-9">
+                <select asp-for="Order.TypeOfCargo" asp-items="@Html.GetEnumSelectList<TypeOfCargo>()" class="form-control">
+                    <option value="@Model.Order.TypeOfCargo" selected>@Model.Order.TypeOfCargo</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.CompanyName" class="col-sm-3 col-form-label">Компания:</label>
+            <div class="col-sm-9">
+                <input asp-for="Order.CompanyName" value="@Model.Order.CompanyName" type="text" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.DepPoint" class="col-sm-3 col-form-label">Отбытие:</label>
+            <div class="col-sm-9">
+                <input asp-for="Order.DepPoint" value="@Model.Order.DepPoint" type="text" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.EndPoint" class="col-sm-3 col-form-label">Место назначения:</label>
+            <div class="col-sm-9">
+                <input type="text" value="@Model.Order.EndPoint" asp-for="Order.EndPoint" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.Distance" class="col-sm-3 col-form-label">Расстояние:</label>
+            <div class="col-sm-9">
+                <input type="number" value="@Model.Order.Distance" asp-for="Order.Distance" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.CargoWeight" class="col-sm-3 col-form-label">Вес:</label>
+            <div class="col-sm-9">
+                <input asp-for="Order.CargoWeight" value="@Model.Order.CargoWeight" type="number" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.Price" class="col-sm-3 col-form-label">Цена:</label>
+            <div class="col-sm-9">
+                <input asp-for="Order.Price" value="@Model.Order.Price" type="number" class="form-control">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.Description" class="col-sm-3 col-form-label">Описание:</label>
+            <div class="col-sm-9">
+                <textarea asp-for="Order.Description" class="form-control">@Model.Order.Description</textarea>
+            </div>
+        </div>
+        <div class="modal-footer row justify-content-center">
+            <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+        </div>
+    </form>
+}
+else
+{
+    <form asp-controller="Order" asp-action="Create" method="post">
+        <div class="form-group row">
+            <label asp-for="Order.Truck" class="col-sm-3 col-form-label">Номер т/c:</label>
+            <div class="col-sm-9">
+                @{ await Html.RenderPartialAsync("_SelectTruckPartial",
+                              new SelectTruckPartialViewModel()
+                              { Multiple = false, Trucks = Model.Trucks });}
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.StartDate" class="col-sm-3 col-form-label">Дата начала:</label>
+            <div class="col-sm-9">
+                <input asp-for="Order.StartDate" type="datetime" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.TypeOfCargo" class="col-sm-3 col-form-label">Вид груза:</label>
+            <div class="col-sm-9">
+                <select asp-for="Order.TypeOfCargo" asp-items="@Html.GetEnumSelectList<TypeOfCargo>()" class="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.CompanyName" class="col-sm-3 col-form-label">Компания:</label>
+            <div class="col-sm-9">
+                <input asp-for="Order.CompanyName" type="text" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.DepPoint" class="col-sm-3 col-form-label">Отбытие:</label>
+            <div class="col-sm-9">
+                <input asp-for="Order.DepPoint" type="text" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.EndPoint" class="col-sm-3 col-form-label">Место назначения:</label>
+            <div class="col-sm-9">
+                <input type="text" asp-for="Order.EndPoint" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.Distance" class="col-sm-3 col-form-label">Расстояние:</label>
+            <div class="col-sm-9">
+                <input type="number" asp-for="Order.Distance" class="form-control" id="recipient-name">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.CargoWeight" class="col-sm-3 col-form-label">Вес:</label>
+            <div class="col-sm-9">
+                <input asp-for="Order.CargoWeight" type="number" class="form-control">
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.Price" class="col-sm-3 col-form-label">Цена:</label>
+            <div class="col-sm-9">
+                <input asp-for="Order.Price" type="number" class="form-control">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Order.Description" class="col-sm-3 col-form-label">Описание:</label>
+            <div class="col-sm-9">
+                <textarea asp-for="Order.Description" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer row justify-content-center">
+            <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+        </div>
+    </form>
+}

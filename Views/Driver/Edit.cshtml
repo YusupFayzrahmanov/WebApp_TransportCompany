@@ -1,0 +1,16 @@
+﻿@using WebApp_TransportCompany.ViewModels
+@model DriverFormPartialViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1>Изменение</h1>
+    </div>
+    <div class="card-body">
+        @{ 
+            await Html.RenderPartialAsync("_DriverFormPartial", Model);
+        }
+    </div>
+</div>
