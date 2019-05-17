@@ -13,7 +13,7 @@ namespace WebApp_TransportCompany.Extensions
 
             "Компьютер",
 
-            "Ручка",
+            "Рубка",
 
             "Книга",
 
