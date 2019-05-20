@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using WebApp_TransportCompany.Data;
 using WebApp_TransportCompany.Extensions;
 using WebApp_TransportCompany.Models;
+using WebApp_TransportCompany.Models.Enums;
 using WebApp_TransportCompany.ViewModels;
 
 namespace WebApp_TransportCompany.Repositories
@@ -24,46 +25,57 @@ namespace WebApp_TransportCompany.Repositories
         public async Task<List<ChartDataset>> GetDriverStatistics(IdentityUser identityUser, DateTime? dateTime)
         {
             var date = dateTime ?? DateTime.Now;
-            var stats = from order in _context.Orders
-                        where order.StartDate.Year == date.Year
-                        group order by order.Driver into driverToOrders
-                        select new
-                        {
-                            Driver = driverToOrders.Key,
-                            MonthsToOrders = from order in driverToOrders
-                                             group order by order.StartDate.Month into monthToOrders
-                                             select new
-                                             {
-                                                 MonthToOrder = new
-                                                 {
-                                                     Orders = monthToOrders
-                                                 }
-                                             }
-                        };
+            //var stats = from order in _context.Orders
+            //            where order.StartDate.Year == date.Year
+            //            group order by order.Driver into driverToOrders
+            //            select new
+            //            {
+            //                Driver = driverToOrders.Key,
+            //                MonthsToOrders = from order in driverToOrders
+            //                                 group order by order.StartDate.Month into monthToOrders
+            //                                 select new
+            //                                 {
+            //                                     MonthToOrder = new
+            //                                     {
+            //                                         Orders = monthToOrders
+            //                                     }
+            //                                 }
+            //            };
 
-
-            foreach (var pair in stats)
-            {
-                var driver = pair.Driver;
+            List<ChartDataset> chartDatasets = new List<ChartDataset>();
+            //foreach (var pair in stats)
+            //{
+            //    var driver = pair.Driver;
                 
-                foreach (var pair2 in pair.MonthsToOrders)
-                {
-                    var month = pair2.MonthToOrder;
-                    foreach (var order in month.Orders)
-                    {
-                        
-                    }
-                }
-            }
+            //    foreach (var pair2 in pair.MonthsToOrders)
+            //    {
+            //        var month = pair2.MonthToOrder;
+
+            //        foreach (var order in month.Orders)
+            //        {
+            //            chartDatasets.Add(new ChartDataset()
+            //            {
+            //                Label = driver.Name + " " + driver.Surname,
+            //                Color = ColorHelper.GetColorByID(driver.Id),
+            //                Data = 
+            //            });
+            //        }
+            //    }
+            //}
 
             var _statistics = from item in _context.Drivers
+                              where item.DriverStatus != Models.Enums.DriverStatus.Fired
                               select new ChartDataset()
                               {
-                                  Label = item.Name + item.Surname,
+                                  id = item.Id,
 
-                                  Color = ColorHelper.GetColorByID(item.Id),
+                                  label = item.Name + item.Surname,
 
-                                  Data = JsonConvert.SerializeObject(GetMonthEarnings(item.Orders
+                                  backgroundColor = ColorHelper.GetColorByID(item.Id),
+
+                                  borderColor = ColorHelper.GetColorByID(item.Id),
+
+                                  data = JsonConvert.SerializeObject(GetMonthEarnings(item.Orders
                                     .Where(x => x.IsPaid && x.State == Models.Enums.OrderState.Close && x.StartDate.Year == date.Year)
                                     .ToList()))
                               };
@@ -80,11 +92,13 @@ namespace WebApp_TransportCompany.Repositories
 
             _statistics.Add(new ChartDataset()
             {
-                Label = "Прибыль",
+                label = "Прибыль",
 
-                Color = "#FF0000",
+                backgroundColor = "#FF0000",
 
-                Data = JsonConvert.SerializeObject(GetMonthEarnings(_orders))
+                borderColor = "#FF0000",
+
+                data = JsonConvert.SerializeObject(GetMonthEarnings(_orders))
             });
             return _statistics;
         }
@@ -93,21 +107,21 @@ namespace WebApp_TransportCompany.Repositories
         {
             var date = dateTime ?? DateTime.Now;
             var _statistics = from item in _context.Trucks
-                              select new
+                              where item.IsActual
+                              select new ChartDataset()
                               {
-                                  Label = item.Name + " " + item.Model,
+                                  id = item.Id,
 
-                                  Color = ColorHelper.GetColorByID(item.Id),
+                                  label = item.Name + " " + item.Model,
 
-                                  Data = item.Orders
+                                  backgroundColor = ColorHelper.GetColorByID(item.Id),
+
+                                  borderColor = ColorHelper.GetColorByID(item.Id),
+                                  
+                                  data = JsonConvert.SerializeObject(GetMonthEarnings(item.Orders
                                     .Where(x => x.IsPaid && x.State == Models.Enums.OrderState.Close && x.StartDate.Year == date.Year)
-                                    .ToList()
+                                    .ToList()))
                               };
-            decimal[] data = new decimal[12];
-            for (int i = 0; i < 12; i++)
-            {
-                data[i] = 
-            }
             return await _statistics.ToListAsync();
         }
 
@@ -122,16 +136,37 @@ namespace WebApp_TransportCompany.Repositories
             return data;
         }
 
-        private ChartDataset GetAverageTruckDataset(DateTime dateTime)
+        public Task<int> GetStatusTruckCount(IdentityUser identityUser, TruckStatus truckStatus)
         {
-            return new ChartDataset()
-            {
-                Label = "Среднее",
-
-                Color = "#FF0000",
-
-                Data = JsonConvert.SerializeObject(GetMonthEarnings(_context.Trucks))
-            };
+            //return await _context.Trucks
+            //    .Where(x => x.Identity.Id == identityUser.Id && x.IsActual && x.Status == truckStatus)
+            //    .Count();
+            throw new NotImplementedException();
         }
+
+        public Task<int> GetConditionTruckCount(IdentityUser identityUser, TruckCondition truckCondition)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetStatusOrderCount(IdentityUser identityUser, OrderState orderState)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetPaidOrderCount(IdentityUser identityUser, bool paid)
+        {
+            throw new NotImplementedException();
+        }
+
+        //private ChartDataset GetAverageTruckDataset(DateTime dateTime)
+        //{
+        //    return new ChartDataset()
+        //    {
+        //        Label = "Среднее",
+
+        //        Color = "#FF0000"
+        //    };
+        //}
     }
 }

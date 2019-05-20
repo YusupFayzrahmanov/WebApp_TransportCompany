@@ -41,13 +41,13 @@ namespace WebApp_TransportCompany.Repositories
 
         Task AddRangeRefuelingSensor(IEnumerable<RefuelingSensor> refuelingSensor);
 
-        void UpdateRefuelingSensor(RefuelingSensor refuelingSensor);
+        Task UpdateRefuelingSensor(RefuelingSensor refuelingSensor);
 
-        void UpdateRefuelingCheck(RefuelingCheck refuelingCheck);
+        Task UpdateRefuelingCheck(RefuelingCheck refuelingCheck);
 
-        void DeleteRefuelingSensor(RefuelingSensor refuelingSensor);
+        Task DeleteRefuelingSensor(RefuelingSensor refuelingSensor);
 
-        void DeleteRefuelingCheck(RefuelingCheck refuelingCheck);
+        Task DeleteRefuelingCheck(RefuelingCheck refuelingCheck);
     }
     
 }

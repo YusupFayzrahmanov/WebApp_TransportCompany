@@ -22,9 +22,10 @@ namespace WebApp_TransportCompany.Repositories
             await _context.Salaries.AddAsync(salary);
         }
 
-        public void DeleteSalary(Salary salary)
+        public async Task DeleteSalary(Salary salary)
         {
             _context.Salaries.Remove(salary);
+            await Save();
         }
 
         public async Task<IEnumerable<Salary>> GetDirverSalaries(Driver driver)
@@ -62,9 +63,10 @@ namespace WebApp_TransportCompany.Repositories
                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public void UpdateSalary(Salary salary)
+        public async Task UpdateSalary(Salary salary)
         {
             _context.Salaries.Update(salary);
+            await Save();
         }
     }
 }

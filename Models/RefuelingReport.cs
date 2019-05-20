@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+using WebApp_TransportCompany.Models.Enums;
 
 namespace WebApp_TransportCompany.Models
 {
     /// <summary>
-    /// Заправка по датчику
+    /// Заправка по отчету
     /// </summary>
-    public class RefuelingSensor
+    public class RefuelingReport
     {
         /// <summary>
         /// Идентификатор
@@ -14,19 +18,24 @@ namespace WebApp_TransportCompany.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Транспорт, который был заправлен
-        /// </summary>
-        public Truck Truck { get; set; }
-
-        /// <summary>
         /// Водитель
         /// </summary>
         public Driver Driver { get; set; }
 
         /// <summary>
+        /// Транспорт, который был заправлен
+        /// </summary>
+        public Truck Truck { get; set; }
+
+        /// <summary>
         /// Дата заправки
         /// </summary>
         public DateTime RefuelDate { get; set; }
+
+        /// <summary>
+        /// Заправочная станция
+        /// </summary>
+        public GasStation GasStation { get; set; }
 
         /// <summary>
         /// Кол-во литров

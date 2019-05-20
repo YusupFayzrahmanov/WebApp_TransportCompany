@@ -1,9 +1,24 @@
-﻿@{
+﻿@using WebApp_TransportCompany.Repositories
+@using WebApp_TransportCompany.ViewModels
+@using WebApp_TransportCompany.Models.Enums
+@{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@inject IStatisticsRepository _statisticsRepository
+@inject IUserRepository _userRepository
+
 @section Styles{
 
+}
+@{
+    var identityUser = await _userRepository.GetIdentityUser(User);
+    var driverStatsVm = new ChartLinePartialViewModelBuilder()
+        .Build(await _statisticsRepository.GetDriverStatistics(identityUser, null));
+    var truckStatsVm = new ChartLinePartialViewModelBuilder()
+        .Build(await _statisticsRepository.GetTruckStatistics(identityUser, null));
+    var earningsStatsVm = new ChartLinePartialViewModelBuilder()
+        .Build(await _statisticsRepository.GetOrderStatistic(identityUser, null));
 }
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -20,7 +35,10 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Свободных грузовиков</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="#">40</a></div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <a asp-controller="Truck" asp-action="IndexTruck" 
+                           asp-route-status="@TruckStatus.Free">40</a>
+                        </div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-truck fa-2x text-gray-300"></i>
@@ -37,7 +55,9 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Сломанные грузовики</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="#">20</a></div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            <a asp-controller="Truck" asp-action="IndexTruck" asp-route-condition="@TruckCondition.IsBroken">20</a>
+                        </div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-toolbox fa-2x text-gray-300"></i>
@@ -53,10 +73,13 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks</div>
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Открытые заказы</div>
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                    <a asp-controller="Order" asp-action="IndexOrder" asp-route-state="@OrderState.Open">20</a>
+
+                                </div>
                             </div>
                             <div class="col">
                                 <div class="progress progress-sm mr-2">
@@ -79,8 +102,11 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Requests</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Неоплаченные заказы</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            <a asp-controller="Order" asp-action="IndexOrder" asp-route-paid="false">20</a>
+
+                        </div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -89,74 +115,102 @@
             </div>
         </div>
     </div>
+
+
+
 </div>
 
 <!-- Content Row -->
-
+<!-- Truck Line  Chart -->
 <div class="row">
-
-    <!-- Area Chart -->
-    <div class="col-xl-8 col-lg-7">
-        <div class="card shadow mb-4">
+    <div class="col-xl-12 col-md-12 mb-auto">
+        <div class="card shadow">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
+                <h6 class="m-0 font-weight-bold text-primary">Статистика по прибыльности грузовиков</h6>
+
             </div>
             <!-- Card Body -->
-            <div class="card-body">
-                <canvas id="lineChart" height="400"></canvas>
+            <div class="card-body row">
+                <div class="list-group col-md-3" style="max-height: 20px">
+                    @{
+                        foreach (var item in truckStatsVm.ChartDatasets)
+                        {
 
+                            <a asp-controller="Truck" asp-action="Details" asp-route-truck="@item.id" class="list-group-item list-group-item-action">
+                                <span class="mr-2">
+                                    <i class="fas fa-circle" style="color:@item.borderColor "></i> @item.label
+                                </span>
+
+                            </a>
+                        }
+                    }
+                </div>
+
+                <div class="col-md-9">
+                    <canvas id="truckLineChart" height="400"></canvas>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Pie Chart -->
-    <div class="col-xl-4 col-lg-5">
-        <div class="card shadow mb-4">
+</div>
+
+
+<!-- Driver Line  Chart -->
+<div class="row">
+    <div class="col-xl-12 col-md-12 mb-auto">
+
+        <div class="card shadow col-12">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
+                <h6 class="m-0 font-weight-bold text-primary">Статистика по прибыльности водителей</h6>
+
+            </div>
+            <div class="card-body row">
+                <div class="list-group col-md-3">
+                    @{
+                        foreach (var item in driverStatsVm.ChartDatasets)
+                        {
+
+                            <a asp-controller="Truck" asp-action="Details" asp-route-truck="@item.id" class="list-group-item list-group-item-action">
+                                <span class="mr-2">
+                                    <i class="fas fa-circle" style="color:@item.borderColor "></i> @item.label
+                                </span>
+
+                            </a>
+                        }
+                    }
+                </div>
+
+                <!-- Card Body -->
+                <div class="col-md-9">
+                    <canvas id="driverLineChart" height="400"></canvas>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12 col-md-12 mb-auto">
+
+        <!-- Order Line  Chart -->
+        <div class="card shadow col-12">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Статистика по прибыльности</h6>
+
+            </div>
             <!-- Card Body -->
-            <div class="card-body">
-                <div class="">
-                    <canvas id="myChart" width="100" height="50"></canvas>
+            <div class="card-body row">
+                <div class=col-md-3>
+
                 </div>
-                <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-info"></i> Referral
-                    </span>
+                <div class="col-md-9">
+                    <canvas id="earningsLineChart" height="400"></canvas>
                 </div>
+
             </div>
         </div>
     </div>
@@ -165,56 +219,8 @@
 
 @section Scripts{
     <script src="~/vendor/chart.js/Chart.min.js"></script>
-    @{ await Html.RenderPartialAsync("_ChartLinePartial", null);}
-    @*<script>
-        //var canvas = document.getElementById('myChart');
-        //var ctx = canvas.getContext('2d');
-        //var myChart = new Chart(ctx, {
-        //    type: 'bar',
-        //    data: {
-        //        labels: ['Red', 'Blue', 'Yellow'],
-        //        datasets: [{
-        //            label: '# of Votes',
-        //            data: [12, 19, 3],
-        //            backgroundColor: [
-        //                '#19A28',
-        //                '#3E8',
-        //                '#5DC'
-        //            ],
-        //            //borderColor: [
-        //            //    'rgba(255, 99, 132, 1)',
-        //            //    'rgba(54, 162, 235, 1)',
-        //            //    'rgba(255, 206, 86, 1)',
-        //            //    'rgba(75, 192, 192, 1)',
-        //            //    'rgba(153, 102, 255, 1)',
-        //            //    'rgba(255, 159, 64, 1)'
-        //            //],
-        //            borderWidth: 1
-        //        }]
-        //    },
-        //    options: {
-        //        scales: {
-        //            yAxes: [{
-        //                ticks: {
-        //                    beginAtZero: true
-        //                }
-        //            }]
-        //        }
-        //    }
-        //});
-        //canvas.onclick = function (evt) {
-        //    var activePoints = myChart.getElementsAtEvent(evt);
-        //    if (activePoints[0]) {
-        //        var chartData = activePoints[0]['_chart'].config.data;
-        //        var idx = activePoints[0]['_index'];
-
-        //        var label = chartData.labels[idx];
-        //        var value = chartData.datasets[0].backgroundColor[idx];
-
-        //        var url = "http://example.com/?label=" + label + "&value=" + value;
-        //        console.log(url);
-        //        alert(url);
-        //    }
-        //}
-    </script>*@
+    @{ await Html.RenderPartialAsync("_TruckChartLineScriptsPartial", truckStatsVm);}
+    @{ await Html.RenderPartialAsync("_DriverChartLineScriptsPartial", driverStatsVm);}
+    @{ await Html.RenderPartialAsync("_EarningsChartLineScriptsPartial", earningsStatsVm);}
 }
+

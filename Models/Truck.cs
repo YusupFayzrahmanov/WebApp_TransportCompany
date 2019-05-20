@@ -116,6 +116,11 @@ namespace WebApp_TransportCompany.Models
         public IEnumerable<Driver> Drivers { get; set; } = new List<Driver>();
 
         /// <summary>
+        /// Отчеты
+        /// </summary>
+        public IEnumerable<Report> Reports { get; set; }
+
+        /// <summary>
         /// Доп. инфа
         /// </summary>
         public string Note { get; set; }

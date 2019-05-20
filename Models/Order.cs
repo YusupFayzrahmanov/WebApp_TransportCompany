@@ -75,13 +75,13 @@ namespace WebApp_TransportCompany.Models
         /// Дистанция
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? Distance { get; set; }
+        public decimal Distance { get; set; }
 
         /// <summary>
         /// Вес груза
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? CargoWeight { get; set; }
+        public decimal CargoWeight { get; set; }
 
         /// <summary>
         /// Тип груза

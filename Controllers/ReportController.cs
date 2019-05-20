@@ -67,7 +67,7 @@ namespace WebApp_TransportCompany.Controllers
         public async Task<JsonResult> Delete(int item)
         {
             var _item = await _reportRepository.GetReport(item);
-            _reportRepository.DeleteReport(_item);
+            await _reportRepository.DeleteReport(_item);
             return Json(Ok());
         }
 
@@ -88,9 +88,9 @@ namespace WebApp_TransportCompany.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(ReportFormPartialViewModel vm)
+        public async Task<IActionResult> Edit(ReportFormPartialViewModel vm)
         {
-            _reportRepository.UpdateReport(vm.Report);
+            await _reportRepository.UpdateReport(vm.Report);
             return RedirectToAction("IndexReport");
         }
 

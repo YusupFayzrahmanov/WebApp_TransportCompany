@@ -47,6 +47,7 @@ namespace WebApp_TransportCompany.Controllers
         public async Task<IActionResult> Create(Driver driver, int truckId)
         {
             driver.Truck = await _truckRepository.GetTruck(truckId);
+            driver.Identity = await _userManager.GetUserAsync(User);
             await _driverRepository.AddDriver(driver);
             return RedirectToAction("IndexDriver");
         }
@@ -60,7 +61,7 @@ namespace WebApp_TransportCompany.Controllers
         public async Task<JsonResult> Delete(int item)
         {
             var _driver = await _driverRepository.GetDriver(item);
-            _driverRepository.DeleteDriver(_driver);
+            await _driverRepository.DeleteDriver(_driver);
             return Json(Ok());
         }
 
@@ -77,9 +78,9 @@ namespace WebApp_TransportCompany.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(DriverFormPartialViewModel vm)
+        public async Task<IActionResult> Edit(DriverFormPartialViewModel vm)
         {
-            _driverRepository.UpdateDriver(vm.Driver);
+            await _driverRepository.UpdateDriver(vm.Driver);
             return RedirectToAction("IndexDriver");
         }
     }

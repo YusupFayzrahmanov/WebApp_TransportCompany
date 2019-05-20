@@ -23,7 +23,7 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Дата операции
         /// </summary>
-        public DateTime? OperationDate { get; set; }
+        public DateTime OperationDate { get; set; }
 
         /// <summary>
         /// Описание
@@ -39,29 +39,29 @@ namespace WebApp_TransportCompany.Models
         /// Сумма з.п.
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? Amount { get; set; }
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// Период оплаты - старт
         /// </summary>
-        public DateTime? StartPeriod { get; set; }
+        public DateTime StartPeriod { get; set; }
 
         /// <summary>
         /// Период оплаты - конец
         /// </summary>
-        public DateTime? EndPeriod { get; set; }
+        public DateTime EndPeriod { get; set; }
 
         /// <summary>
         /// Списано средств
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? WrittenOff { get; set; }
+        public decimal WrittenOff { get; set; }
 
         /// <summary>
         /// Итого
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? Total { get; set; }
+        public decimal Total { get; set; }
 
         /// <summary>
         /// Доп. инфа

@@ -22,6 +22,8 @@ namespace WebApp_TransportCompany.Data
 
         public DbSet<RefuelingSensor> RefuelingsSensor { get; set; }
 
+        public DbSet<RefuelingReport> RefuelingReports { get; set; }
+
         public DbSet<Salary> Salaries { get; set; }
 
         public DbSet<DriverTruckHistory> DriverTrucksHistory { get; set; }
@@ -31,6 +33,10 @@ namespace WebApp_TransportCompany.Data
         public DbSet<RepairType> RepairTypes { get; set; }
 
         public DbSet<Fine> Fines { get; set; }
+
+        public DbSet<TatneftCard> TatneftCards { get; set; }
+
+        
  
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

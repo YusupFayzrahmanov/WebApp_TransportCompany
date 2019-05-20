@@ -57,14 +57,16 @@ namespace WebApp_TransportCompany.Repositories
                 .ToListAsync();
         }
 
-        public void RemoveFine(Fine fine)
+        public async Task RemoveFine(Fine fine)
         {
             _context.Fines.Remove(fine);
+            await Save();
         }
 
-        public void UpdateFine(Fine fine)
+        public async Task UpdateFine(Fine fine)
         {
             _context.Fines.Update(fine);
+            await Save();
         }
     }
 }

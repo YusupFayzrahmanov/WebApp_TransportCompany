@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebApp_TransportCompany.Data;
 using WebApp_TransportCompany.Models;
+using WebApp_TransportCompany.Models.Enums;
 
 namespace WebApp_TransportCompany.Repositories
 {
@@ -22,9 +23,10 @@ namespace WebApp_TransportCompany.Repositories
             await _context.Trucks.AddAsync(truck);
         }
 
-        public void DeleteTruck(Truck truck)
+        public async Task DeleteTruck(Truck truck)
         {
             _context.Trucks.Remove(truck);
+            await Save();
         }
 
         public async Task<Truck> GetTruck(int id)
@@ -39,6 +41,7 @@ namespace WebApp_TransportCompany.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
+
         public async Task<IEnumerable<Truck>> GetTrucks(IdentityUser user)
         {
             return await _context.Trucks
@@ -52,9 +55,36 @@ namespace WebApp_TransportCompany.Repositories
                 .ToListAsync();
         }
 
-        public void UpdateTruck(Truck truck)
+        public async Task<IEnumerable<Truck>> GetTrucks(IdentityUser user, TruckStatus truckStatus)
+        {
+            return await _context.Trucks
+                .Include(x => x.Drivers)
+                .Include(x => x.Orders)
+                .Include(x => x.RefuelingChecks)
+                .Include(x => x.RefuelingSensors)
+                .Include(x => x.Repairs)
+                .Include(x => x.Wheels)
+                .Where(x => x.IsActual && x.Identity.Id == user.Id && x.Status == truckStatus)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Truck>> GetTrucks(IdentityUser user, TruckCondition truckCondition)
+        {
+            return await _context.Trucks
+                .Include(x => x.Drivers)
+                .Include(x => x.Orders)
+                .Include(x => x.RefuelingChecks)
+                .Include(x => x.RefuelingSensors)
+                .Include(x => x.Repairs)
+                .Include(x => x.Wheels)
+                .Where(x => x.IsActual && x.Identity.Id == user.Id && x.Condition == truckCondition)
+                .ToListAsync();
+        }
+
+        public async Task UpdateTruck(Truck truck)
         {
             _context.Trucks.Update(truck);
+            await Save();
         }
     }
 }

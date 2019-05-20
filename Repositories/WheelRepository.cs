@@ -22,9 +22,10 @@ namespace WebApp_TransportCompany.Repositories
             await _context.Wheels.AddAsync(wheel);
         }
 
-        public void DeleteWheel(Wheel wheel)
+        public async Task DeleteWheel(Wheel wheel)
         {
             _context.Wheels.Remove(wheel);
+            await Save();
         }
 
         public async Task<IEnumerable<Wheel>> GetTruckUnusedWheels(Truck truck)
@@ -76,9 +77,10 @@ namespace WebApp_TransportCompany.Repositories
                 .ToListAsync();
         }
 
-        public void UpdateWheel(Wheel wheel)
+        public async Task UpdateWheel(Wheel wheel)
         {
             _context.Wheels.Update(wheel);
+            await Save();
         }
     }
 }

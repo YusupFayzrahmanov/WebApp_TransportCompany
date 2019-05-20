@@ -7,6 +7,8 @@ namespace WebApp_TransportCompany.Models.Enums
 {
     public enum GasStation
     {
+        None,
+
         Tatneft,
 
         Lukoil

@@ -15,8 +15,8 @@ namespace WebApp_TransportCompany.Repositories
 
         Task AddDriver(Driver driver);
 
-        void DeleteDriver(Driver driver);
+        Task DeleteDriver(Driver driver);
 
-        void UpdateDriver(Driver driver);
+        Task UpdateDriver(Driver driver);
     }
 }

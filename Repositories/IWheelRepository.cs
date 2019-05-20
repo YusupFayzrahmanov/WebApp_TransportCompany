@@ -21,9 +21,9 @@ namespace WebApp_TransportCompany.Repositories
 
         Task AddWheel(Wheel wheel);
 
-        void DeleteWheel(Wheel wheel);
+        Task DeleteWheel(Wheel wheel);
 
-        void UpdateWheel(Wheel wheel);
+        Task UpdateWheel(Wheel wheel);
 
 
     }

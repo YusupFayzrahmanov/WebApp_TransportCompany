@@ -23,9 +23,9 @@ namespace WebApp_TransportCompany.Repositories
 
         Task AddRepair(Repair repair);
 
-        void DeleteRepair(Repair repair);
+        Task DeleteRepair(Repair repair);
 
-        void UpdateRepair(Repair repair);
+        Task UpdateRepair(Repair repair);
 
 
         Task<IEnumerable<RepairType>> GetRepairTypes(IdentityUser identityUser);
@@ -34,9 +34,9 @@ namespace WebApp_TransportCompany.Repositories
 
         Task AddRepairType(RepairType repairType);
 
-        void UpdateRepairType(RepairType repairType);
+        Task UpdateRepairType(RepairType repairType);
 
-        void RemoveRepairType(RepairType repairType);
+        Task RemoveRepairType(RepairType repairType);
 
     }
 }

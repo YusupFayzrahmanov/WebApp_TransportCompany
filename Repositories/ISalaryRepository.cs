@@ -19,8 +19,8 @@ namespace WebApp_TransportCompany.Repositories
 
         Task AddSalary(Salary salary);
 
-        void DeleteSalary(Salary salary);
+        Task DeleteSalary(Salary salary);
 
-        void UpdateSalary(Salary salary);
+        Task UpdateSalary(Salary salary);
     }
 }

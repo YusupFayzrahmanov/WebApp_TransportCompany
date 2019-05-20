@@ -47,7 +47,7 @@ namespace WebApp_TransportCompany.Models
         /// </summary>
         /// 
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
 
         /// <summary>
         /// Дата предыдущего ремонта

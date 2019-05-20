@@ -37,14 +37,16 @@ namespace WebApp_TransportCompany.Repositories
             await _context.RefuelingsSensor.AddAsync(refuelingSensor);
         }
 
-        public void DeleteRefuelingCheck(RefuelingCheck refuelingCheck)
+        public async Task DeleteRefuelingCheck(RefuelingCheck refuelingCheck)
         {
             _context.RefuelingsCheck.Remove(refuelingCheck);
+            await Save();
         }
 
-        public void DeleteRefuelingSensor(RefuelingSensor refuelingSensor)
+        public async Task DeleteRefuelingSensor(RefuelingSensor refuelingSensor)
         {
             _context.RefuelingsSensor.Remove(refuelingSensor);
+            await Save();
         }
 
         public async Task<IEnumerable<RefuelingCheck>> GetAllRefuelingCheck(IdentityUser identityUser)
@@ -135,14 +137,16 @@ namespace WebApp_TransportCompany.Repositories
                 .ToListAsync();
         }
 
-        public void UpdateRefuelingCheck(RefuelingCheck refuelingCheck)
+        public async Task UpdateRefuelingCheck(RefuelingCheck refuelingCheck)
         {
             _context.RefuelingsCheck.Update(refuelingCheck);
+            await Save();
         }
 
-        public void UpdateRefuelingSensor(RefuelingSensor refuelingSensor)
+        public async Task UpdateRefuelingSensor(RefuelingSensor refuelingSensor)
         {
             _context.RefuelingsSensor.Update(refuelingSensor);
+            await Save();
         }
     }
 }

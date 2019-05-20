@@ -27,9 +27,10 @@ namespace WebApp_TransportCompany.Repositories
             await _context.RepairTypes.AddAsync(repairType);
         }
 
-        public void DeleteRepair(Repair repair)
+        public async Task DeleteRepair(Repair repair)
         {
             _context.Repairs.Remove(repair);
+            await Save();
         }
 
         public async Task<Repair> GetRepair(int id)
@@ -117,19 +118,22 @@ namespace WebApp_TransportCompany.Repositories
                 .ToListAsync();
         }
 
-        public void RemoveRepairType(RepairType repairType)
+        public async Task RemoveRepairType(RepairType repairType)
         {
             _context.RepairTypes.Remove(repairType);
+            await Save();
         }
 
-        public void UpdateRepair(Repair repair)
+        public async Task UpdateRepair(Repair repair)
         {
             _context.Repairs.Update(repair);
+            await Save();
         }
 
-        public void UpdateRepairType(RepairType repairType)
+        public async Task UpdateRepairType(RepairType repairType)
         {
             _context.RepairTypes.Update(repairType);
+            await Save();
         }
     }
 }

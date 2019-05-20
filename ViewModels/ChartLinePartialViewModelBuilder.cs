@@ -18,7 +18,7 @@ namespace WebApp_TransportCompany.ViewModels
             {
                 Labels = JsonConvert.SerializeObject(labels),
 
-                ChartDatasets = JsonConvert.SerializeObject(chartDatasets)
+                ChartDatasets = chartDatasets
             };
 
         }

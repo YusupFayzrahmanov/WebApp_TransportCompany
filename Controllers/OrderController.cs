@@ -58,7 +58,7 @@ namespace WebApp_TransportCompany.Controllers
             var _truck = await _truckRepository.GetTruck(truckId);
             _truck.Status = Models.Enums.TruckStatus.InFlight;
             order.Truck = _truck;
-            _truckRepository.UpdateTruck(_truck);
+            await _truckRepository.UpdateTruck(_truck);
             await _orderRepository.AddOrder(order);
             return RedirectToAction("IndexOrder");
         }
@@ -68,8 +68,8 @@ namespace WebApp_TransportCompany.Controllers
         {
             var _item = await _orderRepository.GetOrder(item);
             _item.Truck.Status = Models.Enums.TruckStatus.Free;
-            _truckRepository.UpdateTruck(_item.Truck);
-            _orderRepository.DeleteOrder(_item);
+            await _truckRepository.UpdateTruck(_item.Truck);
+            await _orderRepository.DeleteOrder(_item);
             return Json(Ok());
         }
 
@@ -97,15 +97,14 @@ namespace WebApp_TransportCompany.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Close(int id)
+        public async Task<JsonResult> Close(int item)
         {
-            var _order = await _orderRepository.GetOrder(id);
+            var _order = await _orderRepository.GetOrder(item);
             _order.State = Models.Enums.OrderState.Close;
             _order.Truck.Status = Models.Enums.TruckStatus.Free;
-            _truckRepository.UpdateTruck(_order.Truck);
-            _orderRepository.UpdateOrder(_order);
-            return RedirectToAction("IndexOrder");
+            await _truckRepository.UpdateTruck(_order.Truck);
+            await _orderRepository.UpdateOrder(_order);
+            return Json(Ok());
         }
         
     }

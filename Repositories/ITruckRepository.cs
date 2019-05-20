@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApp_TransportCompany.Models;
+using WebApp_TransportCompany.Models.Enums;
 
 namespace WebApp_TransportCompany.Repositories
 {
@@ -11,12 +12,16 @@ namespace WebApp_TransportCompany.Repositories
     {
         Task<IEnumerable<Truck>> GetTrucks(IdentityUser user);
 
+        Task<IEnumerable<Truck>> GetTrucks(IdentityUser user, TruckStatus truckStatus);
+
+        Task<IEnumerable<Truck>> GetTrucks(IdentityUser user, TruckCondition truckCondition);
+
         Task<Truck> GetTruck(int id);
 
         Task AddTruck(Truck truck);
 
-        void DeleteTruck(Truck truck);
+        Task DeleteTruck(Truck truck);
 
-        void UpdateTruck(Truck truck);
+        Task UpdateTruck(Truck truck);
     }
 }

@@ -62,7 +62,7 @@ namespace WebApp_TransportCompany.Controllers
         [HttpPost]
         public async Task<JsonResult> Delete(int item)
         {
-            _repairRepository.DeleteRepair(await _repairRepository.GetRepair(item));
+            await _repairRepository.DeleteRepair(await _repairRepository.GetRepair(item));
             return Json(Ok());
         }
 
@@ -83,9 +83,9 @@ namespace WebApp_TransportCompany.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(RepairFormPartialViewModel vm)
+        public async Task<IActionResult> Edit(RepairFormPartialViewModel vm)
         {
-            _repairRepository.UpdateRepair(vm.Repair);
+            await _repairRepository.UpdateRepair(vm.Repair);
             return RedirectToAction("IndexRepair");
         }
 

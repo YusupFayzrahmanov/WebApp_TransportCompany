@@ -66,6 +66,8 @@ namespace WebApp_TransportCompany
             services.AddTransient<ISalaryRepository, SalaryRepository>();
             services.AddTransient<IWheelRepository, WheelRepository>();
             services.AddTransient<IRefuelingRepository, RefuelingRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IStatisticsRepository, StatisticsRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

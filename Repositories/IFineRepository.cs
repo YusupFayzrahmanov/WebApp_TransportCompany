@@ -19,9 +19,9 @@ namespace WebApp_TransportCompany.Repositories
 
         Task AddFine(Fine fine);
 
-        void UpdateFine(Fine fine);
+        Task UpdateFine(Fine fine);
 
-        void RemoveFine(Fine fine);
+        Task RemoveFine(Fine fine);
 
     }
 }

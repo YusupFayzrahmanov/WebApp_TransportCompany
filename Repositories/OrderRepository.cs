@@ -20,11 +20,13 @@ namespace WebApp_TransportCompany.Repositories
         public async Task AddOrder(Order order)
         {
             await _context.Orders.AddAsync(order);
+            await Save();
         }
 
-        public void DeleteOrder(Order order)
+        public async Task DeleteOrder(Order order)
         {
             _context.Orders.Remove(order);
+            await Save();
         }
 
         public async Task<Order> GetOrder(int id)
@@ -56,9 +58,10 @@ namespace WebApp_TransportCompany.Repositories
                 .ToListAsync();
         }
 
-        public void UpdateOrder(Order order)
+        public async Task UpdateOrder(Order order)
         {
             _context.Orders.Update(order);
+            await Save();
         }
     }
 }

@@ -22,9 +22,10 @@ namespace WebApp_TransportCompany.Repositories
             await _context.Reports.AddAsync(report);
         }
 
-        public void DeleteReport(Report report)
+        public async Task DeleteReport(Report report)
         {
             _context.Reports.Remove(report);
+            await Save();
         }
 
         public async Task<IEnumerable<Report>> GetDriverReports(Driver driver)
@@ -71,9 +72,10 @@ namespace WebApp_TransportCompany.Repositories
                 .ToListAsync();
         }
 
-        public void UpdateReport(Report report)
+        public async Task UpdateReport(Report report)
         {
             _context.Reports.Update(report);
+            await Save();
         }
     }
 }

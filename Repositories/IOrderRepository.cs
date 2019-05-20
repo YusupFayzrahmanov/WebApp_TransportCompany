@@ -17,8 +17,8 @@ namespace WebApp_TransportCompany.Repositories
 
         Task AddOrder(Order order);
 
-        void DeleteOrder(Order order);
+        Task DeleteOrder(Order order);
 
-        void UpdateOrder(Order order);
+        Task UpdateOrder(Order order);
     }
 }

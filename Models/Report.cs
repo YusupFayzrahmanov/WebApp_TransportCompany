@@ -39,53 +39,52 @@ namespace WebApp_TransportCompany.Models
         /// Оставшееся топливо перед отбытием
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? DepartureRemainderFuel { get; set; }
+        public decimal DepartureRemainderFuel { get; set; }
 
         /// <summary>
         /// Оставшееся топливо после прибытия
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? ArrivalRemainderFuel { get; set; }
+        public decimal ArrivalRemainderFuel { get; set; }
 
         /// <summary>
         /// Пробег до отбытия
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? DepartureMileage { get; set; }
+        public decimal DepartureMileage { get; set; }
 
         /// <summary>
         /// Пробег после прибытия
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? ArrivalMileage { get; set; }
+        public decimal ArrivalMileage { get; set; }
 
         /// <summary>
         /// Получено денег
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? ReceivedMoney { get; set; }
+        public decimal ReceivedMoney { get; set; }
 
         /// <summary>
         /// Потрачено денег
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? SpentMoney { get; set; }
+        public decimal SpentMoney { get; set; }
 
         /// <summary>
         /// Средняя цена топлива
         /// </summary>
-        public decimal? AverageFuelPrice { get; set; }
+        public decimal AverageFuelPrice { get; set; }
 
         /// <summary>
         /// Средний расход топлива
         /// </summary>
-        public decimal? AverageFuelConsumption { get; set; }
+        public decimal AverageFuelConsumption { get; set; }
 
         /// <summary>
         /// Доп. инфа
         /// </summary>
         public string Note { get; set; }
-
 
     }
 }

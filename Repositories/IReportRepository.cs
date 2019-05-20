@@ -20,8 +20,8 @@ namespace WebApp_TransportCompany.Repositories
 
         Task AddReport(Report report);
 
-        void DeleteReport(Report report);
+        Task DeleteReport(Report report);
 
-        void UpdateReport(Report report);
+        Task UpdateReport(Report report);
     }
 }

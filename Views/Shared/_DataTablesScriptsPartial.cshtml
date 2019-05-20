@@ -58,6 +58,27 @@
                 }
 
             });
+            $('.close-order-item-btn').click(function () {
+                var itemId = $(this).attr('btn-close-order-item-id');
+                var row = dataTable.row($(this).parents('tr'));
+                if (confirm("Вы действительно хотите закрыть заказ " + row.data()[1] +"?")) {
+                    $.post('@Url.Action("Close")' + '?item=' + itemId, function () {
+                    new PNotify({
+                        title: 'Успешно!',
+                        text: 'Заказ закрыт.',
+                        type: 'success'
+                    });
+                })
+                    .fail(function () {
+                        new PNotify({
+                            title: 'Ошибка!',
+                            text: 'Заказ не закрыт.',
+                            type: 'error'
+                        });
+                    });
+                }
+
+            });
         });
 
 

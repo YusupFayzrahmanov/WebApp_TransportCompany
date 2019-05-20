@@ -36,16 +36,7 @@
                         <td>@_item.State.GetDisplayName()</td>
                         <td>@_item.CompanyName</td>
                         <td>@_item.TypeOfCargo.GetDisplayName()</td>
-                        <td>
-                            @if (_item.Distance.HasValue)
-                            {
-                                _item.Distance.Value.ToString();
-                            }
-                            else
-                            {
-                                <text>None</text>
-                            }
-                        </td>
+                        <td>@_item.Distance.ToString()</td>
                         <td>@_item.Price</td>
                         <td>
                             <div class="dropdown">
@@ -59,9 +50,9 @@
                                     <a asp-controller="Order" asp-action="Edit" class="dropdown-item" asp-route-item="@_item.Id">
                                         Изменить заказ
                                     </a>
-                                    <a asp-controller="Order" asp-action="Close" class="dropdown-item" asp-route-item="@_item.Id">
+                                    <button type="button" class="dropdown-item close-order-item-btn" btn-close-order-item-id="@_item.Id">
                                         Закрыть заказ
-                                    </a>
+                                    </button>
                                     <button type="button" class="dropdown-item delete-item-btn" btn-delete-item-id="@_item.Id">
                                         Удалить
                                     </button>

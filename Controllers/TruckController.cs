@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using WebApp_TransportCompany.Models.Enums;
+using WebApp_TransportCompany.Repositories;
 
 namespace WebApp_TransportCompany.Controllers
 {
@@ -17,41 +19,54 @@ namespace WebApp_TransportCompany.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly ITruckRepository _truckRepository;
 
-        public TruckController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public TruckController(ApplicationDbContext context, 
+            UserManager<IdentityUser> userManager, ITruckRepository truckRepository)
         {
             _context = context;
             _userManager = userManager;
+            _truckRepository = truckRepository;
         }
 
         // GET: Truck
-        public async Task<IActionResult> IndexTruck()
+        public async Task<IActionResult> IndexTruck(TruckStatus? status, TruckCondition? condition)
         {
             var _identityUser = await _userManager.GetUserAsync(User);
-            var _vm = new TruckViewModel()
+            var _vm = new TruckViewModel();
+            if (status.HasValue)
             {
-                Trucks = await _context.Trucks.Where(x => x.Identity.Id == _identityUser.Id && x.IsActual).ToListAsync()
-            };
+                _vm.Trucks = await _truckRepository.GetTrucks(_identityUser, status.Value);
+            }
+            if(condition.HasValue)
+            {
+                _vm.Trucks = await _truckRepository.GetTrucks(_identityUser, condition.Value);
+            }
+            else
+            {
+                _vm.Trucks = await _truckRepository.GetTrucks(_identityUser);
+            }
             return View(_vm);
         }
 
         // GET: Truck/Details/5
         public async Task<IActionResult> Details(int truck)
         {
-            var _truck = await _context.Trucks.FindAsync(truck);
-            var _orders = _context.Orders.Where(x => x.Truck.Id == truck);
-            var _repairs = _context.Repairs.Where(x => x.Truck.Id == truck);
-            var _reports = _context.Reports.Where(x => x.Truck.Id == truck);
-            var _wheels = await _context.Wheels.Where(x => x.Truck.Id == truck && x.IsUsed).ToListAsync();
+            var _truck = await _truckRepository.GetTruck(truck);
+            //var _orders = _context.Orders.Where(x => x.Truck.Id == truck);
+            //var _repairs = _context.Repairs.Where(x => x.Truck.Id == truck);
+            //var _reports = _context.Reports.Where(x => x.Truck.Id == truck);
+            //var _wheels = await _context.Wheels.Where(x => x.Truck.Id == truck && x.IsUsed).ToListAsync();
 
             var vm = new TruckDetailsViewModel()
             {
                 Truck = _truck,
-                Drivers = await _context.Drivers.Where(x => x.Truck.Id == truck).ToListAsync(),
-                Orders = await _orders.Skip(Math.Max(0, _orders.Count() - 10)).ToListAsync(),
-                Repairs = await _repairs.Skip(Math.Max(0, _repairs.Count() - 10)).ToListAsync(),
-                Reports = await _reports.Skip(Math.Max(0, _reports.Count() - 10)).ToListAsync(),
-                Wheels = _wheels != null ? _wheels : new List<Wheel>()
+                Drivers = _truck.Drivers,
+                Orders = _truck.Orders,
+                //Repairs = await _repairs.Skip(Math.Max(0, _repairs.Count() - 10)).ToListAsync(),
+                Repairs = _truck.Repairs,
+                Reports = _truck.Reports,
+                Wheels = _truck.Wheels.ToList()
             };
 
             return View(vm);
@@ -64,32 +79,29 @@ namespace WebApp_TransportCompany.Controllers
         {
             truck.Identity = await _userManager.GetUserAsync(User);
             truck.IsActual = true;
-            await _context.Trucks.AddAsync(truck);
-            await _context.SaveChangesAsync();
+            await _truckRepository.AddTruck(truck);
             return RedirectToAction("IndexTruck");
         }
 
         [HttpPost]
         public async Task<JsonResult> Delete(int item)
         {
-            var _item = await _context.Trucks.FindAsync(item);
+            var _item = await _truckRepository.GetTruck(item);
             _item.IsActual = false;
-            _context.Trucks.Update(_item);
-            await _context.SaveChangesAsync();
+            await _truckRepository.UpdateTruck(_item);
             return Json(Ok());
         }
 
-        public async Task<IActionResult> Edit(int? item)
+        public async Task<IActionResult> Edit(int item)
         {
-            return View(new TruckFormPartialViewModel() { Truck = await _context.Trucks.FindAsync(item) });
+            return View(new TruckFormPartialViewModel() { Truck = await _truckRepository.GetTruck(item) });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(TruckFormPartialViewModel vm)
         {
-            _context.Trucks.Update(vm.Truck);
-            await _context.SaveChangesAsync();
+            await _truckRepository.UpdateTruck(vm.Truck);
             return RedirectToAction("IndexTruck");
         }
 

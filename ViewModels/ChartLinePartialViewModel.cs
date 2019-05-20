@@ -7,7 +7,7 @@ namespace WebApp_TransportCompany.ViewModels
 {
     public class ChartLinePartialViewModel
     {
-        public string ChartDatasets { get; set; }
+        public IEnumerable<ChartDataset> ChartDatasets { get; set; }
 
         public string Labels { get; set; }
 

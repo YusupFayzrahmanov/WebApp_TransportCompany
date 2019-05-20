@@ -20,11 +20,13 @@ namespace WebApp_TransportCompany.Repositories
         public async Task AddDriver(Driver driver)
         {
             await _context.Drivers.AddAsync(driver);
+            await Save();
         }
 
-        public void DeleteDriver(Driver driver)
+        public async Task DeleteDriver(Driver driver)
         {
             _context.Drivers.Remove(driver);
+            await base.Save();
         }
 
         public async Task<Driver> GetDriver(int id)
@@ -54,9 +56,10 @@ namespace WebApp_TransportCompany.Repositories
                 .ToListAsync();
         }
 
-        public void UpdateDriver(Driver driver)
+        public async Task UpdateDriver(Driver driver)
         {
             _context.Drivers.Update(driver);
+            await Save();
         }
     }
 }

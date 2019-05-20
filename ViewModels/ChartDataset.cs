@@ -7,10 +7,14 @@ namespace WebApp_TransportCompany.ViewModels
 {
     public class ChartDataset
     {
-        public string Label { get; set; }
+        public int id { get; set; }
 
-        public string Color { get; set; }
+        public string label { get; set; }
 
-        public string Data { get; set; }
+        public string backgroundColor { get; set; }
+
+        public string borderColor { get; set; }
+
+        public string data { get; set; }
     }
 }

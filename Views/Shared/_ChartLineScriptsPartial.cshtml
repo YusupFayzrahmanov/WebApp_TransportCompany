@@ -38,10 +38,11 @@
     var datasets = [];
     chartDatasets.forEach(function (item, i, arr) {
         datasets.push({
-            label: item.Label,
+            label: item.label,
             lineTension: 0.3,
-            borderColor: item.Color,
-            data: item.Data
+            borderColor: item.borderColor,
+            backgroundColor: item.backgroundColor,
+            data: item.data
         });
     });
     var myLineChart = new Chart(ctx, {

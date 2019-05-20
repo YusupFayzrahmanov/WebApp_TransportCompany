@@ -28,7 +28,7 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Номер карты татнефть
         /// </summary>
-        public string TatneftCardNumber { get; set; }
+        public TatneftCard TatneftCard { get; set; }
 
         /// <summary>
         /// Имя
