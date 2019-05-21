@@ -96,15 +96,24 @@ namespace WebApp_TransportCompany.Controllers
             return RedirectToAction("IndexOrder");
         }
 
-        [HttpPost]
-        public async Task<JsonResult> Close(int item)
+        [HttpGet]
+        public async Task<IActionResult> Close(int item)
         {
             var _order = await _orderRepository.GetOrder(item);
             _order.State = Models.Enums.OrderState.Close;
             _order.Truck.Status = Models.Enums.TruckStatus.Free;
             await _truckRepository.UpdateTruck(_order.Truck);
             await _orderRepository.UpdateOrder(_order);
-            return Json(Ok());
+            return RedirectToAction("IndexOrder");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ClosePayment(int item)
+        {
+            var _order = await _orderRepository.GetOrder(item);
+            _order.IsPaid = true;
+            await _orderRepository.UpdateOrder(_order);
+            return RedirectToAction("IndexOrder");
         }
         
     }

@@ -7,31 +7,34 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApp_TransportCompany.Data;
 using WebApp_TransportCompany.Models;
+using WebApp_TransportCompany.Repositories;
 using WebApp_TransportCompany.ViewModels;
 
 namespace WebApp_TransportCompany.Controllers
 {
     public class SalaryController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IUserRepository _userRepository;
 
-        public SalaryController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        private readonly ISalaryRepository _salaryRepository;
+
+        public SalaryController(IUserRepository userRepository,
+            ISalaryRepository salaryRepository)
         {
-            _context = context;
-            _userManager = userManager;
+            _userRepository = userRepository;
+            _salaryRepository = salaryRepository;
         }
 
         // GET: Order
-        public async Task<IActionResult> IndexSalary(IEnumerable<int> salary)
+        public IActionResult IndexSalary(string query)
         {
-            var _identityUser = await _userManager.GetUserAsync(User);
-            var vm = new SalaryViewModel()
-            {
-               // Salaries = await _context.Salaries.Where(x => x.Identity.Id == _identityUser.Id).ToListAsync(),
-               // Drivers = await _context.Drivers.Where(x => x.Identity.Id == _identityUser.Id).ToListAsync()
-            };
-            return View(vm);
+            //var _identityUser = await _userManager.GetUserAsync(User);
+            //var vm = new SalaryViewModel()
+            //{
+            //   // Salaries = await _context.Salaries.Where(x => x.Identity.Id == _identityUser.Id).ToListAsync(),
+            //   // Drivers = await _context.Drivers.Where(x => x.Identity.Id == _identityUser.Id).ToListAsync()
+            //};
+            return View();
         }
 
 
@@ -41,40 +44,32 @@ namespace WebApp_TransportCompany.Controllers
         public async Task<IActionResult> Create(Salary salary, int driverId)
         {
 
-            return RedirectToAction("IndexOrder");
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         [HttpPost]
         public async Task<JsonResult> Delete(int item)
         {
-            _context.Salaries.Remove(await _context.Salaries.FindAsync(item));
-            await _context.SaveChangesAsync();
+            await _salaryRepository.DeleteSalary(await _salaryRepository.GetSalary(item));
             return Json(Ok());
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            return View(await _context.Salaries.Include(x => x.Driver)
-                .FirstOrDefaultAsync(x => x.Id == id));
+            return View(await _salaryRepository.GetSalary(id));
         }
 
-        public async Task<IActionResult> Edit(int? item)
+        public async Task<IActionResult> Edit(int item)
         {
-            var _identityUser = await _userManager.GetUserAsync(User);
-            return View(new OrderFormPartialViewModel()
-            {
-                Order = await _context.Orders.FindAsync(item),
-                Trucks = await _context.Trucks.Where(x => x.Identity.Id == _identityUser.Id && x.IsActual).ToListAsync()
-            });
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(OrderFormPartialViewModel vm)
+        public async Task<IActionResult> Edit()
         {
-            _context.Orders.Update(vm.Order);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("IndexOrder");
+            
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
 

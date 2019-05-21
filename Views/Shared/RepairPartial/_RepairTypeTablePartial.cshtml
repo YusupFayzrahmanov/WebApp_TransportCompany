@@ -1,0 +1,44 @@
+﻿@model IEnumerable<RepairType>
+<table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Наименование</th>
+            <th>Ресурс по километрам</th>
+            <th>Временной ресурс</th>
+            <th data-orderable="false"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                foreach (var _item in Model)
+                {
+                    <tr>
+                        <td>@_item.Name</td>
+                        <td>@_item.KilometersResource</td>
+                        <td>@_item.TimeResource</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-group" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a asp-controller="Repair" asp-action="EditRepairType" class="dropdown-item" asp-route-item="@_item.Id">
+                                        Изменить
+                                    </a>
+                                    <a asp-controller="Repair" asp-action="DeleteRepairType" class="dropdown-item" asp-route-item="@_item.Id">
+                                        Удалить
+                                    </a>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                }
+            }
+
+        }
+    </tbody>
+</table>

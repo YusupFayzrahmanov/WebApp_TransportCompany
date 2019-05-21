@@ -1,7 +1,16 @@
 ﻿@using WebApp_TransportCompany.Models.Enums
+@using WebApp_TransportCompany.Repositories
+@using WebApp_TransportCompany.ViewModels
 @model WebApp_TransportCompany.ViewModels.TruckDetailsViewModel
+@inject IStatisticsRepository _statisticsRepository
+@inject IUserRepository _userRepository
 @{
     ViewData["Title"] = "Details";
+    var identityUser = await _userRepository.GetIdentityUser(User);
+    List<ChartDataset> chartDatasets = new List<ChartDataset>();
+    chartDatasets.Add(await _statisticsRepository.GetTruckStatistics(identityUser, null, Model.Truck.Id));
+    var truckStatsVm = new ChartLinePartialViewModelBuilder()
+       .Build(chartDatasets);
 }
 
 <div class="row ">
@@ -86,6 +95,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="card-header">
+                                    <h2>Статистика</h2>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="truckLineChart" height="400"></canvas>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
                     <div class="tab-pane fade" id="nav-drivers" role="tabpanel" aria-labelledby="nav-driver-tab">
@@ -140,13 +160,13 @@
 
                     <div class="tab-pane fade" id="nav-orders" role="tabpanel" aria-labelledby="nav-order-tab">
                         <div class="container row">
-                            <div class="card-body col-auto">
-                                <h1>Последнии 10 заказов</h1>
-                            </div>
-                            <div class="card-body col-auto">
-                                <a asp-controller="Order" asp-action="GetOrderByTruck" asp-route-id="@Model.Truck.Id" class="btn btn-primary">Просмотреть все</a>
-                            </div>
-                            <div class="card-body col-auto">
+                            @*<div class="card-body col-auto">
+                                    <h1>Последнии 10 заказов</h1>
+                                </div>
+                                <div class="card-body col-auto">
+                                    <a asp-controller="Order" asp-action="GetOrderByTruck" asp-route-id="@Model.Truck.Id" class="btn btn-primary">Просмотреть все</a>
+                                </div>*@
+                            <div class="card-body col-xl-12">
                                 <div class="table-responsive">
                                     @{ await Html.RenderPartialAsync("_OrderTablePartial", Model.Orders);}
                                 </div>
@@ -156,13 +176,13 @@
 
                     <div class="tab-pane fade" id="nav-repairs" role="tabpanel" aria-labelledby="nav-repair-tab">
                         <div class="container row">
-                            <div class="card-body col-auto">
+                            @*<div class="card-body col-auto">
                                 <h1>Последнии 10 ремонтов</h1>
                             </div>
                             <div class="card-body col-auto">
                                 <a asp-controller="Repair" asp-action="GetRepairByTruck" asp-route-id="@Model.Truck.Id" class="btn btn-primary">Просмотреть все</a>
-                            </div>
-                            <div class="card-body col-auto">
+                            </div>*@
+                            <div class="card-body">
                                 <div class="table-responsive">
                                     @{ await Html.RenderPartialAsync("_RepairTablePartial", Model.Repairs);}
                                 </div>
@@ -179,13 +199,13 @@
                     </div>
                     <div class="tab-pane fade" id="nav-reports" role="tabpanel" aria-labelledby="nav-report-tab">
                         <div class="container row">
-                            <div class="card-body col-auto">
+                            @*<div class="card-body col-auto">
                                 <h1>Последнии 10 отчетов</h1>
                             </div>
                             <div class="card-body col-auto">
                                 <a asp-controller="Report" asp-action="GetReportByTruck" asp-route-id="@Model.Truck.Id" class="btn btn-primary">Просмотреть все</a>
-                            </div>
-                            <div class="card-body col-auto">
+                            </div>*@
+                            <div class="card-body">
                                 <div class="table-responsive">
                                     @{ await Html.RenderPartialAsync("_ReportTablePartial", Model.Reports);}
                                 </div>
@@ -244,7 +264,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                   
+
                                                 </li>
                                             }
                                             else
@@ -273,10 +293,10 @@
                                                                     </a>
                                                                 </div>
                                                             </div>
-                                                            
+
                                                         </div>
                                                     </div>
-                                                    
+
                                                 </li>
                                             }
                                         }
@@ -366,7 +386,7 @@
     </div>
 </div>
 
-@section Scripts{ 
+@section Scripts{
     <script>
         $(document).ready(function () {
             $('.wheel-add').click(function () {
@@ -375,4 +395,7 @@
             });
         });
     </script>
+    <script src="~/vendor/chart.js/Chart.min.js"></script>
+    <partial name="~/Views/Shared/_DataTablesScriptsPartial.cshtml" />
+    @{ await Html.RenderPartialAsync("_TruckChartLineScriptsPartial", truckStatsVm);}
 }

@@ -5,9 +5,8 @@
         <tr>
             <th>Номер</th>
             <th>Наименование</th>
-            <th>Модель</th>
             <th>Тип</th>
-            <th>Год выпуска</th>
+            <th>Т/З прицепа</th>
             <th>Пробег</th>
             <th>Состояние</th>
             <th>Статус</th>
@@ -23,10 +22,10 @@
                 {
                     <tr>
                         <td>@_item.TruckLicState</td>
-                        <td>@_item.Name</td>
-                        <td>@_item.Model</td>
+                        <td>@_item.Name @_item.Model</td>
                         <td>@_item.Type.GetDisplayName()</td>
-                        <td>
+                        <td>@_item.TrailerLicState</td>
+                        @*<td>
                             @if (_item.YearOfIssue.HasValue)
                             {
                                 @_item.YearOfIssue.Value.Date.ToShortDateString()
@@ -36,7 +35,7 @@
                                 <label>None</label>
                             }
 
-                        </td>
+                        </td>*@
                         <td>@_item.Mileage</td>
                         <td>@_item.Condition.GetDisplayName()</td>
                         <td>@_item.Status.GetDisplayName()</td>

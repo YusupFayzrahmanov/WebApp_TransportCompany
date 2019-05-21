@@ -22,6 +22,11 @@ namespace WebApp_TransportCompany.Repositories
             await _context.RefuelingsCheck.AddRangeAsync(refuelingCheck);
         }
 
+        public async Task AddRangeRefuelingReport(IEnumerable<RefuelingReport> refuelingReport)
+        {
+            await _context.RefuelingReports.AddRangeAsync(refuelingReport);
+        }
+
         public async Task AddRangeRefuelingSensor(IEnumerable<RefuelingSensor> refuelingSensor)
         {
             await _context.RefuelingsSensor.AddRangeAsync(refuelingSensor);
@@ -32,6 +37,11 @@ namespace WebApp_TransportCompany.Repositories
             await _context.RefuelingsCheck.AddAsync(refuelingCheck);
         }
 
+        public async Task AddRefuelingReport(RefuelingReport refuelingReport)
+        {
+            await _context.RefuelingReports.AddAsync(refuelingReport);
+        }
+
         public async Task AddRefuelingSensor(RefuelingSensor refuelingSensor)
         {
             await _context.RefuelingsSensor.AddAsync(refuelingSensor);
@@ -40,6 +50,12 @@ namespace WebApp_TransportCompany.Repositories
         public async Task DeleteRefuelingCheck(RefuelingCheck refuelingCheck)
         {
             _context.RefuelingsCheck.Remove(refuelingCheck);
+            await Save();
+        }
+
+        public async Task DeleteRefuelingReport(RefuelingReport refuelingReport)
+        {
+            _context.RefuelingReports.Remove(refuelingReport);
             await Save();
         }
 
@@ -58,6 +74,15 @@ namespace WebApp_TransportCompany.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<RefuelingReport>> GetAllRefuelingReport(IdentityUser identityUser)
+        {
+            return await _context.RefuelingReports
+                .Include(x => x.Driver)
+                .Include(x => x.Truck)
+                .Where(x => x.Truck.Identity.Id == identityUser.Id)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<RefuelingSensor>> GetAllRefuelingSensor(IdentityUser identityUser)
         {
             return await _context.RefuelingsSensor
@@ -70,6 +95,15 @@ namespace WebApp_TransportCompany.Repositories
         public async Task<IEnumerable<RefuelingCheck>> GetDriverRefuelingChecks(Driver driver)
         {
             return await _context.RefuelingsCheck
+                .Include(x => x.Driver)
+                .Include(x => x.Truck)
+                .Where(x => x.Driver.Id == driver.Id)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<RefuelingReport>> GetDriverRefuelingReport(Driver driver)
+        {
+            return await _context.RefuelingReports
                 .Include(x => x.Driver)
                 .Include(x => x.Truck)
                 .Where(x => x.Driver.Id == driver.Id)
@@ -102,6 +136,23 @@ namespace WebApp_TransportCompany.Repositories
                 .ToListAsync();
         }
 
+        public async Task<RefuelingReport> GetRefuelingReport(int id)
+        {
+            return await _context.RefuelingReports
+                .Include(x => x.Driver)
+                .Include(x => x.Truck)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<RefuelingReport>> GetRefuelingReportByDate(DateTime start, DateTime end)
+        {
+            return await _context.RefuelingReports
+               .Include(x => x.Driver)
+               .Include(x => x.Truck)
+               .Where(x => x.RefuelDate >= start && x.RefuelDate <= end)
+               .ToListAsync();
+        }
+
         public async Task<RefuelingSensor> GetRefuelingSensor(int id)
         {
             return await _context.RefuelingsSensor
@@ -128,6 +179,15 @@ namespace WebApp_TransportCompany.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<RefuelingReport>> GetTruckRefuelingReport(Truck truck)
+        {
+            return await _context.RefuelingReports
+                .Include(x => x.Driver)
+                .Include(x => x.Truck)
+                .Where(x => x.Truck.Id == truck.Id)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<RefuelingSensor>> GetTruckRefuelingSensors(Truck truck)
         {
             return await _context.RefuelingsSensor
@@ -140,6 +200,12 @@ namespace WebApp_TransportCompany.Repositories
         public async Task UpdateRefuelingCheck(RefuelingCheck refuelingCheck)
         {
             _context.RefuelingsCheck.Update(refuelingCheck);
+            await Save();
+        }
+
+        public async Task UpdateRefuelingReport(RefuelingReport refuelingCheck)
+        {
+            _context.RefuelingReports.Update(refuelingCheck);
             await Save();
         }
 

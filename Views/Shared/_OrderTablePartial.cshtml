@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Order>
+﻿@using WebApp_TransportCompany.Models.Enums
+@model IEnumerable<Order>
 <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
     <thead>
         <tr>
@@ -10,6 +11,7 @@
             <th>Вид груза</th>
             <th>Расстояние</th>
             <th>Цена</th>
+            <th>Оплата</th>
             <th data-orderable="false"></th>
         </tr>
     </thead>
@@ -38,6 +40,7 @@
                         <td>@_item.TypeOfCargo.GetDisplayName()</td>
                         <td>@_item.Distance.ToString()</td>
                         <td>@_item.Price</td>
+                        <td>@(_item.IsPaid? "Оплачен":"Неоплачен")</td>
                         <td>
                             <div class="dropdown">
                                 <button class="btn btn-group" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -50,9 +53,18 @@
                                     <a asp-controller="Order" asp-action="Edit" class="dropdown-item" asp-route-item="@_item.Id">
                                         Изменить заказ
                                     </a>
-                                    <button type="button" class="dropdown-item close-order-item-btn" btn-close-order-item-id="@_item.Id">
+                                    <a asp-controller="Order" asp-action="Close" 
+                                       asp-route-item="@_item.Id" 
+                                       class="dropdown-item @(_item.State == OrderState.Open ? null : "disabled")">
                                         Закрыть заказ
-                                    </button>
+                                    </a>
+                                    <a asp-controller="Order" asp-action="ClosePayment" asp-route-item="@_item.Id"
+                                       class="dropdown-item @(_item.IsPaid ? "disabled": null)">
+                                        Закрыть платеж
+                                    </a>
+                                    @*<button type="button" class="dropdown-item close-order-item-btn" btn-close-order-item-id="@_item.Id">
+                                        Закрыть заказ
+                                    </button>*@
                                     <button type="button" class="dropdown-item delete-item-btn" btn-delete-item-id="@_item.Id">
                                         Удалить
                                     </button>

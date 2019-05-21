@@ -17,12 +17,16 @@ namespace WebApp_TransportCompany.Repositories
 
         Task<List<ChartDataset>> GetOrderStatistic(IdentityUser identityUser, DateTime? dateTime);
 
-        Task<int> GetStatusTruckCount(IdentityUser identityUser, TruckStatus truckStatus);
+        Task<ChartDataset> GetTruckStatistics(IdentityUser identityUser, DateTime? dateTime, int id);
 
-        Task<int> GetConditionTruckCount(IdentityUser identityUser, TruckCondition truckCondition);
+        Task<ChartDataset> GetDriverStatistics(IdentityUser identityUser, DateTime? dateTime, int id);
 
-        Task<int> GetStatusOrderCount(IdentityUser identityUser, OrderState orderState);
+        int GetStatusTruckCount(IdentityUser identityUser, TruckStatus truckStatus);
 
-        Task<int> GetPaidOrderCount(IdentityUser identityUser, bool paid);
+        int GetConditionTruckCount(IdentityUser identityUser, TruckCondition truckCondition);
+
+        int GetStatusOrderCount(IdentityUser identityUser, OrderState orderState);
+
+        int GetPaidOrderCount(IdentityUser identityUser, bool paid);
     }
 }

@@ -46,7 +46,7 @@ namespace WebApp_TransportCompany.Repositories
             //foreach (var pair in stats)
             //{
             //    var driver = pair.Driver;
-                
+
             //    foreach (var pair2 in pair.MonthsToOrders)
             //    {
             //        var month = pair2.MonthToOrder;
@@ -117,7 +117,7 @@ namespace WebApp_TransportCompany.Repositories
                                   backgroundColor = ColorHelper.GetColorByID(item.Id),
 
                                   borderColor = ColorHelper.GetColorByID(item.Id),
-                                  
+
                                   data = JsonConvert.SerializeObject(GetMonthEarnings(item.Orders
                                     .Where(x => x.IsPaid && x.State == Models.Enums.OrderState.Close && x.StartDate.Year == date.Year)
                                     .ToList()))
@@ -136,27 +136,74 @@ namespace WebApp_TransportCompany.Repositories
             return data;
         }
 
-        public Task<int> GetStatusTruckCount(IdentityUser identityUser, TruckStatus truckStatus)
+        public int GetStatusTruckCount(IdentityUser identityUser, TruckStatus truckStatus)
         {
-            //return await _context.Trucks
-            //    .Where(x => x.Identity.Id == identityUser.Id && x.IsActual && x.Status == truckStatus)
-            //    .Count();
-            throw new NotImplementedException();
+            return _context.Trucks
+                .Where(x => x.Identity.Id == identityUser.Id && x.IsActual && x.Status == truckStatus)
+                .Count();
         }
 
-        public Task<int> GetConditionTruckCount(IdentityUser identityUser, TruckCondition truckCondition)
+        public int GetConditionTruckCount(IdentityUser identityUser, TruckCondition truckCondition)
         {
-            throw new NotImplementedException();
+            return _context.Trucks
+                .Where(x => x.Identity.Id == identityUser.Id && x.IsActual && x.Condition == truckCondition)
+                .Count();
         }
 
-        public Task<int> GetStatusOrderCount(IdentityUser identityUser, OrderState orderState)
+        public int GetStatusOrderCount(IdentityUser identityUser, OrderState orderState)
         {
-            throw new NotImplementedException();
+            return _context.Orders
+                .Where(x => x.Truck.Identity.Id == identityUser.Id && x.State == orderState)
+                .Count();
         }
 
-        public Task<int> GetPaidOrderCount(IdentityUser identityUser, bool paid)
+        public int GetPaidOrderCount(IdentityUser identityUser, bool paid)
         {
-            throw new NotImplementedException();
+            return _context.Orders
+                .Where(x => x.Truck.Identity.Id == identityUser.Id && x.IsPaid == paid)
+                .Count();
+        }
+
+        public async Task<ChartDataset> GetTruckStatistics(IdentityUser identityUser, DateTime? dateTime, int id)
+        {
+            var _date = dateTime ?? DateTime.Now;
+            var _truck = await _context.Trucks.Include(x => x.Orders).FirstOrDefaultAsync(x => x.Id == id);
+            var _statistics = new ChartDataset()
+            {
+                id = _truck.Id,
+
+                label = _truck.Name + " " + _truck.Model,
+
+                backgroundColor = ColorHelper.GetColorByID(_truck.Id),
+
+                borderColor = ColorHelper.GetColorByID(_truck.Id),
+
+                data = JsonConvert.SerializeObject(GetMonthEarnings(_truck.Orders
+                                    .Where(x => x.IsPaid && x.State == Models.Enums.OrderState.Close && x.StartDate.Year == _date.Year)
+                                    .ToList()))
+            };
+            return _statistics;
+        }
+
+        public async Task<ChartDataset> GetDriverStatistics(IdentityUser identityUser, DateTime? dateTime, int id)
+        {
+            var _date = dateTime ?? DateTime.Now;
+            var _driver = await _context.Drivers.Include(x => x.Orders).FirstOrDefaultAsync(x => x.Id == id);
+            var _statistics = new ChartDataset()
+            {
+                id = _driver.Id,
+
+                label = _driver.Name + " " + _driver.Surname,
+
+                backgroundColor = ColorHelper.GetColorByID(_driver.Id),
+
+                borderColor = ColorHelper.GetColorByID(_driver.Id),
+
+                data = JsonConvert.SerializeObject(GetMonthEarnings(_driver.Orders
+                .Where(x => x.IsPaid && x.State == OrderState.Close && x.StartDate.Year == _date.Year)
+                .ToList()))
+            };
+            return _statistics;
         }
 
         //private ChartDataset GetAverageTruckDataset(DateTime dateTime)
