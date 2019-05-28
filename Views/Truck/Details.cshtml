@@ -160,12 +160,6 @@
 
                     <div class="tab-pane fade" id="nav-orders" role="tabpanel" aria-labelledby="nav-order-tab">
                         <div class="container row">
-                            @*<div class="card-body col-auto">
-                                    <h1>Последнии 10 заказов</h1>
-                                </div>
-                                <div class="card-body col-auto">
-                                    <a asp-controller="Order" asp-action="GetOrderByTruck" asp-route-id="@Model.Truck.Id" class="btn btn-primary">Просмотреть все</a>
-                                </div>*@
                             <div class="card-body col-xl-12">
                                 <div class="table-responsive">
                                     @{ await Html.RenderPartialAsync("_OrderTablePartial", Model.Orders);}
@@ -176,12 +170,6 @@
 
                     <div class="tab-pane fade" id="nav-repairs" role="tabpanel" aria-labelledby="nav-repair-tab">
                         <div class="container row">
-                            @*<div class="card-body col-auto">
-                                <h1>Последнии 10 ремонтов</h1>
-                            </div>
-                            <div class="card-body col-auto">
-                                <a asp-controller="Repair" asp-action="GetRepairByTruck" asp-route-id="@Model.Truck.Id" class="btn btn-primary">Просмотреть все</a>
-                            </div>*@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     @{ await Html.RenderPartialAsync("_RepairTablePartial", Model.Repairs);}
@@ -199,12 +187,6 @@
                     </div>
                     <div class="tab-pane fade" id="nav-reports" role="tabpanel" aria-labelledby="nav-report-tab">
                         <div class="container row">
-                            @*<div class="card-body col-auto">
-                                <h1>Последнии 10 отчетов</h1>
-                            </div>
-                            <div class="card-body col-auto">
-                                <a asp-controller="Report" asp-action="GetReportByTruck" asp-route-id="@Model.Truck.Id" class="btn btn-primary">Просмотреть все</a>
-                            </div>*@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     @{ await Html.RenderPartialAsync("_ReportTablePartial", Model.Reports);}

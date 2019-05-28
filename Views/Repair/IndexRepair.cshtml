@@ -1,6 +1,5 @@
 ﻿@using WebApp_TransportCompany.ViewModels
 @model RepairViewModel
-@using WebApp_TransportCompany.Models.Enums
 @section Styles{
     <!-- Custom styles for this page -->
     <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -12,9 +11,10 @@
 <div class="card shadow mb-4">
 
     <div class="card-header py-3">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+        <button type="button" class="btn btn-primary fa-pull-left" data-toggle="modal" data-target="#createModal">
             Добавить ремонт
         </button>
+        <a asp-controller="Repair" asp-action="RepairType" class="btn btn-primary fa-pull-right">Просмотреть типы ремонтов</a>
     </div>
     <div class="card-body">
         <div class="table-responsive">

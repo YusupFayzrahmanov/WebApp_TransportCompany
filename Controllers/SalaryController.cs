@@ -18,22 +18,19 @@ namespace WebApp_TransportCompany.Controllers
 
         private readonly ISalaryRepository _salaryRepository;
 
+        private readonly IDriverRepository _driverRepository;
+
         public SalaryController(IUserRepository userRepository,
-            ISalaryRepository salaryRepository)
+            ISalaryRepository salaryRepository, IDriverRepository driverRepository)
         {
             _userRepository = userRepository;
             _salaryRepository = salaryRepository;
+            _driverRepository = driverRepository;
         }
 
         // GET: Order
         public IActionResult IndexSalary(string query)
         {
-            //var _identityUser = await _userManager.GetUserAsync(User);
-            //var vm = new SalaryViewModel()
-            //{
-            //   // Salaries = await _context.Salaries.Where(x => x.Identity.Id == _identityUser.Id).ToListAsync(),
-            //   // Drivers = await _context.Drivers.Where(x => x.Identity.Id == _identityUser.Id).ToListAsync()
-            //};
             return View();
         }
 
@@ -41,9 +38,10 @@ namespace WebApp_TransportCompany.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Salary salary, int driverId)
+        public async Task<IActionResult> Create(SalaryFormViewModel vm)
         {
-
+            vm.Salary.Driver = await _driverRepository.GetDriver(vm.DriverId);
+            await _salaryRepository.AddSalary(vm.Salary);
             return Redirect(Request.Headers["Referer"].ToString());
         }
 

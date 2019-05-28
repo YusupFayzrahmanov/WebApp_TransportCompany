@@ -20,6 +20,7 @@ namespace WebApp_TransportCompany.Repositories
         public async Task AddWheel(Wheel wheel)
         {
             await _context.Wheels.AddAsync(wheel);
+            await Save();
         }
 
         public async Task DeleteWheel(Wheel wheel)

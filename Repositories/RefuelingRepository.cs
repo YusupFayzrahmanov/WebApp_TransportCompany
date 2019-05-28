@@ -20,31 +20,37 @@ namespace WebApp_TransportCompany.Repositories
         public async Task AddRangeRefuelingCheck(IEnumerable<RefuelingCheck> refuelingCheck)
         {
             await _context.RefuelingsCheck.AddRangeAsync(refuelingCheck);
+            await Save();
         }
 
         public async Task AddRangeRefuelingReport(IEnumerable<RefuelingReport> refuelingReport)
         {
             await _context.RefuelingReports.AddRangeAsync(refuelingReport);
+            await Save();
         }
 
         public async Task AddRangeRefuelingSensor(IEnumerable<RefuelingSensor> refuelingSensor)
         {
             await _context.RefuelingsSensor.AddRangeAsync(refuelingSensor);
+            await Save();
         }
 
         public async Task AddRefuelingCheck(RefuelingCheck refuelingCheck)
         {
             await _context.RefuelingsCheck.AddAsync(refuelingCheck);
+            await Save();
         }
 
         public async Task AddRefuelingReport(RefuelingReport refuelingReport)
         {
             await _context.RefuelingReports.AddAsync(refuelingReport);
+            await Save();
         }
 
         public async Task AddRefuelingSensor(RefuelingSensor refuelingSensor)
         {
             await _context.RefuelingsSensor.AddAsync(refuelingSensor);
+            await Save();
         }
 
         public async Task DeleteRefuelingCheck(RefuelingCheck refuelingCheck)

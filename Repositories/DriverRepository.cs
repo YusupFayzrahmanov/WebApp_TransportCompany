@@ -26,7 +26,7 @@ namespace WebApp_TransportCompany.Repositories
         public async Task DeleteDriver(Driver driver)
         {
             _context.Drivers.Remove(driver);
-            await base.Save();
+            await Save();
         }
 
         public async Task<Driver> GetDriver(int id)

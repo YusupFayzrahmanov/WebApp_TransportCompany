@@ -20,6 +20,7 @@ namespace WebApp_TransportCompany.Repositories
         public async Task AddSalary(Salary salary)
         {
             await _context.Salaries.AddAsync(salary);
+            await Save();
         }
 
         public async Task DeleteSalary(Salary salary)

@@ -20,6 +20,7 @@ namespace WebApp_TransportCompany.Repositories
         public async Task AddReport(Report report)
         {
             await _context.Reports.AddAsync(report);
+            await Save();
         }
 
         public async Task DeleteReport(Report report)

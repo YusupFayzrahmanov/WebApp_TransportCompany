@@ -20,11 +20,13 @@ namespace WebApp_TransportCompany.Repositories
         public async Task AddRepair(Repair repair)
         {
             await _context.Repairs.AddAsync(repair);
+            await Save();
         }
 
         public async Task AddRepairType(RepairType repairType)
         {
             await _context.RepairTypes.AddAsync(repairType);
+            await Save();
         }
 
         public async Task DeleteRepair(Repair repair)

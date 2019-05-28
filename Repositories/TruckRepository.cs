@@ -21,6 +21,7 @@ namespace WebApp_TransportCompany.Repositories
         public async Task AddTruck(Truck truck)
         {
             await _context.Trucks.AddAsync(truck);
+            await Save();
         }
 
         public async Task DeleteTruck(Truck truck)
