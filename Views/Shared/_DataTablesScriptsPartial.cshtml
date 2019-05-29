@@ -4,7 +4,8 @@
 <!--PNotify-->
 <script src="~/js/pnotify/pnotify.custom.js"></script>
 <script>
-        $(document).ready(function () {
+    $(document).ready(function () {
+            var urlParams = new URLSearchParams(window.location.search);
             var dataTable = $('#dataTable').DataTable({
                 "language": {
                     "lengthMenu": "Показать _MENU_ записей на странице",
@@ -13,6 +14,9 @@
                     "infoEmpty": "Нет доступных записией",
                     "infoFiltered": "(filtered from _MAX_ total records)",
                     "search": "Поиск: "
+                },
+                "search": {
+                    "search": urlParams.get("query")
                 },
                 initComplete: function () {
                     this.api().columns().every(function () {

@@ -214,10 +214,7 @@
                                                         </div>
                                                         <div class="col-sm-2">@_wheel.Name</div>
                                                         <div class="col-sm-2">
-                                                            @if (_wheel.InstallationDate.HasValue)
-                                                            {
-                                                                @_wheel.InstallationDate.Value.ToShortDateString()
-                                                            }
+                                                            @_wheel.InstallationDate.ToShortDateString()
 
                                                         </div>
                                                         <div class="col-sm-1">
@@ -351,9 +348,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label asp-for="Wheel.Description" class="col-sm-3 col-form-label">Описание:</label>
+                        <label asp-for="Wheel.Note" class="col-sm-3 col-form-label">Примечание:</label>
                         <div class="col-sm-9">
-                            <textarea asp-for="Wheel.Description" class="form-control"></textarea>
+                            <textarea asp-for="Wheel.Note" class="form-control"></textarea>
                         </div>
                     </div>
 

@@ -14,7 +14,6 @@ namespace WebApp_TransportCompany.Controllers
         {
             _context = context;
         }
-
         
         public async Task<IActionResult> Details(int id)
         {

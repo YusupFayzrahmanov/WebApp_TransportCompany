@@ -130,7 +130,7 @@ namespace WebApp_TransportCompany.Repositories
             decimal[] data = new decimal[12];
             for (int i = 0; i < 12; i++)
             {
-                data[i] = orders.Where(x => x.StartDate.Month == (i + 1)).Sum(x => x.Price) ?? 0;
+                data[i] = orders.Where(x => x.StartDate.Month == (i + 1)).Sum(x => x.Price);
             }
 
             return data;

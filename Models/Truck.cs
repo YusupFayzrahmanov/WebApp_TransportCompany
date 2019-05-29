@@ -46,7 +46,7 @@ namespace WebApp_TransportCompany.Models
         /// Пробег
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? Mileage { get; set; }
+        public decimal Mileage { get; set; }
 
         /// <summary>
         /// Тип
@@ -57,13 +57,18 @@ namespace WebApp_TransportCompany.Models
         /// Макс. грузоподъемность
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? WeightLimit { get; set; }
+        public decimal WeightLimit { get; set; }
 
         /// <summary>
         /// Макс. объем
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? MaxSize { get; set; }
+        public decimal MaxSize { get; set; }
+
+        /// <summary>
+        /// Свидетельство о регистрации ТС
+        /// </summary>
+        public string RegistrationCertificate { get; set; }
 
         /// <summary>
         /// Состояние

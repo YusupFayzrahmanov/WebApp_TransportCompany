@@ -54,19 +54,22 @@ namespace WebApp_TransportCompany.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            return View(await _salaryRepository.GetSalary(id));
+            return PartialView("~/Views/Shared/RepairPartial/_SalaryDetailsModalPartial.cshtml",
+                await _salaryRepository.GetSalary(id));
         }
 
         public async Task<IActionResult> Edit(int item)
         {
-            return View();
+            return PartialView("~/Views/Shared/RepairPartial/_SalaryEditModalPartial.cshtml",
+                await _salaryRepository.GetSalary(item));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit(SalaryFormViewModel vm)
         {
-            
+            vm.Salary.Driver = await _driverRepository.GetDriver(vm.DriverId);
+            await _salaryRepository.UpdateSalary(vm.Salary);
             return Redirect(Request.Headers["Referer"].ToString());
         }
 

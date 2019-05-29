@@ -5,7 +5,7 @@
 @inject ISalaryRepository _salaryRepository
 @inject IUserRepository _userRepository
 @{
-    var salaries = _salaryRepository.GetSalaries(await _userRepository.GetIdentityUser(User));
+    var salaries = await _salaryRepository.GetSalaries(await _userRepository.GetIdentityUser(User));
 }
 @section Styles{
     <!-- Custom styles for this page -->
@@ -23,7 +23,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            @{ await Html.RenderPartialAsync("~/Views/Shared/SalaryPartial/_SalaryTablePartial", salaries);}
+            @{ await Html.RenderPartialAsync("~/Views/Shared/SalaryPartial/_SalaryTablePartial.cshtml", salaries);}
         </div>
     </div>
 </div>

@@ -29,7 +29,7 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Ресурс километров
         /// </summary>
-        public decimal? KilometersResource { get; set; }
+        public decimal KilometersResource { get; set; }
 
         /// <summary>
         /// Ресурс времени

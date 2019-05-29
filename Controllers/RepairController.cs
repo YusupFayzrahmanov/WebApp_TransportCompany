@@ -21,20 +21,20 @@ namespace WebApp_TransportCompany.Controllers
 
         private readonly ITruckRepository _truckRepository;
 
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IUserRepository _userRepository;
 
         public RepairController(ITruckRepository truckRepository, 
             IRepairRepository repairRepository,
-            UserManager<IdentityUser> userManager)
+            IUserRepository userRepository)
         {
             _repairRepository = repairRepository;
             _truckRepository = truckRepository;
-            _userManager = userManager;
+            _userRepository = userRepository;
         }
         // GET: Repair
         public async Task<IActionResult> IndexRepair()
         {
-            var _identityUser = await _userManager.GetUserAsync(User);
+            var _identityUser = await _userRepository.GetIdentityUser(User);
             var vm = new RepairViewModel()
             {
                 Repairs = await _repairRepository.GetRepairs(_identityUser),
@@ -73,7 +73,7 @@ namespace WebApp_TransportCompany.Controllers
 
         public async Task<IActionResult> Edit(int item)
         {
-            var _identityUser = await _userManager.GetUserAsync(User);
+            var _identityUser = await _userRepository.GetIdentityUser(User);
             return View(new RepairFormPartialViewModel()
             {
                 Repair = await _repairRepository.GetRepair(item),
@@ -86,9 +86,33 @@ namespace WebApp_TransportCompany.Controllers
         public async Task<IActionResult> Edit(RepairFormPartialViewModel vm)
         {
             await _repairRepository.UpdateRepair(vm.Repair);
-            return RedirectToAction("IndexRepair");
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
-        
+        public IActionResult RepairType()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRepairType(RepairType repairType)
+        {
+            repairType.Identity = await _userRepository.GetIdentityUser(User);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        public async Task<IActionResult> EditRepairType(int id)
+        {
+            return PartialView("~/Views/Shared/RepairPartial/_RepairTypeEditModalPartial.cshtml", 
+                await _repairRepository.GetRepairType(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRepairType(RepairType repairType)
+        {
+            repairType.Identity = await _userRepository.GetIdentityUser(User);
+            await _repairRepository.UpdateRepairType(repairType);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
     }
 }

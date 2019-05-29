@@ -34,13 +34,13 @@ namespace WebApp_TransportCompany.Models
         /// Цена
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
 
         /// <summary>
         /// Текущий пробег
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? CurrentMileage { get; set; }
+        public decimal CurrentMileage { get; set; }
 
         /// <summary>
         /// Флаг использования
@@ -48,14 +48,9 @@ namespace WebApp_TransportCompany.Models
         public bool IsUsed { get; set; }
 
         /// <summary>
-        /// Описание
-        /// </summary>
-        public string Description { get; set; }
-
-        /// <summary>
         /// Дата установки
         /// </summary>
-        public DateTime? InstallationDate { get; set; }
+        public DateTime InstallationDate { get; set; }
 
         /// <summary>
         /// Дата поломки
