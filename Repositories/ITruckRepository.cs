@@ -18,6 +18,8 @@ namespace WebApp_TransportCompany.Repositories
 
         Task<Truck> GetTruck(int id);
 
+        Truck GetTruckByCardNumber(string number);
+
         Task AddTruck(Truck truck);
 
         Task DeleteTruck(Truck truck);

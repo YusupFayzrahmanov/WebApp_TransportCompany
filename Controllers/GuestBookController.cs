@@ -65,8 +65,10 @@ namespace WebApp_TransportCompany.Controllers
             {
                 if (File != null)
                 {
-                    vm.GuestMessage.ImagePath = "/Files/" + File.FileName;
-                    using (var fileStream = new FileStream(_hostingEnvironment.WebRootPath + vm.GuestMessage.ImagePath, FileMode.Create))
+                    var filePath = _hostingEnvironment.WebRootPath;
+                    filePath = Path.Combine(filePath, "Files");
+                    filePath = Path.Combine(filePath, File.FileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await File.CopyToAsync(fileStream);
                     }

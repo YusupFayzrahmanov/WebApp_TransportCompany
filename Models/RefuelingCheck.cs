@@ -16,11 +16,6 @@ namespace WebApp_TransportCompany.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Водитель
-        /// </summary>
-        public Driver Driver { get; set; }
-
-        /// <summary>
         /// Транспорт, который был заправлен
         /// </summary>
         public Truck Truck { get; set; }

@@ -1,0 +1,24 @@
+﻿@using WebApp_TransportCompany.Repositories
+@inject IWheelRepository _wheelRepository
+@inject IUserRepository _userRepository
+@{
+    var _wheels = await _wheelRepository.GetWheels(await _userRepository.GetIdentityUser(User));
+}
+@section Styles{
+    <!-- Custom styles for this page -->
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <!-- PNotify -->
+    <link href="~/css/pnotify/pnotify.custom.css" rel="stylesheet">
+    <link href="~/vendor/datetimepicker/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+}
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            @{ await Html.RenderPartialAsync("~/Views/Shared/WheelPartial/_WheelTablePartial.cshtml", _wheels);}
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="~/Views/Shared/_DataTablesScriptsPartial.cshtml" />
+
+}

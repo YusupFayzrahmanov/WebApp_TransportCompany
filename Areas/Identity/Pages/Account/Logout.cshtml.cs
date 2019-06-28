@@ -22,9 +22,9 @@ namespace WebApp_TransportCompany.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        public void OnGet()
-        {
-        }
+        //public void OnGet()
+        //{
+        //}
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {

@@ -112,7 +112,7 @@ namespace WebApp_TransportCompany.Repositories
                               {
                                   id = item.Id,
 
-                                  label = item.Name + " " + item.Model,
+                                  label = item.TruckLicState + " - "+ item.Name + " " + item.Model,
 
                                   backgroundColor = ColorHelper.GetColorByID(item.Id),
 

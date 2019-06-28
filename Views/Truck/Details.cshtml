@@ -227,10 +227,10 @@
                                                                     <i class="fa fa-ellipsis-v"></i>
                                                                 </button>
                                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                    <a asp-controller="Wheel" asp-action="Details" asp-route-id="@_wheel.Id" class="dropdown-item">
+                                                                    <a data-toggle="ajax-modal" item-url="/Wheel/Details/@_wheel.Id" class="dropdown-item">
                                                                         Подробнее
                                                                     </a>
-                                                                    <a asp-controller="Wheel" asp-action="Edit" class="dropdown-item" asp-route-item="@_wheel.Id">
+                                                                    <a data-toggle="ajax-modal" item-url="/Wheel/Edit/@_wheel.Id" class="dropdown-item">
                                                                         Изменить
                                                                     </a>
                                                                     <a asp-controller="Wheel" asp-action="Delete" class="dropdown-item" asp-route-id="@_wheel.Id">
@@ -365,6 +365,8 @@
     </div>
 </div>
 
+<div id="ajax-modal-placeholder"></div>
+
 @section Scripts{
     <script>
         $(document).ready(function () {
@@ -376,5 +378,6 @@
     </script>
     <script src="~/vendor/chart.js/Chart.min.js"></script>
     <partial name="~/Views/Shared/_DataTablesScriptsPartial.cshtml" />
+    <partial name="_AjaxModalScriptPartial" />
     @{ await Html.RenderPartialAsync("_TruckChartLineScriptsPartial", truckStatsVm);}
 }

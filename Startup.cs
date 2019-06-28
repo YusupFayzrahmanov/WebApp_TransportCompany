@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApp_TransportCompany.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.HttpOverrides;
-using System.Net;
+using WebApp_TransportCompany.Data;
 using WebApp_TransportCompany.Repositories;
 
 namespace WebApp_TransportCompany
@@ -27,7 +21,7 @@ namespace WebApp_TransportCompany
 
             Configuration = configuration;
         }
-        
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -46,7 +40,7 @@ namespace WebApp_TransportCompany
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-           
+
 
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -68,6 +62,7 @@ namespace WebApp_TransportCompany
             services.AddTransient<IRefuelingRepository, RefuelingRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IStatisticsRepository, StatisticsRepository>();
+            services.AddTransient<IFineRepository, FineRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -75,7 +70,7 @@ namespace WebApp_TransportCompany
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -91,17 +86,16 @@ namespace WebApp_TransportCompany
 
 
 
-            
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseCookiePolicy();
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
-            app.UseCookiePolicy();
-
-            
 
             app.UseAuthentication();
 
@@ -109,7 +103,7 @@ namespace WebApp_TransportCompany
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Truck}/{action=IndexTruck}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

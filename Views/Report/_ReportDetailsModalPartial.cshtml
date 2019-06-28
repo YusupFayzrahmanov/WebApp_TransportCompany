@@ -1,4 +1,112 @@
-﻿
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Report
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Детальная информация об отчете</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label name="truckId" class="col-sm-3 col-form-label">Грузовик:</label>
+                    <div class="col-sm-9">
+                        <a asp-controller="Truck" asp-action="Details" asp-route-truck="@Model.Truck.Id"
+                           class="form-control">@Model.Truck.TruckLicState-@Model.Truck.Name@Model.Truck.Model</a>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label name="DriverId" class="col-sm-3 col-form-label">Водитель:</label>
+                    <div class="col-sm-9">
+                        <a asp-controller="Driver" asp-action="Details" asp-route-id="@Model.Driver.Id">
+                            @Model.Driver.Id - @Model.Driver.Name @Model.Driver.Surname
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="DepartureDate" class="col-sm-3 col-form-label">Дата отбытия:</label>
+                    <div class="col-sm-9">
+                        <div class="datepicker input-group date">
+                            <span class="input-group-addon">
+                                <i class="fas fa-calendar"></i>
+                            </span>
+                            <input asp-for="DepartureDate" value="@Model.DepartureDate" type="datetime" readonly class="form-control">
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label asp-for="ArrivalDate" class="col-sm-3 col-form-label">Дата прибытия:</label>
+                    <div class="col-sm-9">
+                        <div class="datepicker input-group date">
+                            <span class="input-group-addon">
+                                <i class="fas fa-calendar"></i>
+                            </span>
+                            <input asp-for="ArrivalDate" value="@Model.ArrivalDate" type="datetime" readonly class="form-control">
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label asp-for="DepartureRemainderFuel" class="col-sm-3 col-form-label">Топливо до:</label>
+                    <div class="col-sm-9">
+                        <input asp-for="DepartureRemainderFuel" value="@Model.DepartureRemainderFuel" readonly type="number" class="form-control" id="recipient-name">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label asp-for="ArrivalRemainderFuel" class="col-sm-3 col-form-label">Топливо после:</label>
+                    <div class="col-sm-9">
+                        <input asp-for="ArrivalRemainderFuel" value="@Model.ArrivalRemainderFuel" readonly type="number" class="form-control" />
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label asp-for="DepartureMileage" class="col-sm-3 col-form-label">Пробег до:</label>
+                    <div class="col-sm-9">
+                        <input type="number" value="@Model.DepartureMileage" asp-for="DepartureMileage" readonly class="form-control">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label asp-for="ArrivalMileage" class="col-sm-3 col-form-label">Пробег после:</label>
+                    <div class="col-sm-9">
+                        <input type="number" asp-for="ArrivalMileage" value="@Model.ArrivalMileage" readonly class="form-control" id="recipient-name">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label asp-for="ReceivedMoney" class="col-sm-3 col-form-label">Денег выдано:</label>
+                    <div class="col-sm-9">
+                        <input asp-for="ReceivedMoney" value="@Model.ReceivedMoney" type="number" readonly class="form-control">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label asp-for="SpentMoney" class="col-sm-3 col-form-label">Денег потрачено:</label>
+                    <div class="col-sm-9">
+                        <input asp-for="SpentMoney" value="@Model.SpentMoney" type="number" readonly class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="AverageFuelConsumption" class="col-sm-3 col-form-label">Средний расход топлива:</label>
+                    <div class="col-sm-9">
+                        <input asp-for="AverageFuelConsumption" value="@Model.AverageFuelConsumption" readonly type="number" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="AverageFuelPrice" class="col-sm-3 col-form-label">Средний цена топлива:</label>
+                    <div class="col-sm-9">
+                        <input asp-for="AverageFuelPrice" value="@Model.AverageFuelPrice" type="number" readonly class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer row justify-content-center">
+                    <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

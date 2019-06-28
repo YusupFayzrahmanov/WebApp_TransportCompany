@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WebApp_TransportCompany.Models.Enums;
 
@@ -21,6 +20,11 @@ namespace WebApp_TransportCompany.Models
         /// Identity
         /// </summary>
         public IdentityUser Identity { get; set; }
+
+        /// <summary>
+        /// Карта татнефть
+        /// </summary>
+        public TatneftCard TatneftCard { get; set; }
 
         /// <summary>
         /// Наименование
@@ -90,6 +94,12 @@ namespace WebApp_TransportCompany.Models
         /// </summary>
         public bool IsActual { get; set; }
 
+
+        /// <summary>
+        /// Доп. инфа
+        /// </summary>
+        public string Note { get; set; }
+
         /// <summary>
         /// Колеса
         /// </summary>
@@ -116,6 +126,11 @@ namespace WebApp_TransportCompany.Models
         public IEnumerable<RefuelingSensor> RefuelingSensors { get; set; } = new List<RefuelingSensor>();
 
         /// <summary>
+        /// Заправки по отчетам
+        /// </summary>
+        public IEnumerable<RefuelingReport> RefuelingReports { get; set; } = new List<RefuelingReport>();
+
+        /// <summary>
         /// Водители
         /// </summary>
         public IEnumerable<Driver> Drivers { get; set; } = new List<Driver>();
@@ -123,12 +138,13 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Отчеты
         /// </summary>
-        public IEnumerable<Report> Reports { get; set; }
+        public IEnumerable<Report> Reports { get; set; } = new List<Report>();
 
         /// <summary>
-        /// Доп. инфа
+        /// Штрафы
         /// </summary>
-        public string Note { get; set; }
+        public IEnumerable<Fine> Fines { get; set; } = new List<Fine>();
+
 
     }
 }

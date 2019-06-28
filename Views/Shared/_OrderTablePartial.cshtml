@@ -1,6 +1,6 @@
 ﻿@using WebApp_TransportCompany.Models.Enums
 @model IEnumerable<Order>
-<table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+<table class="table table-hover dataTable" id="order-table" width="100%" cellspacing="0">
     <thead>
         <tr>
             <th>Номер т.с.</th>
@@ -47,7 +47,7 @@
                                     <i class="fa fa-ellipsis-v"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a asp-controller="Order" asp-action="Details" asp-route-id="@_item.Id" class="dropdown-item">
+                                    <a data-toggle="ajax-modal" item-url="/Order/Details/@_item.Id" class="dropdown-item">
                                         Подробнее
                                     </a>
                                     <a asp-controller="Order" asp-action="Edit" class="dropdown-item" asp-route-item="@_item.Id">
@@ -62,9 +62,6 @@
                                        class="dropdown-item @(_item.IsPaid ? "disabled": null)">
                                         Закрыть платеж
                                     </a>
-                                    @*<button type="button" class="dropdown-item close-order-item-btn" btn-close-order-item-id="@_item.Id">
-                                        Закрыть заказ
-                                    </button>*@
                                     <button type="button" class="dropdown-item delete-item-btn" btn-delete-item-id="@_item.Id">
                                         Удалить
                                     </button>

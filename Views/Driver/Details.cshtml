@@ -1,24 +1,146 @@
 ﻿@using WebApp_TransportCompany.ViewModels
+@using WebApp_TransportCompany.Repositories
 @model Driver
+@inject IStatisticsRepository _statisticsRepository
+@inject IUserRepository _userRepository
 @{
     ViewData["Title"] = "Details";
+    var identityUser = await _userRepository.GetIdentityUser(User);
+    List<ChartDataset> chartDatasets = new List<ChartDataset>();
+    chartDatasets.Add(await _statisticsRepository.GetDriverStatistics(identityUser, null, Model.Id));
+    var driverStatsVm = new ChartLinePartialViewModelBuilder()
+       .Build(chartDatasets);
 }
+@section Styles
+{
+    <!-- Custom styles for this page -->
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <!-- PNotify -->
+    <link href="~/css/pnotify/pnotify.custom.css" rel="stylesheet">
+}
+<div class="card-body row">
+    <div class="col-md-8 float-left">
+        <h4 class="page-title">Профиль водителя @Model.Name @Model.Surname</h4>
+    </div>
 
-<div class="row ">
-    <!-- Collapsable Card Example -->
-    <div class="col-xl-12 col-lg-12">
-        <div class="card shadow mb-4">
-            <div class="card-body">
-                <a asp-controller="Report" asp-action="Index">Отчеты</a>
-                <a asp-controller="Truck" asp-action="Details" asp-route-truck="@Model.Truck.Id">@Model.Truck.TruckLicState @Model.Truck.Name @Model.Truck.Model</a>
-                @{ await Html.RenderPartialAsync("_DriverFormPartial", new DriverFormPartialViewModel()
-                    {
-                        Driver = Model,
-                        Trucks = null,
-                        Readonly = true
-                    });}
+    <div class="col-md-4 float-right">
+        <a asp-controller="Driver" asp-action="Edit" asp-route-item="@Model.Id" class="btn btn-primary rounded"><i class="fa fa-plus"></i> Изменить</a>
+    </div>
+</div>
+<div class="card">
+    <div class="row">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <a href="#"><img class="rounded" style="width:100px; height:100px;" src="~/Files/default.png" alt=""></a>
+                </div>
+                <div class="col-md-4">
+                    <div>
+                        <h3 class="user-name m-t-0 m-b-0">@Model.Name @Model.Surname</h3>
+                        <small class="text-muted">Водитель</small>
+                        <div>Код : @Model.Id</div>
+                        <h5>Грузовик: <span><a asp-controller="Truck" asp-action="Details" asp-route-truck="@Model.Truck.Id">@Model.Truck.TruckLicState @Model.Truck.Name @Model.Truck.Model</a></span></h5>
+
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-inline">
+                        <li>
+                            <span><b>Телефон:</b></span>
+                            <span><a href="#">@Model.FirstPhone</a>,</span>
+                            <span><a href="#">@Model.SecondPhone</a></span>
+                        </li>
+                        <li>
+                            <span class="title"><b>Статус:</b> </span>
+                            <span class="text">@Model.DriverStatus.GetDisplayName()</span>
+                        </li>
+                        <li>
+                            <span class="title"><b>Дата рождения:</b></span>
+                            <span class="text">@(Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value.ToShortDateString() : "Отсутсвует")</span>
+                        </li>
+                        <li>
+                            <span class="title"><b>Адрес:</b></span>
+                            <span class="text">@Model.Address</span>
+                        </li>
+                        <li>
+                            <span class="title"><b>Карта татнефть:</b></span>
+                            <span class="text">@(Model.TatneftCard != null ? Model.TatneftCard.Number : "Отсутсвует")</span>
+                        </li>
+
+                        <li>
+                            <span class="title"><b>Примечание:</b></span>
+                            <span class="text">@Model.Note</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#salaries" role="tab" aria-controls="home" aria-selected="true">Зарплата</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="profile" aria-selected="false">Заказы</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#reports" role="tab" aria-controls="contact" aria-selected="false">Отчеты</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#repairs" role="tab" aria-controls="contact" aria-selected="false">Ремонты</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#stats" role="tab" aria-controls="contact" aria-selected="false">Статистика</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="salaries" role="tabpanel" aria-labelledby="home-tab">
+                
+                <div class="table-responsive">
+                    <div class="card-body">
+                        @{ await Html.RenderPartialAsync("~/Views/Shared/SalaryPartial/_SalaryTablePartial.cshtml", Model.Salaries);}
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="table-responsive">
+                    <div class="card-body">
+                        @{ await Html.RenderPartialAsync("_OrderTablePartial", Model.Orders);}
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="tab-pane fade" id="reports" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="table-responsive">
+                    <div class="card-body">
+                        @{ await Html.RenderPartialAsync("_ReportTablePartial", Model.Reports);}
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="tab-pane fade" id="repairs" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="table-responsive">
+                    <div class="card-body">
+                        @{ await Html.RenderPartialAsync("_RepairTablePartial", Model.Repairs);}
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="contact-tab">
+                <canvas id="driverLineChart" height="400"></canvas>
             </div>
         </div>
     </div>
 
 </div>
+
+@section Scripts
+{
+    <script src="~/vendor/chart.js/Chart.min.js"></script>
+    @{ await Html.RenderPartialAsync("_DriverChartLineScriptsPartial", driverStatsVm);}
+    <partial name="~/Views/Shared/_DataTablesScriptsPartial.cshtml" />
+}

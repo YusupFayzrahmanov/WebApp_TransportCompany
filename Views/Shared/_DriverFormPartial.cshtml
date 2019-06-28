@@ -16,38 +16,44 @@
         <div class="form-group row">
             <label asp-for="Driver.Surname" class="col-sm-3 col-form-label">Фамилия:</label>
             <div class="col-sm-9">
-                <input asp-for="Driver.Surname"  value="@Model.Driver.Surname" type="text" class="form-control" id="recipient-name">
+                <input asp-for="Driver.Surname"  value="@Model.Driver.Surname" type="text" class="form-control" >
             </div>
 
         </div>
         <div class="form-group row">
             <label asp-for="Driver.FirstPhone" class="col-sm-3 col-form-label">Первый телефон:</label>
             <div class="col-sm-9">
-                <input asp-for="Driver.FirstPhone" value="@Model.Driver.FirstPhone" type="text" class="form-control" id="recipient-name">
+                <input asp-for="Driver.FirstPhone" value="@Model.Driver.FirstPhone" type="text" class="form-control" >
             </div>
 
         </div>
         <div class="form-group row">
             <label asp-for="Driver.SecondPhone" class="col-sm-3 col-form-label">Второй телефон:</label>
             <div class="col-sm-9">
-                <input asp-for="Driver.SecondPhone" value="@Model.Driver.SecondPhone" type="text" class="form-control" id="recipient-name">
+                <input asp-for="Driver.SecondPhone" value="@Model.Driver.SecondPhone" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group row">
             <label asp-for="Driver.Address" class="col-sm-3 col-form-label">Адрес:</label>
             <div class="col-sm-9">
-                <input asp-for="Driver.Address" value="@Model.Driver.Address" type="text" class="form-control" id="recipient-name">
+                <input asp-for="Driver.Address" value="@Model.Driver.Address" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group row">
             <label asp-for="Driver.DateOfBirth" class="col-sm-3 col-form-label">Дата рождения:</label>
             <div class="col-sm-9">
-                <input asp-for="Driver.DateOfBirth" value="@Model.Driver.DateOfBirth" type="datetime" class="form-control" id="recipient-name">
+                <div class="datepicker input-group date">
+                    <span class="input-group-addon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                    <input asp-for="Driver.DateOfBirth" value="@Model.Driver.DateOfBirth" type="datetime" class="form-control" >
+
+                </div>
             </div>
 
         </div>
         <div class="form-group row">
-            <label name="TruckId" class="col-sm-3 col-form-label">Грузовик:</label>
+            <label name="truckId" class="col-sm-3 col-form-label">Грузовик:</label>
             <div class="col-sm-9">
                 @{ await Html.RenderPartialAsync("_SelectTruckPartial",
                                 new SelectTruckPartialViewModel()
@@ -58,7 +64,7 @@
         <div class="form-group row">
             <label asp-for="Driver.DriverStatus" class="col-sm-3 col-form-label">Статус водителя:</label>
             <div class="col-sm-9">
-                <select asp-for="Driver.DriverStatus" asp-items="@Html.GetEnumSelectList<DriverStatus>()" class="form-control">
+                <select asp-for="Driver.DriverStatus" asp-items="@Html.GetEnumSelectList<DriverStatus>()" class="selectpicker form-control" data-live-search="true">
                     <option value="@Model.Driver.DriverStatus" selected>@Model.Driver.DriverStatus</option>
                 </select>
             </div>
@@ -76,40 +82,46 @@ else
         <div class="form-group row">
             <label asp-for="Driver.Name" class="col-sm-3 col-form-label">Имя:</label>
             <div class="col-sm-9">
-                <input type="text" asp-for="Driver.Name" class="form-control" id="recipient-name">
+                <input type="text" asp-for="Driver.Name" class="form-control" >
             </div>
 
         </div>
         <div class="form-group row">
             <label asp-for="Driver.Surname" class="col-sm-3 col-form-label">Фамилия:</label>
             <div class="col-sm-9">
-                <input asp-for="Driver.Surname" type="text" class="form-control" id="recipient-name">
+                <input asp-for="Driver.Surname" type="text" class="form-control" >
             </div>
 
         </div>
         <div class="form-group row">
             <label asp-for="Driver.FirstPhone" class="col-sm-3 col-form-label">Первый телефон:</label>
             <div class="col-sm-9">
-                <input asp-for="Driver.FirstPhone" type="text" class="form-control" id="recipient-name">
+                <input asp-for="Driver.FirstPhone" type="text" class="form-control" >
             </div>
 
         </div>
         <div class="form-group row">
             <label asp-for="Driver.SecondPhone" class="col-sm-3 col-form-label">Второй телефон:</label>
             <div class="col-sm-9">
-                <input asp-for="Driver.SecondPhone" type="text" class="form-control" id="recipient-name">
+                <input asp-for="Driver.SecondPhone" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group row">
             <label asp-for="Driver.Address" class="col-sm-3 col-form-label">Адрес:</label>
             <div class="col-sm-9">
-                <input asp-for="Driver.Address" type="text" class="form-control" id="recipient-name">
+                <input asp-for="Driver.Address" type="text" class="form-control" >
             </div>
         </div>
         <div class="form-group row">
             <label asp-for="Driver.DateOfBirth" class="col-sm-3 col-form-label">Дата рождения:</label>
             <div class="col-sm-9">
-                <input asp-for="Driver.DateOfBirth" type="datetime" class="form-control" id="recipient-name">
+                <div class="datepicker input-group date">
+                    <span class="input-group-addon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                    <input asp-for="Driver.DateOfBirth" type="datetime" class="form-control" >
+
+                </div>
             </div>
 
         </div>
@@ -125,7 +137,7 @@ else
         <div class="form-group row">
             <label asp-for="Driver.DriverStatus" class="col-sm-3 col-form-label">Статус водителя:</label>
             <div class="col-sm-9">
-                <select asp-for="Driver.DriverStatus" asp-items="@Html.GetEnumSelectList<DriverStatus>()" class="form-control"></select>
+                <select asp-for="Driver.DriverStatus" asp-items="@Html.GetEnumSelectList<DriverStatus>()" class="selectpicker form-control" data-live-search="true"></select>
             </div>
 
         </div>

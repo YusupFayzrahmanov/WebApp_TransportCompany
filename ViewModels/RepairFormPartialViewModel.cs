@@ -7,7 +7,12 @@ namespace WebApp_TransportCompany.ViewModels
     {
         public Repair Repair { get; set; }
 
-        public IEnumerable<Truck> Trucks { get; set; }
+        public int TruckId { get; set; }
+
+        public int DriverId { get; set; }
+
+        public int RepairTypeId { get; set; }
+
         public bool Readonly { get; set; }
     }
 }

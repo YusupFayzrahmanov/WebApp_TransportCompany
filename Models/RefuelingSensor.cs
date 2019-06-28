@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApp_TransportCompany.Models
@@ -19,9 +20,9 @@ namespace WebApp_TransportCompany.Models
         public Truck Truck { get; set; }
 
         /// <summary>
-        /// Водитель
+        /// Пользователь
         /// </summary>
-        public Driver Driver { get; set; }
+        public IdentityUser IdentityUser { get; set; }
 
         /// <summary>
         /// Дата заправки

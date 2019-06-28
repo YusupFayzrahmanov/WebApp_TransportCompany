@@ -9,10 +9,6 @@ namespace WebApp_TransportCompany.Repositories
 {
     public interface IRefuelingRepository
     {
-        ///Ср.цена за литр + ср.расход дт.
-        ///Чеки точно
-        ///сенсор через автоГРАФ ??
-        ///
         Task<IEnumerable<RefuelingSensor>> GetAllRefuelingSensor(IdentityUser identityUser);
 
         Task<IEnumerable<RefuelingCheck>> GetAllRefuelingCheck(IdentityUser identityUser);
@@ -66,6 +62,18 @@ namespace WebApp_TransportCompany.Repositories
         Task DeleteRefuelingCheck(RefuelingCheck refuelingCheck);
 
         Task DeleteRefuelingReport(RefuelingReport refuelingReport);
+
+        Task<IEnumerable<TatneftCard>> GetTatneftCards(IdentityUser identityUser);
+
+        Task<TatneftCard> GetTatneftCard(int id);
+
+        Task<TatneftCard> GetTatneftCardByNumber(string number);
+
+        Task AddTatneftCard(TatneftCard tatneftCard);
+
+        Task UpdateTatneftCard(TatneftCard tatneftCard);
+
+        Task DeleteTatneftCard(int id);
     }
     
 }

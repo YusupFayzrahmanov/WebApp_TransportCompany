@@ -22,8 +22,8 @@
 }
 <!-- Page Heading -->
 @*<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Главная страница</h1>
-</div>*@
+        <h1 class="h3 mb-0 text-gray-800">Главная страница</h1>
+    </div>*@
 
 <!-- Content Row -->
 <div class="row">
@@ -36,8 +36,8 @@
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Свободных грузовиков</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                        <a asp-controller="Truck" asp-action="IndexTruck" 
-                           asp-route-status="@TruckStatus.Free">@_statisticsRepository.GetStatusTruckCount(identityUser, TruckStatus.Free)</a>
+                            <a asp-controller="Truck" asp-action="IndexTruck"
+                               asp-route-status="@TruckStatus.Free">@_statisticsRepository.GetStatusTruckCount(identityUser, TruckStatus.Free)</a>
                         </div>
                     </div>
                     <div class="col-auto">
@@ -222,5 +222,7 @@
     @{ await Html.RenderPartialAsync("_TruckChartLineScriptsPartial", truckStatsVm);}
     @{ await Html.RenderPartialAsync("_DriverChartLineScriptsPartial", driverStatsVm);}
     @{ await Html.RenderPartialAsync("_EarningsChartLineScriptsPartial", earningsStatsVm);}
+    <partial name="_AjaxModalScriptPartial" />
+
 }
 

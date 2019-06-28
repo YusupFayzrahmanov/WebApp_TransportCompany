@@ -1,0 +1,103 @@
+﻿@using WebApp_TransportCompany.ViewModels
+@using WebApp_TransportCompany.Models.Enums
+@using WebApp_TransportCompany.Repositories
+@model SalaryFormViewModel
+@inject IUserRepository _userRepository
+@inject IDriverRepository _driverRepository
+@{
+    var _drivers = await _driverRepository.GetDrivers(await _userRepository.GetIdentityUser(User));
+}
+
+<div id="salary-edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form asp-controller="Salary" asp-action="Edit" method="post">
+                <div class="form-group row">
+                    <label asp-for="Salary.Driver" class="col-sm-3 col-form-label">Водитель:</label>
+                    <div class="col-sm-9">
+                        <select asp-for="DriverId" class="form-control">
+                            @{
+                                foreach (var _item in _drivers)
+                                {
+                                    <option value="@Model.Salary.Driver.Id" selected>@Model.Salary.Driver.Name @Model.Salary.Driver.Surname @Model.Salary.Driver.FirstPhone</option>
+                                    <option value="@_item.Id">@_item.Name @_item.Surname @_item.FirstPhone</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Salary.StartPeriod" class="col-sm-3 col-form-label">Начало:</label>
+                    <div class="col-sm-9">
+                        <div class="datepicker input-group date">
+                            <span class="input-group-addon">
+                                <i class="fas fa-calendar"></i>
+                            </span>
+                            <input asp-for="Salary.StartPeriod" type="datetime" value="@Model.Salary.StartPeriod" class="form-control" >
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Salary.EndPeriod" class="col-sm-3 col-form-label">Конец:</label>
+                    <div class="col-sm-9">
+                        <div class="datepicker input-group date">
+                            <span class="input-group-addon">
+                                <i class="fas fa-calendar"></i>
+                            </span>
+                            <input asp-for="Salary.EndPeriod" value="@Model.Salary.EndPeriod" type="datetime" class="form-control" >
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Salary.Amount" class="col-sm-3 col-form-label">Сумма:</label>
+                    <div class="col-sm-9">
+                        <input asp-for="Salary.Amount" value="@Model.Salary.Amount" type="number" class="form-control" >
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Salary.WrittenOff" class="col-sm-3 col-form-label">Списано средств:</label>
+                    <div class="col-sm-9">
+                        <input asp-for="Salary.WrittenOff" value="@Model.Salary.WrittenOff" type="number" class="form-control" />
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Salary.PaymentMethod" class="col-sm-3 col-form-label">Метод оплаты:</label>
+                    <div class="col-sm-9">
+                        <select asp-for="Salary.PaymentMethod" class="form-control" asp-items="@Html.GetEnumSelectList<PaymentMethod>()"></select>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Salary.OperationDate" class="col-sm-3 col-form-label">Дата оплаты:</label>
+                    <div class="col-sm-9">
+                        <div class="datepicker input-group date">
+                            <span class="input-group-addon">
+                                <i class="fas fa-calendar"></i>
+                            </span>
+                            <input asp-for="Salary.OperationDate" type="datetime" class="form-control" >
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Salary.Note" class="col-sm-3 col-form-label">Примечание:</label>
+                    <div class="col-sm-9">
+                        <textarea asp-for="Salary.Note" class="form-control">@Model.Salary.Note</textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer row justify-content-center">
+                    <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

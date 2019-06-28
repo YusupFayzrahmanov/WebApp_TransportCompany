@@ -1,0 +1,40 @@
+﻿@model TatneftCard
+<div id="card-edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form asp-controller="Refueling" asp-action="UpdateCard" method="post">
+                @if(Model != null)
+                {
+                    <input name="modelId" value="@Model.Id" style="display:none"/>
+                }
+                <div class="form-group row">
+                    <label asp-for="Number" class="col-sm-3 col-form-label">Номер:</label>
+                    <div class="col-sm-9">
+                        <input asp-for="Number" type="text" value="@(Model != null? Model.Number: "")" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Date" class="col-sm-3 col-form-label">Дата:</label>
+                    <div class="col-sm-9">
+                        <div class="datepicker input-group date">
+                            <span class="input-group-addon">
+                                <i class="fas fa-calendar"></i>
+                            </span>
+                            <input asp-for="Date" type="text" value="@(Model!=null?Model.Date.Value.ToString(): "")" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Note" class="col-sm-3 col-form-label">Примечание:</label>
+                    <div class="col-sm-9">
+                        <input asp-for="Note" type="text" value="@(Model!=null?Model.Note:"")" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer row justify-content-center">
+                    <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

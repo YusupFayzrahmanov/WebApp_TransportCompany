@@ -12,27 +12,31 @@ using WebApp_TransportCompany.ViewModels;
 
 namespace WebApp_TransportCompany.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class DriverController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IUserRepository _userRepository;
 
         private readonly IDriverRepository _driverRepository;
 
         private readonly ITruckRepository _truckRepository;
 
+        private readonly IRefuelingRepository _refuelingRepository;
+
         public DriverController(IDriverRepository driverRepository,
             ITruckRepository truckRepository,
-            UserManager<IdentityUser> userManager)
+            IUserRepository userRepository,
+            IRefuelingRepository refuelingRepository)
         {
             _driverRepository = driverRepository;
             _truckRepository = truckRepository;
-            _userManager = userManager;
+            _userRepository = userRepository;
+            _refuelingRepository = refuelingRepository;
         }
         // GET: Driver
         public async Task<IActionResult> IndexDriver()
         {
-            var _identityUser = await _userManager.GetUserAsync(User);
+            var _identityUser = await _userRepository.GetIdentityUser(User);
 
             var _vm = new DriverViewModel()
             {
@@ -44,11 +48,12 @@ namespace WebApp_TransportCompany.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Driver driver, int truckId)
+        public async Task<IActionResult> Create(DriverFormPartialViewModel vm, int truckId, int cardId)
         {
-            driver.Truck = await _truckRepository.GetTruck(truckId);
-            driver.Identity = await _userManager.GetUserAsync(User);
-            await _driverRepository.AddDriver(driver);
+            vm.Driver.Truck = await _truckRepository.GetTruck(truckId);
+            vm.Driver.Identity = await _userRepository.GetIdentityUser(User);
+            
+            await _driverRepository.AddDriver(vm.Driver);
             return RedirectToAction("IndexDriver");
         }
 
@@ -67,7 +72,7 @@ namespace WebApp_TransportCompany.Controllers
 
         public async Task<IActionResult> Edit(int item)
         {
-            var _identityUser = await _userManager.GetUserAsync(User);
+            var _identityUser = await _userRepository.GetIdentityUser(User);
 
             return View(new DriverFormPartialViewModel()
             {
@@ -78,8 +83,10 @@ namespace WebApp_TransportCompany.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(DriverFormPartialViewModel vm)
+        public async Task<IActionResult> Edit(DriverFormPartialViewModel vm, int truckId, int cardId)
         {
+            vm.Driver.Truck = await _truckRepository.GetTruck(truckId);
+
             await _driverRepository.UpdateDriver(vm.Driver);
             return RedirectToAction("IndexDriver");
         }

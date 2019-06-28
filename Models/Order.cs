@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using WebApp_TransportCompany.Models.Enums;
 
@@ -55,11 +54,6 @@ namespace WebApp_TransportCompany.Models
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
-
-        /// <summary>
-        /// Описание
-        /// </summary>
-        public string Description { get; set; }
 
         /// <summary>
         /// Точка отбытия

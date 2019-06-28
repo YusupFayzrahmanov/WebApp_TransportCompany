@@ -35,15 +35,9 @@ namespace WebApp_TransportCompany.Controllers
         }
 
         // GET: Report
-        public async Task<IActionResult> IndexReport()
+        public IActionResult IndexReport()
         {
-            var _identityUser = await _userManager.GetUserAsync(User);
-            var vm = new ReportViewModel()
-            {
-                Reports = await _reportRepository.GetReports(_identityUser),
-                Trucks = await _truckRepository.GetTrucks(_identityUser)
-            };
-            return View(vm);
+            return View();
         }
 
         
@@ -73,7 +67,8 @@ namespace WebApp_TransportCompany.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            return View(await _reportRepository.GetReport(id));
+            
+            return PartialView("_ReportDetailsModalPartial",await _reportRepository.GetReport(id));
         }
 
         public async Task<IActionResult> Edit(int item)

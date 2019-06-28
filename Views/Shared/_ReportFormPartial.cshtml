@@ -1,71 +1,117 @@
 ﻿@using WebApp_TransportCompany.ViewModels
-@model ReportFormPartialViewModel
-@if (Model.Report != null)
+@using WebApp_TransportCompany.Repositories
+@model Report
+@inject ITruckRepository _truckRepository
+@inject IUserRepository _userRepository
+@inject IDriverRepository _driverRepository
+@{ 
+    var _identityUser = await _userRepository.GetIdentityUser(User);
+    var _trucks = await _truckRepository.GetTrucks(_identityUser);
+    var _drivers = await _driverRepository.GetDrivers(_identityUser);
+}
+@if (Model != null)
 {
     <form asp-controller="Report" asp-action="Edit" method="post">
-        <input type="number" asp-for="Report.Id" value="@Model.Report.Id" style="display: none" />
+        <input type="number" asp-for="Id" value="@Model.Id" style="display: none" />
         <div class="form-group row">
-            <label asp-for="Report.Truck" class="col-sm-3 col-form-label">Грузовик:</label>
+            <label name="truckId" class="col-sm-3 col-form-label">Грузовик:</label>
             <div class="col-sm-9">
                 @{ await Html.RenderPartialAsync("_SelectTruckPartial",
-                              new SelectTruckPartialViewModel()
-                              { Trucks = Model.Trucks, Multiple = false, Truck = Model.Report.Truck });}
+                                 new SelectTruckPartialViewModel()
+                                 { Trucks = _trucks, Multiple = false, Truck = Model.Truck });}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label name="DriverId" class="col-sm-3 col-form-label">Водитель:</label>
+            <div class="col-sm-9">
+                <select name="DriverId" class="form-control">
+                    <option value="@Model.Driver.Id" selected>@Model.Driver.Id - @Model.Driver.Name @Model.Driver.Surname</option>
+                    @{
+                        foreach (var _item in _drivers)
+                        {
+                            <option value="@_item.Id">@_item.Id - @_item.Name @_item.Surname</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="DepartureDate" class="col-sm-3 col-form-label">Дата отбытия:</label>
+            <div class="col-sm-9">
+                <div class="datepicker input-group date">
+                    <span class="input-group-addon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                    <input asp-for="DepartureDate" value="@Model.DepartureDate" type="datetime" class="form-control">
+                </div>
+                
             </div>
 
         </div>
         <div class="form-group row">
-            <label asp-for="Report.DepartureDate" class="col-sm-3 col-form-label">Дата отбытия:</label>
+            <label asp-for="ArrivalDate" class="col-sm-3 col-form-label">Дата прибытия:</label>
             <div class="col-sm-9">
-                <input asp-for="Report.DepartureDate" value="@Model.Report.DepartureDate" type="datetime" class="form-control" id="recipient-name">
+                <div class="datepicker input-group date">
+                    <span class="input-group-addon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                    <input asp-for="ArrivalDate" value="@Model.ArrivalDate" type="datetime" class="form-control">
+                </div>
+                
             </div>
 
         </div>
         <div class="form-group row">
-            <label asp-for="Report.ArrivalDate" class="col-sm-3 col-form-label">Дата прибытия:</label>
+            <label asp-for="DepartureRemainderFuel" class="col-sm-3 col-form-label">Топливо до:</label>
             <div class="col-sm-9">
-                <input asp-for="Report.ArrivalDate" value="@Model.Report.ArrivalDate" type="datetime" class="form-control" id="recipient-name">
+                <input asp-for="DepartureRemainderFuel" value="@Model.DepartureRemainderFuel" type="number" class="form-control" id="recipient-name">
             </div>
 
         </div>
         <div class="form-group row">
-            <label asp-for="Report.DepartureRemainderFuel" class="col-sm-3 col-form-label">Топливо до:</label>
+            <label asp-for="ArrivalRemainderFuel" class="col-sm-3 col-form-label">Топливо после:</label>
             <div class="col-sm-9">
-                <input asp-for="Report.DepartureRemainderFuel" value="@Model.Report.DepartureRemainderFuel" type="number" class="form-control" id="recipient-name">
+                <input asp-for="ArrivalRemainderFuel" value="@Model.ArrivalRemainderFuel" type="number" class="form-control" />
             </div>
 
         </div>
         <div class="form-group row">
-            <label asp-for="Report.ArrivalRemainderFuel" class="col-sm-3 col-form-label">Топливо после:</label>
+            <label asp-for="DepartureMileage" class="col-sm-3 col-form-label">Пробег до:</label>
             <div class="col-sm-9">
-                <input asp-for="Report.ArrivalRemainderFuel" value="@Model.Report.ArrivalRemainderFuel" type="number" class="form-control" />
+                <input type="number" value="@Model.DepartureMileage" asp-for="DepartureMileage" class="form-control">
             </div>
 
         </div>
         <div class="form-group row">
-            <label asp-for="Report.DepartureMileage" class="col-sm-3 col-form-label">Пробег до:</label>
+            <label asp-for="ArrivalMileage" class="col-sm-3 col-form-label">Пробег после:</label>
             <div class="col-sm-9">
-                <input type="number" value="@Model.Report.DepartureMileage" asp-for="Report.DepartureMileage" class="form-control">
+                <input type="number" asp-for="ArrivalMileage" value="@Model.ArrivalMileage" class="form-control" id="recipient-name">
             </div>
 
         </div>
         <div class="form-group row">
-            <label asp-for="Report.ArrivalMileage" class="col-sm-3 col-form-label">Пробег после:</label>
+            <label asp-for="ReceivedMoney" class="col-sm-3 col-form-label">Денег выдано:</label>
             <div class="col-sm-9">
-                <input type="number" asp-for="Report.ArrivalMileage" value="@Model.Report.ArrivalMileage" class="form-control" id="recipient-name">
+                <input asp-for="ReceivedMoney" value="@Model.ReceivedMoney" type="number" class="form-control">
             </div>
 
         </div>
         <div class="form-group row">
-            <label asp-for="Report.ReceivedMoney" class="col-sm-3 col-form-label">Денег выдано:</label>
+            <label asp-for="SpentMoney" class="col-sm-3 col-form-label">Денег потрачено:</label>
             <div class="col-sm-9">
-                <input asp-for="Report.ReceivedMoney" value="@Model.Report.ReceivedMoney" type="number" class="form-control">
+                <input asp-for="SpentMoney" value="@Model.SpentMoney" type="number" class="form-control" />
             </div>
-
         </div>
         <div class="form-group row">
-            <label asp-for="Report.SpentMoney" class="col-sm-3 col-form-label">Денег потрачено:</label>
+            <label asp-for="AverageFuelConsumption" class="col-sm-3 col-form-label">Средний расход топлива:</label>
             <div class="col-sm-9">
-                <input asp-for="Report.SpentMoney" value="@Model.Report.SpentMoney" type="number" class="form-control" />
+                <input asp-for="AverageFuelConsumption" value="@Model.AverageFuelConsumption" type="number" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="AverageFuelPrice" class="col-sm-3 col-form-label">Средний цена топлива:</label>
+            <div class="col-sm-9">
+                <input asp-for="AverageFuelPrice" value="@Model.AverageFuelPrice" type="number" class="form-control" />
             </div>
         </div>
         <div class="modal-footer row justify-content-center">
@@ -76,74 +122,110 @@
 }
 else
 {
-    <form asp-controller="Report" asp-action="Create" method="post">
-        <div class="form-group row">
-            <label asp-for="Report.Truck" class="col-sm-3 col-form-label">Грузовик:</label>
-            <div class="col-sm-9">
-                @{ await Html.RenderPartialAsync("_SelectTruckPartial",
+<form asp-controller="Report" asp-action="Create" method="post">
+    <div class="form-group row">
+        <label name="truckId" class="col-sm-3 col-form-label">Грузовик:</label>
+        <div class="col-sm-9">
+            @{ await Html.RenderPartialAsync("_SelectTruckPartial",
                               new SelectTruckPartialViewModel()
-                              { Trucks = Model.Trucks, Multiple = false });}
+                              { Trucks = _trucks, Multiple = false });}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label name="DriverId" class="col-sm-3 col-form-label">Водитель:</label>
+        <div class="col-sm-9">
+            <select name="DriverId" class="form-control">
+                @{
+                    foreach (var _item in _drivers)
+                    {
+                        <option value="@_item.Id">@_item.Id - @_item.Name @_item.Surname</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="DepartureDate" class="col-sm-3 col-form-label">Дата отбытия:</label>
+        <div class="col-sm-9">
+            <div class="datepicker input-group date">
+                <span class="input-group-addon">
+                    <i class="fas fa-calendar"></i>
+                </span>
+                <input asp-for="DepartureDate" type="datetime" class="form-control">
             </div>
+            
+        </div>
 
-        </div>
-        <div class="form-group row">
-            <label asp-for="Report.DepartureDate" class="col-sm-3 col-form-label">Дата отбытия:</label>
-            <div class="col-sm-9">
-                <input asp-for="Report.DepartureDate" type="datetime" class="form-control" id="recipient-name">
+    </div>
+    <div class="form-group row">
+        <label asp-for="ArrivalDate" class="col-sm-3 col-form-label">Дата прибытия:</label>
+        <div class="col-sm-9">
+            <div class="datepicker input-group date">
+                <span class="input-group-addon">
+                    <i class="fas fa-calendar"></i>
+                </span>
+                <input asp-for="ArrivalDate" type="datetime" class="form-control">
             </div>
+           
+        </div>
 
+    </div>
+    <div class="form-group row">
+        <label asp-for="DepartureRemainderFuel" class="col-sm-3 col-form-label">Топливо до:</label>
+        <div class="col-sm-9">
+            <input asp-for="DepartureRemainderFuel" type="number" class="form-control" id="recipient-name">
         </div>
-        <div class="form-group row">
-            <label asp-for="Report.ArrivalDate" class="col-sm-3 col-form-label">Дата прибытия:</label>
-            <div class="col-sm-9">
-                <input asp-for="Report.ArrivalDate" type="datetime" class="form-control" id="recipient-name">
-            </div>
 
+    </div>
+    <div class="form-group row">
+        <label asp-for="ArrivalRemainderFuel" class="col-sm-3 col-form-label">Топливо после:</label>
+        <div class="col-sm-9">
+            <input asp-for="ArrivalRemainderFuel" type="number" class="form-control" />
         </div>
-        <div class="form-group row">
-            <label asp-for="Report.DepartureRemainderFuel" class="col-sm-3 col-form-label">Топливо до:</label>
-            <div class="col-sm-9">
-                <input asp-for="Report.DepartureRemainderFuel" type="number" class="form-control" id="recipient-name">
-            </div>
 
+    </div>
+    <div class="form-group row">
+        <label asp-for="DepartureMileage" class="col-sm-3 col-form-label">Пробег до:</label>
+        <div class="col-sm-9">
+            <input type="number" asp-for="DepartureMileage" class="form-control">
         </div>
-        <div class="form-group row">
-            <label asp-for="Report.ArrivalRemainderFuel" class="col-sm-3 col-form-label">Топливо после:</label>
-            <div class="col-sm-9">
-                <input asp-for="Report.ArrivalRemainderFuel" type="number" class="form-control" />
-            </div>
 
+    </div>
+    <div class="form-group row">
+        <label asp-for="ArrivalMileage" class="col-sm-3 col-form-label">Пробег после:</label>
+        <div class="col-sm-9">
+            <input type="number" asp-for="ArrivalMileage" class="form-control" id="recipient-name">
         </div>
-        <div class="form-group row">
-            <label asp-for="Report.DepartureMileage" class="col-sm-3 col-form-label">Пробег до:</label>
-            <div class="col-sm-9">
-                <input type="number" asp-for="Report.DepartureMileage" class="form-control">
-            </div>
 
+    </div>
+    <div class="form-group row">
+        <label asp-for="ReceivedMoney" class="col-sm-3 col-form-label">Денег выдано:</label>
+        <div class="col-sm-9">
+            <input asp-for="ReceivedMoney" type="number" class="form-control">
         </div>
-        <div class="form-group row">
-            <label asp-for="Report.ArrivalMileage" class="col-sm-3 col-form-label">Пробег после:</label>
-            <div class="col-sm-9">
-                <input type="number" asp-for="Report.ArrivalMileage" class="form-control" id="recipient-name">
-            </div>
 
+    </div>
+    <div class="form-group row">
+        <label asp-for="SpentMoney" class="col-sm-3 col-form-label">Денег потрачено:</label>
+        <div class="col-sm-9">
+            <input asp-for="SpentMoney" type="number" class="form-control" />
         </div>
-        <div class="form-group row">
-            <label asp-for="Report.ReceivedMoney" class="col-sm-3 col-form-label">Денег выдано:</label>
-            <div class="col-sm-9">
-                <input asp-for="Report.ReceivedMoney" type="number" class="form-control">
-            </div>
-
+    </div>
+    <div class="form-group row">
+        <label asp-for="AverageFuelConsumption" class="col-sm-3 col-form-label">Средний расход топлива:</label>
+        <div class="col-sm-9">
+            <input asp-for="AverageFuelConsumption" type="number" class="form-control" />
         </div>
-        <div class="form-group row">
-            <label asp-for="Report.SpentMoney" class="col-sm-3 col-form-label">Денег потрачено:</label>
-            <div class="col-sm-9">
-                <input asp-for="Report.SpentMoney" type="number" class="form-control" />
-            </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="AverageFuelPrice" class="col-sm-3 col-form-label">Средний цена топлива:</label>
+        <div class="col-sm-9">
+            <input asp-for="AverageFuelPrice" type="number" class="form-control" />
         </div>
-        <div class="modal-footer row justify-content-center">
-            <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
-            <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
-        </div>
-    </form>
+    </div>
+    <div class="modal-footer row justify-content-center">
+        <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+        <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+    </div>
+</form>
 }

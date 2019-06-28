@@ -53,6 +53,12 @@ namespace WebApp_TransportCompany.Repositories
             await Save();
         }
 
+        public async Task AddTatneftCard(TatneftCard tatneftCard)
+        {
+            await _context.TatneftCards.AddAsync(tatneftCard);
+            await Save();
+        }
+
         public async Task DeleteRefuelingCheck(RefuelingCheck refuelingCheck)
         {
             _context.RefuelingsCheck.Remove(refuelingCheck);
@@ -71,10 +77,15 @@ namespace WebApp_TransportCompany.Repositories
             await Save();
         }
 
+        public async Task DeleteTatneftCard(int id)
+        {
+            _context.TatneftCards.Remove(await _context.TatneftCards.FindAsync(id));
+            await Save();
+        }
+
         public async Task<IEnumerable<RefuelingCheck>> GetAllRefuelingCheck(IdentityUser identityUser)
         {
             return await _context.RefuelingsCheck
-                .Include(x => x.Driver)
                 .Include(x => x.Truck)
                 .Where(x => x.Truck.Identity.Id == identityUser.Id)
                 .ToListAsync();
@@ -92,20 +103,23 @@ namespace WebApp_TransportCompany.Repositories
         public async Task<IEnumerable<RefuelingSensor>> GetAllRefuelingSensor(IdentityUser identityUser)
         {
             return await _context.RefuelingsSensor
-                .Include(x => x.Driver)
                 .Include(x => x.Truck)
                 .Where(x => x.Truck.Identity.Id == identityUser.Id)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<RefuelingCheck>> GetDriverRefuelingChecks(Driver driver)
+        public Task<IEnumerable<RefuelingCheck>> GetDriverRefuelingChecks(Driver driver)
         {
-            return await _context.RefuelingsCheck
-                .Include(x => x.Driver)
-                .Include(x => x.Truck)
-                .Where(x => x.Driver.Id == driver.Id)
-                .ToListAsync();
+            throw new NotImplementedException();
         }
+
+        //public async Task<IEnumerable<RefuelingCheck>> GetDriverRefuelingChecks(Driver driver)
+        //{
+        //    return await _context.RefuelingsCheck
+        //        .Include(x => x.Truck)
+        //        .Where(x => x.Driver.Id == driver.Id)
+        //        .ToListAsync();
+        //}
 
         public async Task<IEnumerable<RefuelingReport>> GetDriverRefuelingReport(Driver driver)
         {
@@ -116,19 +130,22 @@ namespace WebApp_TransportCompany.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<RefuelingSensor>> GetDriverRefuelingSensors(Driver driver)
+        public Task<IEnumerable<RefuelingSensor>> GetDriverRefuelingSensors(Driver driver)
         {
-            return await _context.RefuelingsSensor
-                .Include(x => x.Driver)
-                .Include(x => x.Truck)
-                .Where(x => x.Driver.Id == driver.Id)
-                .ToListAsync();
+            throw new NotImplementedException();
         }
+
+        //public async Task<IEnumerable<RefuelingSensor>> GetDriverRefuelingSensors(Driver driver)
+        //{
+        //    return await _context.RefuelingsSensor
+        //        .Include(x => x.Truck)
+        //        .Where(x => x.Driver.Id == driver.Id)
+        //        .ToListAsync();
+        //}
 
         public async Task<RefuelingCheck> GetRefuelingCheck(int id)
         {
             return await _context.RefuelingsCheck
-                .Include(x => x.Driver)
                 .Include(x => x.Truck)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -136,7 +153,6 @@ namespace WebApp_TransportCompany.Repositories
         public async Task<IEnumerable<RefuelingCheck>> GetRefuelingChecksByDate(DateTime start, DateTime end)
         {
             return await _context.RefuelingsCheck
-                .Include(x => x.Driver)
                 .Include(x => x.Truck)
                 .Where(x => x.RefuelDate >= start && x.RefuelDate <= end)
                 .ToListAsync();
@@ -162,7 +178,6 @@ namespace WebApp_TransportCompany.Repositories
         public async Task<RefuelingSensor> GetRefuelingSensor(int id)
         {
             return await _context.RefuelingsSensor
-                .Include(x => x.Driver)
                 .Include(x => x.Truck)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -170,16 +185,29 @@ namespace WebApp_TransportCompany.Repositories
         public async Task<IEnumerable<RefuelingSensor>> GetRefuelingSensorsByDate(DateTime start, DateTime end)
         {
             return await _context.RefuelingsSensor
-               .Include(x => x.Driver)
                .Include(x => x.Truck)
                .Where(x => x.RefuelDate >= start && x.RefuelDate <= end)
                .ToListAsync();
         }
 
+        public async Task<TatneftCard> GetTatneftCard(int id)
+        {
+            return await _context.TatneftCards
+                .Include(x => x.Drivers)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<TatneftCard>> GetTatneftCards(IdentityUser identityUser)
+        {
+            return await _context.TatneftCards
+                .Include(x => x.Drivers)
+                .Where(x => x.Identity.Id == identityUser.Id)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<RefuelingCheck>> GetTruckRefuelingChecks(Truck truck)
         {
             return await _context.RefuelingsCheck
-                .Include(x => x.Driver)
                 .Include(x => x.Truck)
                 .Where(x => x.Truck.Id == truck.Id)
                 .ToListAsync();
@@ -197,7 +225,6 @@ namespace WebApp_TransportCompany.Repositories
         public async Task<IEnumerable<RefuelingSensor>> GetTruckRefuelingSensors(Truck truck)
         {
             return await _context.RefuelingsSensor
-                .Include(x => x.Driver)
                 .Include(x => x.Truck)
                 .Where(x => x.Truck.Id == truck.Id)
                 .ToListAsync();
@@ -219,6 +246,18 @@ namespace WebApp_TransportCompany.Repositories
         {
             _context.RefuelingsSensor.Update(refuelingSensor);
             await Save();
+        }
+
+        public async Task UpdateTatneftCard(TatneftCard tatneftCard)
+        {
+            _context.TatneftCards.Update(tatneftCard);
+            await Save();
+        }
+
+        public async Task<TatneftCard> GetTatneftCardByNumber(string number)
+        {
+            return await _context.TatneftCards
+                .FirstOrDefaultAsync(x => x.Number == number);
         }
     }
 }

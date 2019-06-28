@@ -42,6 +42,12 @@ namespace WebApp_TransportCompany.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public Truck GetTruckByCardNumber(string number)
+        {
+            return _context.Trucks
+                .Include(x => x.TatneftCard)
+                .FirstOrDefault(x => x.TatneftCard.Number == number);
+        }
 
         public async Task<IEnumerable<Truck>> GetTrucks(IdentityUser user)
         {

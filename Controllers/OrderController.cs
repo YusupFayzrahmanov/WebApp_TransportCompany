@@ -21,25 +21,23 @@ namespace WebApp_TransportCompany.Controllers
 
         private readonly ITruckRepository _truckRepository;
 
+        private readonly IDriverRepository _driverRepository;
+
         public OrderController(ITruckRepository truckRepository,
             IOrderRepository orderRepository, 
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            IDriverRepository driverRepository)
         {
             _orderRepository = orderRepository;
             _truckRepository = truckRepository;
             _userManager = userManager;
+            _driverRepository = driverRepository;
         }
 
         // GET: Order
-        public async Task<IActionResult> IndexOrder()
+        public IActionResult IndexOrder()
         {
-            var _identityUser = await _userManager.GetUserAsync(User);
-            var vm = new OrderViewModel()
-            {
-                Orders = await _orderRepository.GetOrders(_identityUser),
-                Trucks = await _truckRepository.GetTrucks(_identityUser)
-            };
-            return View(vm);
+            return View();
         }
 
         public async Task<IActionResult> GetOrderByTruck(int id)
@@ -52,12 +50,13 @@ namespace WebApp_TransportCompany.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Order order, int truckId)
+        public async Task<IActionResult> Create(Order order, int truckId, int DriverId)
         {
-            //order.Identity = await _userManager.GetUserAsync(User);
             var _truck = await _truckRepository.GetTruck(truckId);
+            order.Driver = await _driverRepository.GetDriver(DriverId);
             _truck.Status = Models.Enums.TruckStatus.InFlight;
             order.Truck = _truck;
+            order.IsPaid = false;
             await _truckRepository.UpdateTruck(_truck);
             await _orderRepository.AddOrder(order);
             return RedirectToAction("IndexOrder");
@@ -75,7 +74,8 @@ namespace WebApp_TransportCompany.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            return View(await _orderRepository.GetOrder(id));
+            return PartialView("_OrderDetailsModalPartial", 
+                await _orderRepository.GetOrder(id));
         }
 
         public async Task<IActionResult> Edit(int item)
@@ -90,9 +90,11 @@ namespace WebApp_TransportCompany.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(OrderFormPartialViewModel vm)
+        public async Task<IActionResult> Edit(Order order, int truckId, int DriverId)
         {
-            _orderRepository.UpdateOrder(vm.Order);
+            order.Truck = await _truckRepository.GetTruck(truckId);
+            order.Driver = await _driverRepository.GetDriver(DriverId);
+            await _orderRepository.UpdateOrder(order);
             return RedirectToAction("IndexOrder");
         }
 

@@ -1,7 +1,7 @@
 ﻿@using WebApp_TransportCompany.Models.Enums
 @model IEnumerable<Salary>
 
-<table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+<table class="table table-hover dataTable" id="salary-table" width="100%" cellspacing="0">
     <thead>
         <tr>
             <th>Сотрудник</th>
@@ -40,10 +40,10 @@
                                     <i class="fa fa-ellipsis-v"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a asp-controller="Salary" asp-action="Details" asp-route-id="@_item.Id" class="dropdown-item">
+                                    <a data-toggle="ajax-modal" item-url="/Salary/Details/@_item.Id" class="dropdown-item">
                                         Подробнее
                                     </a>
-                                    <a asp-controller="Salary" asp-action="Edit" class="dropdown-item" asp-route-item="@_item.Id">
+                                    <a data-toggle="ajax-modal" item-url="/Salary/Edit/@_item.Id" class="dropdown-item" asp-route-item="@_item.Id">
                                         Изменить
                                     </a>
                                     <button type="button" class="dropdown-item delete-item-btn" btn-delete-item-id="@_item.Id">

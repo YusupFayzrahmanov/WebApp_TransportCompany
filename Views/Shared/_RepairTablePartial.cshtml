@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Repair>
 
-<table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+<table class="table table-hover dataTable" id="repair" width="100%" cellspacing="0">
     <thead>
         <tr>
             <th>Номер т.с.</th>
@@ -28,15 +28,16 @@
                         <td>@_item.Name</td>
                         <td>@_item.Price</td>
                         <td>
-                            @if (_item.PreviousRepairDate.HasValue)
+                            @if(_item.PreviousRepair != null)
                             {
-                                @_item.PreviousRepairDate.Value.ToShortDateString()
+                                <a asp-controller="Repair" asp-action="Details" asp-route-id="@_item.PreviousRepair.Id">
+                                    @_item.PreviousRepair.RepairDate.ToShortDateString()
+                                </a>
                             }
                             else
                             {
-                                <label>None</label>
+                                <span class="text-danger">Отсутсвует</span>
                             }
-
                         </td>
                         <td>@_item.RepairDate</td>
                         <td>
@@ -66,7 +67,7 @@
                                     <i class="fa fa-ellipsis-v"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a asp-controller="Repair" asp-action="Details" asp-route-id="@_item.Id" class="dropdown-item">
+                                    <a data-toggle="ajax-modal" item-url="/Repair/Details/@_item.Id" class="dropdown-item">
                                         Подробнее
                                     </a>
                                     <a asp-controller="Repair" asp-action="Edit" class="dropdown-item" asp-route-item="@_item.Id">

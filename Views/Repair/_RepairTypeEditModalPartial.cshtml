@@ -1,0 +1,34 @@
+﻿@model RepairType
+<div id="repairtype-edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form asp-controller="Repair" asp-action="CreateRepairType" method="post">
+                <div class="form-group row">
+                    <label asp-for="Name" class="col-sm-3 col-form-label">Наименование:</label>
+                    <div class="col-sm-9">
+                        <input asp-for="Name" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="KilometersResource" class="col-sm-3 col-form-label">Ресурс километров:</label>
+                    <div class="col-sm-9">
+                        <input asp-for="KilometersResource" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="TimeResource.Days" class="col-sm-3 col-form-label">Временной ресурс(дней):</label>
+                    <div class="col-sm-9">
+                        <input asp-for="TimeResource.Days" type="number" class="form-control">
+                    </div>
+                </div>
+
+                <div class="modal-footer row justify-content-center">
+                    <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

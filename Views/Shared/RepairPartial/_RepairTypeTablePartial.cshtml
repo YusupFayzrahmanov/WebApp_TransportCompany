@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<RepairType>
-<table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+<table class="table table-hover dataTable" width="100%" cellspacing="0">
     <thead>
         <tr>
             <th>Наименование</th>
@@ -25,7 +25,7 @@
                                     <i class="fa fa-ellipsis-v"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a asp-controller="Repair" asp-action="EditRepairType" class="dropdown-item" asp-route-item="@_item.Id">
+                                    <a data-toggle="ajax-modal" item-url="/Repair/EditRepairType/@_item.Id" class="dropdown-item" >
                                         Изменить
                                     </a>
                                     <a asp-controller="Repair" asp-action="DeleteRepairType" class="dropdown-item" asp-route-item="@_item.Id">

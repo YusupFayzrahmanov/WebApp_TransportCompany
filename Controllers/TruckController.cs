@@ -53,10 +53,6 @@ namespace WebApp_TransportCompany.Controllers
         public async Task<IActionResult> Details(int truck)
         {
             var _truck = await _truckRepository.GetTruck(truck);
-            //var _orders = _context.Orders.Where(x => x.Truck.Id == truck);
-            //var _repairs = _context.Repairs.Where(x => x.Truck.Id == truck);
-            //var _reports = _context.Reports.Where(x => x.Truck.Id == truck);
-            //var _wheels = await _context.Wheels.Where(x => x.Truck.Id == truck && x.IsUsed).ToListAsync();
 
             var vm = new TruckDetailsViewModel()
             {

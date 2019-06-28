@@ -1,0 +1,31 @@
+﻿@using WebApp_TransportCompany.Repositories
+@inject IFineRepository _fineRepository
+@inject IUserRepository _userRepository
+@{
+    var fines = await _fineRepository.GetFines(await _userRepository.GetIdentityUser(User));
+}
+@section Styles
+{
+    <!-- Custom styles for this page -->
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <!-- PNotify -->
+    <link href="~/css/pnotify/pnotify.custom.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/css/bootstrap-select.min.css">
+}
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            @{ await Html.RenderPartialAsync("_FineTablePartial", fines);}
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="_AjaxModalScriptPartial" />
+    <partial name="~/Views/Shared/_DataTablesScriptsPartial.cshtml" />
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
+}
+

@@ -299,8 +299,6 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.Property<string>("DepPoint");
 
-                    b.Property<string>("Description");
-
                     b.Property<decimal>("Distance")
                         .HasColumnType("decimal(18,2)");
 
@@ -339,8 +337,6 @@ namespace WebApp_TransportCompany.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("DriverId");
-
                     b.Property<int>("GasStation");
 
                     b.Property<decimal>("Liters")
@@ -354,8 +350,6 @@ namespace WebApp_TransportCompany.Migrations
                     b.Property<int?>("TruckId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DriverId");
 
                     b.HasIndex("TruckId");
 
@@ -395,7 +389,7 @@ namespace WebApp_TransportCompany.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("DriverId");
+                    b.Property<string>("IdentityUserId");
 
                     b.Property<decimal>("Liters")
                         .HasColumnType("decimal(18,2)");
@@ -409,7 +403,7 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DriverId");
+                    b.HasIndex("IdentityUserId");
 
                     b.HasIndex("TruckId");
 
@@ -432,8 +426,6 @@ namespace WebApp_TransportCompany.Migrations
                     b.Property<DateTime?>("GuaranteeDeadline");
 
                     b.Property<string>("Name");
-
-                    b.Property<DateTime?>("PreviousRepairDate");
 
                     b.Property<int?>("PreviousRepairId");
 
@@ -567,11 +559,15 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.Property<DateTime?>("Date");
 
+                    b.Property<string>("IdentityId");
+
                     b.Property<string>("Note");
 
                     b.Property<string>("Number");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdentityId");
 
                     b.ToTable("TatneftCards");
                 });
@@ -599,7 +595,11 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.Property<string>("Note");
 
+                    b.Property<string>("RegistrationCertificate");
+
                     b.Property<int>("Status");
+
+                    b.Property<int?>("TatneftCardId");
 
                     b.Property<string>("TrailerLicState");
 
@@ -615,6 +615,8 @@ namespace WebApp_TransportCompany.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IdentityId");
+
+                    b.HasIndex("TatneftCardId");
 
                     b.ToTable("Trucks");
                 });
@@ -709,7 +711,7 @@ namespace WebApp_TransportCompany.Migrations
                         .HasForeignKey("IdentityId");
 
                     b.HasOne("WebApp_TransportCompany.Models.TatneftCard", "TatneftCard")
-                        .WithMany()
+                        .WithMany("Drivers")
                         .HasForeignKey("TatneftCardId");
 
                     b.HasOne("WebApp_TransportCompany.Models.Truck", "Truck")
@@ -731,11 +733,11 @@ namespace WebApp_TransportCompany.Migrations
             modelBuilder.Entity("WebApp_TransportCompany.Models.Fine", b =>
                 {
                     b.HasOne("WebApp_TransportCompany.Models.Driver", "Driver")
-                        .WithMany()
+                        .WithMany("Fines")
                         .HasForeignKey("DriverId");
 
                     b.HasOne("WebApp_TransportCompany.Models.Truck", "Truck")
-                        .WithMany()
+                        .WithMany("Fines")
                         .HasForeignKey("TruckId");
                 });
 
@@ -752,10 +754,6 @@ namespace WebApp_TransportCompany.Migrations
 
             modelBuilder.Entity("WebApp_TransportCompany.Models.RefuelingCheck", b =>
                 {
-                    b.HasOne("WebApp_TransportCompany.Models.Driver", "Driver")
-                        .WithMany()
-                        .HasForeignKey("DriverId");
-
                     b.HasOne("WebApp_TransportCompany.Models.Truck", "Truck")
                         .WithMany("RefuelingChecks")
                         .HasForeignKey("TruckId");
@@ -764,19 +762,19 @@ namespace WebApp_TransportCompany.Migrations
             modelBuilder.Entity("WebApp_TransportCompany.Models.RefuelingReport", b =>
                 {
                     b.HasOne("WebApp_TransportCompany.Models.Driver", "Driver")
-                        .WithMany()
+                        .WithMany("RefuelingReports")
                         .HasForeignKey("DriverId");
 
                     b.HasOne("WebApp_TransportCompany.Models.Truck", "Truck")
-                        .WithMany()
+                        .WithMany("RefuelingReports")
                         .HasForeignKey("TruckId");
                 });
 
             modelBuilder.Entity("WebApp_TransportCompany.Models.RefuelingSensor", b =>
                 {
-                    b.HasOne("WebApp_TransportCompany.Models.Driver", "Driver")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
-                        .HasForeignKey("DriverId");
+                        .HasForeignKey("IdentityUserId");
 
                     b.HasOne("WebApp_TransportCompany.Models.Truck", "Truck")
                         .WithMany("RefuelingSensors")
@@ -827,11 +825,22 @@ namespace WebApp_TransportCompany.Migrations
                         .HasForeignKey("DriverId");
                 });
 
+            modelBuilder.Entity("WebApp_TransportCompany.Models.TatneftCard", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Identity")
+                        .WithMany()
+                        .HasForeignKey("IdentityId");
+                });
+
             modelBuilder.Entity("WebApp_TransportCompany.Models.Truck", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Identity")
                         .WithMany()
                         .HasForeignKey("IdentityId");
+
+                    b.HasOne("WebApp_TransportCompany.Models.TatneftCard", "TatneftCard")
+                        .WithMany()
+                        .HasForeignKey("TatneftCardId");
                 });
 
             modelBuilder.Entity("WebApp_TransportCompany.Models.Wheel", b =>

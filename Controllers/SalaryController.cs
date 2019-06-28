@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebApp_TransportCompany.Data;
-using WebApp_TransportCompany.Models;
+using System.Threading.Tasks;
 using WebApp_TransportCompany.Repositories;
 using WebApp_TransportCompany.ViewModels;
 
 namespace WebApp_TransportCompany.Controllers
 {
+    [Authorize]
     public class SalaryController : Controller
     {
         private readonly IUserRepository _userRepository;
@@ -54,13 +49,13 @@ namespace WebApp_TransportCompany.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            return PartialView("~/Views/Shared/RepairPartial/_SalaryDetailsModalPartial.cshtml",
+            return PartialView("_SalaryDetailsModalPartial",
                 await _salaryRepository.GetSalary(id));
         }
 
         public async Task<IActionResult> Edit(int item)
         {
-            return PartialView("~/Views/Shared/RepairPartial/_SalaryEditModalPartial.cshtml",
+            return PartialView("_SalaryEditModalPartial",
                 await _salaryRepository.GetSalary(item));
         }
 

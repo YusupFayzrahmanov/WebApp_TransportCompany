@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebApp_TransportCompany.Data;
+using System.Threading.Tasks;
 using WebApp_TransportCompany.Models;
 using WebApp_TransportCompany.Repositories;
 using WebApp_TransportCompany.ViewModels;
@@ -32,15 +25,10 @@ namespace WebApp_TransportCompany.Controllers
             _userRepository = userRepository;
         }
         // GET: Repair
-        public async Task<IActionResult> IndexRepair()
+        public IActionResult IndexRepair()
         {
-            var _identityUser = await _userRepository.GetIdentityUser(User);
-            var vm = new RepairViewModel()
-            {
-                Repairs = await _repairRepository.GetRepairs(_identityUser),
-                Trucks = await _truckRepository.GetTrucks(_identityUser)
-            };
-            return View(vm);
+            
+            return View();
         }
 
         public async Task<IActionResult> GetRepairByTruck(int id)
@@ -68,7 +56,8 @@ namespace WebApp_TransportCompany.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            return View(await _repairRepository.GetRepair(id));
+            return PartialView("_RepairDetailsModalPartial", 
+                await _repairRepository.GetRepair(id));
         }
 
         public async Task<IActionResult> Edit(int item)
@@ -76,8 +65,8 @@ namespace WebApp_TransportCompany.Controllers
             var _identityUser = await _userRepository.GetIdentityUser(User);
             return View(new RepairFormPartialViewModel()
             {
-                Repair = await _repairRepository.GetRepair(item),
-                Trucks = await _truckRepository.GetTrucks(_identityUser)
+                Repair = await _repairRepository.GetRepair(item)
+                //Trucks = await _truckRepository.GetTrucks(_identityUser)
             });
         }
 

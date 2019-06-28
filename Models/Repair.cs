@@ -50,11 +50,6 @@ namespace WebApp_TransportCompany.Models
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Дата предыдущего ремонта
-        /// </summary>
-        public DateTime? PreviousRepairDate { get; set; }
-
-        /// <summary>
         /// Дата ремонта
         /// </summary>
         public DateTime RepairDate { get; set; }

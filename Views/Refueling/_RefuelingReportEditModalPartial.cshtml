@@ -1,0 +1,80 @@
+﻿@using WebApp_TransportCompany.Repositories
+@model RefuelingReport
+@inject ITruckRepository _truckRepository
+@inject IUserRepository _userRepository
+@inject IDriverRepository _driverRepository
+@{
+    var _identityUser = await _userRepository.GetIdentityUser(User);
+    var _trucks = await _truckRepository.GetTrucks(_identityUser);
+    var _drivers = await _driverRepository.GetDrivers(_identityUser);
+}
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Добавить новый грузовик</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Refueling" asp-action="Edit" method="post">
+
+                    <div class="form-group row">
+                        <label name="TruckId" class="col-sm-3 col-form-label">Номер грузовика:</label>
+                        <div class="col-sm-9">
+                            <select name="TruckId" class="form-control selectpicker">
+                                @{
+                                    <option value="@Model.Truck.Id">@Model.Truck.TruckLicState - @Model.Truck.Name @Model.Truck.Model</option>
+                                    foreach (var _item in _trucks)
+                                    {
+                                        <option value="@_item.Id">@_item.TruckLicState - @_item.Name @_item.Model</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                   
+                        <div class="form-group row">
+                            <label name="DriverId" class="col-sm-3 col-form-label">Водитель:</label>
+                            <div class="col-sm-9">
+                                <select name="DriverId" class="form-control selectpicker">
+                                    @{
+                                        <option value="@Model.Driver.Id">@Model.Driver.Id - @Model.Driver.Name @Model.Driver.Surname</option>
+                                        foreach (var _item in _drivers)
+                                        {
+                                            <option value="@_item.Id">@_item.Id - @_item.Name @_item.Surname</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    <div class="form-group row">
+                        <label asp-for="RefuelDate" class="col-sm-3 col-form-label">Дата заправки:</label>
+                        <div class="col-sm-9">
+                            <input type="datetime" asp-for="RefuelDate" class="form-control" value="@Model.RefuelDate">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Liters" class="col-sm-3 col-form-label">Литры:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="Liters" type="number" class="form-control" id="recipient-name" value="@Model.Liters">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Price" class="col-sm-3 col-form-label">Цена:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="Price" type="number" class="form-control" id="recipient-name" value="@Model.Price">
+                        </div>
+                    </div>
+                    <div class="modal-footer row justify-content-center">
+                        <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

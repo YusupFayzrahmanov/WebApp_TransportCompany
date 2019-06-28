@@ -66,6 +66,11 @@ namespace WebApp_TransportCompany.Models
         public DriverStatus DriverStatus { get; set; }
 
         /// <summary>
+        /// Доп. информация
+        /// </summary>
+        public string Note { get; set; }
+
+        /// <summary>
         /// Архив грузовиков
         /// </summary>
         public IEnumerable<DriverTruckHistory> TruckHistories { get; set; } = new List<DriverTruckHistory>();
@@ -91,8 +96,15 @@ namespace WebApp_TransportCompany.Models
         public IEnumerable<Report> Reports { get; set; } = new List<Report>();
 
         /// <summary>
-        /// Доп. информация
+        /// Список штрафов
         /// </summary>
-        public string Note { get; set; }
+        public IEnumerable<Fine> Fines { get; set; } = new List<Fine>();
+
+        /// <summary>
+        /// Отчеты о заправках
+        /// </summary>
+        public IEnumerable<RefuelingReport> RefuelingReports { get; set; } = new List<RefuelingReport>();
+
+
     }
 }

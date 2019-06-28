@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
 
 namespace WebApp_TransportCompany.Models
 {
@@ -18,6 +20,11 @@ namespace WebApp_TransportCompany.Models
         public string Number { get; set; }
 
         /// <summary>
+        /// Пользователь
+        /// </summary>
+        public IdentityUser Identity { get; set; }
+
+        /// <summary>
         /// Дата
         /// </summary>
         public DateTime? Date { get; set; }
@@ -26,5 +33,10 @@ namespace WebApp_TransportCompany.Models
         /// Примечание
         /// </summary>
         public string Note { get; set; }
+
+        /// <summary>
+        /// Водители
+        /// </summary>
+        public IEnumerable<Driver> Drivers { get; set; } = new List<Driver>();
     }
 }

@@ -6,6 +6,9 @@
     <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- PNotify -->
     <link href="~/css/pnotify/pnotify.custom.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/css/bootstrap-select.min.css">
+    <link href="~/vendor/datetimepicker/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
 }
 <!-- Button trigger modal -->
 <!-- Begin Page Content -->
@@ -39,11 +42,11 @@
             </div>
             <div class="modal-body">
                 @{ await Html.RenderPartialAsync("_DriverFormPartial",
-                                      new DriverFormPartialViewModel()
-                                      {
-                                          Driver = null,
-                                          Trucks = Model.Trucks
-                                      });}
+                                         new DriverFormPartialViewModel()
+                                         {
+                                             Driver = null,
+                                             Trucks = Model.Trucks
+                                         });}
 
             </div>
 
@@ -52,5 +55,9 @@
 </div>
 @section Scripts{
     <partial name="~/Views/Shared/_DataTablesScriptsPartial.cshtml" />
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
+    <partial name="_AjaxModalScriptPartial" />
+
 }
 

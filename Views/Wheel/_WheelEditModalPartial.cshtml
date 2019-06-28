@@ -1,0 +1,77 @@
+﻿@using WebApp_TransportCompany.Models.Enums
+@model Wheel
+<div class="modal fade" id="wheel-edit-modal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Изменить колесо</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Wheel" asp-action="Edit" method="post">
+                    <input name="truckId" readonly style="display:none" value="@Model.Truck.Id" />
+                    <input asp-for="Id" readonly style="display:none"  value="@Model.Id"/>
+                    <div class="form-group row">
+                        <label asp-for="Name" class="col-sm-3 col-form-label">Наименование:</label>
+                        <div class="col-sm-9">
+                            <input type="text" asp-for="Name" value="@Model.Name" class="form-control" id="recipient-name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Place" class="col-sm-3 col-form-label">Расположение:</label>
+                        <div class="col-sm-9">
+                            <select asp-for="Place" asp-items="@Html.GetEnumSelectList<WheelPlace>()" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="InstallationDate" class="col-sm-3 col-form-label">Дата установки:</label>
+                        <div class="col-sm-9">
+                            <div class="datepicker input-group date">
+                                <span class="input-group-addon">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                                <input type="datetime" asp-for="Truck.YearOfIssue" class="form-control" />
+                            </div>
+                            <input asp-for="InstallationDate" type="datetime" value="@Model.InstallationDate" class="form-control" id="recipient-name">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Price" class="col-sm-3 col-form-label">Цена:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="Price" type="number" value="@Model.Price" class="form-control" id="recipient-name">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="CurrentMileage" class="col-sm-3 col-form-label">Пробег:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="CurrentMileage" type="number" value="@Model.CurrentMileage" class="form-control" id="recipient-name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Condition" class="col-sm-3 col-form-label">Статус:</label>
+                        <div class="col-sm-9">
+                            <select asp-for="Condition" asp-items="@Html.GetEnumSelectList<WheelCondition>()" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Note" class="col-sm-3 col-form-label">Описание:</label>
+                        <div class="col-sm-9">
+                            <textarea asp-for="Note" class="form-control">@Model.Note</textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer row justify-content-center">
+                        <button type="button" class="btn btn-secondary col-sm-3" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary col-sm-3">Добавить</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

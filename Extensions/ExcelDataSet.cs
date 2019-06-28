@@ -6,19 +6,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using ExcelDataReader;
 using Newtonsoft.Json;
+using WebApp_TransportCompany.Models;
 
 namespace WebApp_TransportCompany.Extensions
 {
     public static class ExcelDataSet
     {
 
-        public static string Read()
+        public static List<TatneftReport> Read(string filePath)
         {
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             bool flag = false;
             List<TatneftReport> tatneftReports = new List<TatneftReport>();
             object cardNumber = null;
-            using (var stream = File.Open("C:\\Users\\User\\Desktop\\Учеба\\ПРОЕКТ УПРАВЛЕНИЯ ГРУЗОПЕРЕВОЗКАМИ\\оперативная справка по заправкам и состоянию счета.xls", 
+            using (var stream = File.Open(filePath, 
                 FileMode.Open, FileAccess.Read))
             {
                 // Auto-detect format, supports:
@@ -61,8 +62,9 @@ namespace WebApp_TransportCompany.Extensions
                     
                 }
             }
+
             
-            return JsonConvert.SerializeObject(tatneftReports);
+            return tatneftReports;
 
         }
     }

@@ -41,7 +41,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Views\Wheel\" />
+    <Folder Include="wwwroot\excel-checks\" />
   </ItemGroup>
 
 </Project>

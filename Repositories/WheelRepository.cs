@@ -62,18 +62,18 @@ namespace WebApp_TransportCompany.Repositories
         public async Task<Wheel> GetWheel(int id)
         {
             return await _context.Wheels
+                .Include(x => x.Truck)
                 .Include(x => x.PreviousWheel)
                     .ThenInclude(x => x.Truck)
-                .Include(x => x.Truck)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<Wheel>> GetWheels(IdentityUser user)
         {
             return await _context.Wheels
+                .Include(x => x.Truck)
                 .Include(x => x.PreviousWheel)
                     .ThenInclude(x => x.Truck)
-                .Include(x => x.Truck)
                 .Where(x => x.Truck.Identity.Id == user.Id)
                 .ToListAsync();
         }
