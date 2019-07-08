@@ -18,7 +18,13 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Грузовик
         /// </summary>
+        [ForeignKey("TruckId")]
         public Truck Truck { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int TruckId { get; set; }
 
         /// <summary>
         /// Наименование
@@ -28,7 +34,13 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Предыдущее колесо
         /// </summary>
+        [ForeignKey("PreviousWheelId")]
         public Wheel PreviousWheel { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? PreviousWheelId { get; set; }
 
         /// <summary>
         /// Цена

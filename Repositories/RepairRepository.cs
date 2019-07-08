@@ -29,6 +29,12 @@ namespace WebApp_TransportCompany.Repositories
             await Save();
         }
 
+        public async Task AddRepairTypes(IEnumerable<RepairType> repairTypes)
+        {
+            await _context.RepairTypes.AddRangeAsync(repairTypes);
+            await Save();
+        }
+
         public async Task DeleteRepair(Repair repair)
         {
             _context.Repairs.Remove(repair);

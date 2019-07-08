@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using WebApp_TransportCompany.Models;
+using WebApp_TransportCompany.Repositories;
 
 namespace WebApp_TransportCompany.Areas.Identity.Pages.Account
 {
@@ -19,17 +21,20 @@ namespace WebApp_TransportCompany.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IRepairRepository _repairRepository;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IRepairRepository repairRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _repairRepository = repairRepository;
         }
 
         [BindProperty]
@@ -67,7 +72,97 @@ namespace WebApp_TransportCompany.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
+                await _repairRepository.AddRepairTypes(new List<RepairType>()
+                    {
+                        new RepairType()
+                        {
+                            IdentityId = user.Id,
+                            Name = "Электрика",
+                            KilometersResource = 100000,
+                            TimeResourceMonth = 24
+                        },
+                        new RepairType()
+                        {
+                            IdentityId = user.Id,
+                            Name = "Косметический ремонт",
+                            KilometersResource = 100000,
+                            TimeResourceMonth = 24
+                        },
+                        new RepairType()
+                        {
+                            IdentityId = user.Id,
+                            Name = "Ремонт двигателя",
+                            KilometersResource = 100000,
+                            TimeResourceMonth = 24
+                        },
+                        new RepairType()
+                        {
+                            IdentityId = user.Id,
+                            Name = "Ремонт коробки передач",
+                            KilometersResource = 100000,
+                            TimeResourceMonth = 24
+                        },
+                        new RepairType()
+                        {
+                            IdentityId = user.Id,
+                            Name = "Ремонт полуприцепа",
+                            KilometersResource = 100000,
+                            TimeResourceMonth = 24
+                        },
+                        new RepairType()
+                        {
+                            IdentityId = user.Id,
+                            Name = "Замена масла",
+                            KilometersResource = 100000,
+                            TimeResourceMonth = 24
+                        },
+                        new RepairType()
+                        {
+                            IdentityId = user.Id,
+                            Name = "Замена фильтров",
+                            KilometersResource = 100000,
+                            TimeResourceMonth = 24
+                        },
+                        new RepairType()
+                        {
+                            IdentityId = user.Id,
+                            Name = "Замена свечь",
+                            KilometersResource = 100000,
+                            TimeResourceMonth = 24
+                        },
+                        new RepairType()
+                        {
+                            IdentityId = user.Id,
+                            Name = "Ремонт топливной системы",
+                            KilometersResource = 100000,
+                            TimeResourceMonth = 24
+                        },
+                        new RepairType()
+                        {
+                            IdentityId = user.Id,
+                            Name = "Замена фар",
+                            KilometersResource = 100000,
+                            TimeResourceMonth = 24
+                        },
+                        new RepairType()
+                        {
+                            IdentityId = user.Id,
+                            Name = "Покраска",
+                            KilometersResource = 100000,
+                            TimeResourceMonth = 24
+                        },
+                        new RepairType()
+                        {
+                            IdentityId = user.Id,
+                            Name = "Автомойка",
+                            KilometersResource = 2000,
+                            TimeResourceMonth = 2
+                        }
+                    });
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

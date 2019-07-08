@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,7 +20,13 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Пользователь
         /// </summary>
+        [ForeignKey("IdentityId")]
         public IdentityUser Identity { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string IdentityId { get; set; }
 
         /// <summary>
         /// Наименование тип ремонта
@@ -32,8 +39,8 @@ namespace WebApp_TransportCompany.Models
         public decimal KilometersResource { get; set; }
 
         /// <summary>
-        /// Ресурс времени
+        /// Ресурс времени(месяцы)
         /// </summary>
-        public TimeSpan TimeResource { get; set; }
+        public int TimeResourceMonth { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApp_TransportCompany.Models
 {
@@ -22,7 +23,13 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Пользователь
         /// </summary>
+        [ForeignKey("IdentityId")]
         public IdentityUser Identity { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string IdentityId { get; set; }
 
         /// <summary>
         /// Дата

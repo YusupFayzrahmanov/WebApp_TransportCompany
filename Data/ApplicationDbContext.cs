@@ -15,7 +15,7 @@ namespace WebApp_TransportCompany.Data
         public DbSet<Repair> Repairs { get; set; }
 
         public DbSet<Report> Reports { get; set; }
-       
+
         public DbSet<Wheel> Wheels { get; set; }
 
         public DbSet<RefuelingCheck> RefuelingsCheck { get; set; }
@@ -36,8 +36,19 @@ namespace WebApp_TransportCompany.Data
 
         public DbSet<TatneftCard> TatneftCards { get; set; }
 
-        
- 
+
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+        //    //modelBuilder.Entity<Phone>().ToTable("Phone");
+
+        //    //modelBuilder.Entity<Smartphone>().ToTable("Smartphone");
+        //    //modelBuilder.Entity<FKPhone>().HasOne
+
+
+        //}
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

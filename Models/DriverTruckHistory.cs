@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,13 +19,25 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Грузовик
         /// </summary>
+        [ForeignKey("TruckId")]
         public Truck Truck { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int TruckId { get; set; }
 
         /// <summary>
         /// Водитель
         /// </summary>
+        [ForeignKey("DriverId")]
         public Driver Driver { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public int DriverId { get; set; }
+        
         /// <summary>
         /// Начало
         /// </summary>

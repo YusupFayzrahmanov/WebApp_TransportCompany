@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<form asp-controller="TestForm" asp-action="FormPost" method="post">
+    <label>
+        Field1
+    </label>
+    <input name="testDatas[0].Field1" type="text" />
+    <label>
+        Field2
+    </label>
+    <input name="testDatas[0].Field2" type="text" />
+
+    <label>
+        Field1
+    </label>
+    <input name="testDatas[1].Field1" type="text" />
+    <label>
+        Field2
+    </label>
+    <input name="testDatas[1].Field2" type="text" />
+
+    <label>
+        Field1
+    </label>
+    <input name="testDatas[2].Field1" type="text" />
+    <label>
+        Field2
+    </label>
+    <input name="testDatas[2].Field2" type="text" />
+    <button type="submit">OK</button>
+
+</form>

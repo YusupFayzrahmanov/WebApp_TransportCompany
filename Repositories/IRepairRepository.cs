@@ -34,6 +34,8 @@ namespace WebApp_TransportCompany.Repositories
 
         Task AddRepairType(RepairType repairType);
 
+        Task AddRepairTypes(IEnumerable<RepairType> repairTypes);
+
         Task UpdateRepairType(RepairType repairType);
 
         Task RemoveRepairType(RepairType repairType);

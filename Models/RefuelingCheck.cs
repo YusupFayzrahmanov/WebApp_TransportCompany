@@ -18,7 +18,13 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Транспорт, который был заправлен
         /// </summary>
+        [ForeignKey("TruckId")]
         public Truck Truck { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int TruckId { get; set; }
 
         /// <summary>
         /// Дата заправки

@@ -193,6 +193,8 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.Property<string>("IdentityId");
 
+                    b.Property<string>("MiddleName");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("Note");
@@ -221,13 +223,13 @@ namespace WebApp_TransportCompany.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("DriverId");
+                    b.Property<int>("DriverId");
 
                     b.Property<DateTime>("EndDate");
 
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<int?>("TruckId");
+                    b.Property<int>("TruckId");
 
                     b.HasKey("Id");
 
@@ -247,11 +249,11 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int?>("DriverId");
+                    b.Property<int>("DriverId");
 
                     b.Property<string>("Principle");
 
-                    b.Property<int?>("TruckId");
+                    b.Property<int>("TruckId");
 
                     b.HasKey("Id");
 
@@ -347,7 +349,7 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.Property<DateTime>("RefuelDate");
 
-                    b.Property<int?>("TruckId");
+                    b.Property<int>("TruckId");
 
                     b.HasKey("Id");
 
@@ -361,7 +363,7 @@ namespace WebApp_TransportCompany.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("DriverId");
+                    b.Property<int>("DriverId");
 
                     b.Property<int>("GasStation");
 
@@ -373,7 +375,7 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.Property<DateTime>("RefuelDate");
 
-                    b.Property<int?>("TruckId");
+                    b.Property<int>("TruckId");
 
                     b.HasKey("Id");
 
@@ -389,8 +391,6 @@ namespace WebApp_TransportCompany.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("IdentityUserId");
-
                     b.Property<decimal>("Liters")
                         .HasColumnType("decimal(18,2)");
 
@@ -399,11 +399,9 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.Property<DateTime>("RefuelDate");
 
-                    b.Property<int?>("TruckId");
+                    b.Property<int>("TruckId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdentityUserId");
 
                     b.HasIndex("TruckId");
 
@@ -436,7 +434,7 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.Property<int?>("RepairTypeId");
 
-                    b.Property<int?>("TruckId");
+                    b.Property<int>("TruckId");
 
                     b.HasKey("Id");
 
@@ -462,7 +460,7 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<TimeSpan>("TimeResource");
+                    b.Property<int>("TimeResourceMonth");
 
                     b.HasKey("Id");
 
@@ -496,7 +494,7 @@ namespace WebApp_TransportCompany.Migrations
                     b.Property<decimal>("DepartureRemainderFuel")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("DriverId");
+                    b.Property<int>("DriverId");
 
                     b.Property<string>("Note");
 
@@ -527,7 +525,7 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("DriverId");
+                    b.Property<int>("DriverId");
 
                     b.Property<DateTime>("EndPeriod");
 
@@ -579,7 +577,9 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.Property<int>("Condition");
 
-                    b.Property<string>("IdentityId");
+                    b.Property<int>("IdentityId");
+
+                    b.Property<string>("IdentityId1");
 
                     b.Property<bool>("IsActual");
 
@@ -614,7 +614,7 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdentityId");
+                    b.HasIndex("IdentityId1");
 
                     b.HasIndex("TatneftCardId");
 
@@ -648,7 +648,7 @@ namespace WebApp_TransportCompany.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("TruckId");
+                    b.Property<int>("TruckId");
 
                     b.HasKey("Id");
 
@@ -723,22 +723,26 @@ namespace WebApp_TransportCompany.Migrations
                 {
                     b.HasOne("WebApp_TransportCompany.Models.Driver", "Driver")
                         .WithMany("TruckHistories")
-                        .HasForeignKey("DriverId");
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("WebApp_TransportCompany.Models.Truck", "Truck")
                         .WithMany()
-                        .HasForeignKey("TruckId");
+                        .HasForeignKey("TruckId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApp_TransportCompany.Models.Fine", b =>
                 {
                     b.HasOne("WebApp_TransportCompany.Models.Driver", "Driver")
                         .WithMany("Fines")
-                        .HasForeignKey("DriverId");
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("WebApp_TransportCompany.Models.Truck", "Truck")
                         .WithMany("Fines")
-                        .HasForeignKey("TruckId");
+                        .HasForeignKey("TruckId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApp_TransportCompany.Models.Order", b =>
@@ -756,29 +760,29 @@ namespace WebApp_TransportCompany.Migrations
                 {
                     b.HasOne("WebApp_TransportCompany.Models.Truck", "Truck")
                         .WithMany("RefuelingChecks")
-                        .HasForeignKey("TruckId");
+                        .HasForeignKey("TruckId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApp_TransportCompany.Models.RefuelingReport", b =>
                 {
                     b.HasOne("WebApp_TransportCompany.Models.Driver", "Driver")
                         .WithMany("RefuelingReports")
-                        .HasForeignKey("DriverId");
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("WebApp_TransportCompany.Models.Truck", "Truck")
                         .WithMany("RefuelingReports")
-                        .HasForeignKey("TruckId");
+                        .HasForeignKey("TruckId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApp_TransportCompany.Models.RefuelingSensor", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
-                        .WithMany()
-                        .HasForeignKey("IdentityUserId");
-
                     b.HasOne("WebApp_TransportCompany.Models.Truck", "Truck")
                         .WithMany("RefuelingSensors")
-                        .HasForeignKey("TruckId");
+                        .HasForeignKey("TruckId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApp_TransportCompany.Models.Repair", b =>
@@ -797,7 +801,8 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.HasOne("WebApp_TransportCompany.Models.Truck", "Truck")
                         .WithMany("Repairs")
-                        .HasForeignKey("TruckId");
+                        .HasForeignKey("TruckId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApp_TransportCompany.Models.RepairType", b =>
@@ -811,7 +816,8 @@ namespace WebApp_TransportCompany.Migrations
                 {
                     b.HasOne("WebApp_TransportCompany.Models.Driver", "Driver")
                         .WithMany("Reports")
-                        .HasForeignKey("DriverId");
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("WebApp_TransportCompany.Models.Truck", "Truck")
                         .WithMany("Reports")
@@ -822,7 +828,8 @@ namespace WebApp_TransportCompany.Migrations
                 {
                     b.HasOne("WebApp_TransportCompany.Models.Driver", "Driver")
                         .WithMany("Salaries")
-                        .HasForeignKey("DriverId");
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApp_TransportCompany.Models.TatneftCard", b =>
@@ -836,7 +843,7 @@ namespace WebApp_TransportCompany.Migrations
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Identity")
                         .WithMany()
-                        .HasForeignKey("IdentityId");
+                        .HasForeignKey("IdentityId1");
 
                     b.HasOne("WebApp_TransportCompany.Models.TatneftCard", "TatneftCard")
                         .WithMany()
@@ -851,7 +858,8 @@ namespace WebApp_TransportCompany.Migrations
 
                     b.HasOne("WebApp_TransportCompany.Models.Truck", "Truck")
                         .WithMany("Wheels")
-                        .HasForeignKey("TruckId");
+                        .HasForeignKey("TruckId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

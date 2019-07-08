@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using WebApp_TransportCompany.Models.Enums;
 
 namespace WebApp_TransportCompany.Models
@@ -18,22 +19,45 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Грузовик
         /// </summary>
+        [ForeignKey("TruckId")]
         public Truck Truck { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? TruckId { get; set; }
 
         /// <summary>
         /// Ссылка на пользователя
         /// </summary>
+        [ForeignKey("IdentityId")]
         public IdentityUser Identity { get; set; }
         
         /// <summary>
+        /// 
+        /// </summary>
+        public string IdentityId { get; set; }
+
+        /// <summary>
         /// Номер карты татнефть
         /// </summary>
+        [ForeignKey("TatneftCardId")]
         public TatneftCard TatneftCard { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? TatneftCardId { get; set; }
 
         /// <summary>
         /// Имя
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string MiddleName { get; set; }
 
         /// <summary>
         /// Фамилия

@@ -16,6 +16,10 @@
     <Compile Remove="Migrations\20190419194227_UpdateDatabaseMigration19.04.2019.Designer.cs" />
     <Compile Remove="Migrations\20190508074427_UpdateModelsMigration08.05.2019.cs" />
     <Compile Remove="Migrations\20190508074427_UpdateModelsMigration08.05.2019.Designer.cs" />
+    <Compile Remove="Migrations\20190702134147_NewModels02.07.20193.cs" />
+    <Compile Remove="Migrations\20190702134147_NewModels02.07.20193.Designer.cs" />
+    <Compile Remove="Migrations\20190703073631_TestMigr4.cs" />
+    <Compile Remove="Migrations\20190703073631_TestMigr4.Designer.cs" />
     <Compile Remove="Models\FuelConsumption.cs" />
   </ItemGroup>
 

@@ -22,9 +22,20 @@ namespace WebApp_TransportCompany.Models
         public IdentityUser Identity { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public int IdentityId { get; set; }
+
+        /// <summary>
         /// Карта татнефть
         /// </summary>
+        [ForeignKey("TatneftCardId")]
         public TatneftCard TatneftCard { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? TatneftCardId { get; set; }
 
         /// <summary>
         /// Наименование

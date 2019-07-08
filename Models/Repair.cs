@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using WebApp_TransportCompany.Models.Enums;
 
 namespace WebApp_TransportCompany.Models
 {
@@ -19,24 +16,48 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Грузовик
         /// </summary>
+        [ForeignKey("TruckId")]
         public Truck Truck { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int TruckId { get; set; }
 
 
         /// <summary>
         /// Тип ремонта
         /// </summary>
+        [ForeignKey("RepairTypeId")]
         public RepairType RepairType { get; set; }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? RepairTypeId { get; set; }
+
         /// <summary>
         /// Ссылка на предыдущий ремонт
         /// </summary>
+        [ForeignKey("PreviousRepairId")]
         public Repair PreviousRepair { get; set; }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? PreviousRepairId { get; set; }
+
         /// <summary>
         /// Водитель
         /// </summary>
+        [ForeignKey("DriverId")]
         public Driver Driver { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? DriverId { get; set; }
+        
         /// <summary>
         /// Наименование
         /// </summary>

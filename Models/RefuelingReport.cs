@@ -20,13 +20,25 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Водитель
         /// </summary>
+        [ForeignKey("DriverId")]
         public Driver Driver { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int DriverId { get; set; }
 
         /// <summary>
         /// Транспорт, который был заправлен
         /// </summary>
+        [ForeignKey("TruckId")]
         public Truck Truck { get; set; }
 
+        /// <summary>
+        /// Внешний ключ
+        /// </summary>
+        public int TruckId { get; set; }
+        
         /// <summary>
         /// Дата заправки
         /// </summary>
