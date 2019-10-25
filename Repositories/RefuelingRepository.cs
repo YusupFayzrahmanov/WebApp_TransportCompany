@@ -198,7 +198,6 @@ namespace WebApp_TransportCompany.Repositories
         {
             return await _context.TatneftCards
                 .Include(x => x.Drivers)
-                .Where(x => x.Identity.Id == identityUser.Id)
                 .ToListAsync();
         }
 

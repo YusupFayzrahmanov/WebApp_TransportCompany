@@ -105,7 +105,6 @@ namespace WebApp_TransportCompany.Controllers
             }
             else
             {
-                tatneftCard.Identity = await _userRepository.GetIdentityUser(User);
                 await _refuelingRepository.AddTatneftCard(tatneftCard);
             }
             return Redirect(Request.Headers["Referer"].ToString());

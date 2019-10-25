@@ -27,6 +27,16 @@ namespace WebApp_TransportCompany.Models
         public int? TruckId { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public TatneftCard TatneftCard { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? TatneftCardId { get; set; }
+
+        /// <summary>
         /// Дата заправки
         /// </summary>
         public DateTime RefuelDate { get; set; }
