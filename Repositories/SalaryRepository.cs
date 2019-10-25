@@ -43,7 +43,6 @@ namespace WebApp_TransportCompany.Repositories
             return await _context.Salaries
                .Include(x => x.Driver)
                    .ThenInclude(x => x.Truck)
-               .Where(x => x.Driver.Truck.Identity.Id == user.Id)
                .ToListAsync();
         }
 

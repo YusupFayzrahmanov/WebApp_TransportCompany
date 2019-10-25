@@ -37,7 +37,7 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// Внешний ключ
         /// </summary>
-        public int TruckId { get; set; }
+        public int? TruckId { get; set; }
         
         /// <summary>
         /// Дата заправки

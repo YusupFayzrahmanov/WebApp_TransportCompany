@@ -45,7 +45,6 @@ namespace WebApp_TransportCompany.Repositories
                 .Include(x => x.PreviousWheel)
                     .ThenInclude(x => x.Truck)
                 .Include(x => x.Truck)
-                .Where(x => x.IsUsed && x.Truck.Id == truck.Id)
                 .ToListAsync();
         }
 
@@ -74,7 +73,6 @@ namespace WebApp_TransportCompany.Repositories
                 .Include(x => x.Truck)
                 .Include(x => x.PreviousWheel)
                     .ThenInclude(x => x.Truck)
-                .Where(x => x.Truck.Identity.Id == user.Id)
                 .ToListAsync();
         }
 

@@ -35,7 +35,7 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// 
         /// </summary>
-        public int DriverId { get; set; }
+        public int? DriverId { get; set; }
 
         /// <summary>
         /// Дата отбытия

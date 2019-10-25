@@ -52,7 +52,6 @@ namespace WebApp_TransportCompany.Repositories
                 .Include(x => x.Reports)
                 .Include(x => x.Truck)
                     .ThenInclude(x => x.Identity)
-                .Where(x => x.Identity.Id == user.Id)
                 .ToListAsync();
         }
 

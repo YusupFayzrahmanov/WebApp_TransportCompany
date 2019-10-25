@@ -22,7 +22,7 @@ namespace WebApp_TransportCompany.Models
         /// <summary>
         /// 
         /// </summary>
-        public int TruckId { get; set; }
+        public int? TruckId { get; set; }
 
 
         /// <summary>

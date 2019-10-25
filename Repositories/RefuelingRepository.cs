@@ -87,7 +87,6 @@ namespace WebApp_TransportCompany.Repositories
         {
             return await _context.RefuelingsCheck
                 .Include(x => x.Truck)
-                .Where(x => x.Truck.Identity.Id == identityUser.Id)
                 .ToListAsync();
         }
 
@@ -96,7 +95,6 @@ namespace WebApp_TransportCompany.Repositories
             return await _context.RefuelingReports
                 .Include(x => x.Driver)
                 .Include(x => x.Truck)
-                .Where(x => x.Truck.Identity.Id == identityUser.Id)
                 .ToListAsync();
         }
 
@@ -104,7 +102,6 @@ namespace WebApp_TransportCompany.Repositories
         {
             return await _context.RefuelingsSensor
                 .Include(x => x.Truck)
-                .Where(x => x.Truck.Identity.Id == identityUser.Id)
                 .ToListAsync();
         }
 
